@@ -56,10 +56,48 @@ class ShapesRelationManager extends RelationManager
                 ->modalSubmitAction(false)
                 ->modalCancelAction(false)
                 ->modalHeading(fn(Shape $shape) => "Manage Fabrics for {$shape->name}")
-                ->modalContent(fn(Shape $shape): View => view(
+                ->modalContent(fn (Action $action, Shape $shape): View => view(
                     'filament.modals.fabric-shape-table',
-                    ['shape' => $shape],
-                )),
+                    ['action' => $action, 'shape' => $shape],
+                ))->registerModalActions([
+                    Action::make('Add')->label('Add New Fabric')
+                    ->icon('heroicon-o-plus')
+                    ->form([
+                        Select::make('fabric_id')
+                            ->label('Fabric')
+                            ->options(Fabric::pluck('name', 'id'))
+                            ->required()
+                            ->searchable()
+                            ->preload(),
+
+                        TextInput::make('usage')
+                            ->required()
+                            ->numeric()
+                            ->minValue(1)
+                            ->placeholder('Enter fabric usage'),
+
+                        FileUpload::make('image')
+                            ->image()
+                            ->directory('fabric-shapes')
+                            ->preserveFilenames()
+                            ->imageResizeMode('cover')
+                            ->imageCropAspectRatio('16:9')
+                            ->imageResizeTargetWidth('1920')
+                            ->imageResizeTargetHeight('1080'),
+
+                        Toggle::make('sample')
+                            ->label('Is Sample')
+                            ->default(false),
+                    ])
+                    ->action(function (array $data, $record) {
+                        $record->fabricShapes()->create([
+                            'fabric_id' => $data['fabric_id'],
+                            'usage' => $data['usage'],
+                            'image' => $data['image'],
+                            'sample' => $data['sample'],
+                        ]);
+                    }),
+                ]),
                 Action::make('manageFabrics')
                     ->label('Manage Fabrics')
                     ->icon('heroicon-o-squares-2x2')
