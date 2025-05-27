@@ -51,7 +51,12 @@ class ShapesRelationManager extends RelationManager
             ])
             ->actions([
                 EditAction::make()->modalHeading('Edit Shape')->slideOver(),
-                Action::make('teste')->icon('heroicon-o-squares-2x2')->modal()->modalContent(fn(Shape $shape): View => view(
+                Action::make('teste')->icon('heroicon-o-squares-2x2')
+                ->modal()
+                ->modalSubmitAction(false)
+                ->modalCancelAction(false)
+                ->modalHeading(fn(Shape $shape) => "Manage Fabrics for {$shape->name}")
+                ->modalContent(fn(Shape $shape): View => view(
                     'filament.modals.fabric-shape-table',
                     ['shape' => $shape],
                 )),

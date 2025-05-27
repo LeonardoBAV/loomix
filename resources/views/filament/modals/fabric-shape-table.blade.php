@@ -1,1 +1,1 @@
-ola
+@livewire('fabric-shape-table')
