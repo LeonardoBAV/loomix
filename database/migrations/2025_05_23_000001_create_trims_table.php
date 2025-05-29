@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('code')->unique();
             $table->decimal('price', 10, 4);
-            $table->enum('unit', ['meters', 'unit', 'kilos']);
+            $table->enum('unit', ['meters', 'unit', 'kilos'])->default('unit');
             $table->timestamps();
         });
     }

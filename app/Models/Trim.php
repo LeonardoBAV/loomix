@@ -31,7 +31,8 @@ class Trim extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)
-            ->withPivot(['quantity', 'total'])
-            ->withTimestamps();
+            ->withPivot(['quantity'])
+            ->withTimestamps()
+            ->using(ProductTrim::class);
     }
 } 

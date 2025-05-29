@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->foreignId('trim_id')->constrained()->onDelete('cascade');
             $table->decimal('quantity', 10, 3);
+            $table->enum('unit', ['meters', 'unit', 'kilos'])->default('unit');
             $table->decimal('total', 10, 2);
             $table->timestamps();
         });

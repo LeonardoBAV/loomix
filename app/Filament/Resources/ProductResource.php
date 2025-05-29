@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Filament\Resources\ProductResource\RelationManagers\ShapesRelationManager;
+use App\Filament\Resources\ProductResource\RelationManagers\TrimsRelationManager;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -135,7 +136,7 @@ class ProductResource extends Resource
     {
         return [
             ShapesRelationManager::class,
-            ShapesRelationManager::class,
+            TrimsRelationManager::class,
         ];
     }
 
