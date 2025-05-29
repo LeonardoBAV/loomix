@@ -52,6 +52,7 @@ class ShapesRelationManager extends RelationManager
             ->actions([
                 EditAction::make()->modalHeading('Edit Shape')->slideOver(),
                 Action::make('teste')->icon('heroicon-o-squares-2x2')
+                ->label('Manage Fabrics')
                 ->modal()
                 ->modalSubmitAction(false)
                 ->modalCancelAction(false)
@@ -98,71 +99,7 @@ class ShapesRelationManager extends RelationManager
                         ]);
                     }),
                 ]),
-                Action::make('manageFabrics')
-                    ->label('Manage Fabrics')
-                    ->icon('heroicon-o-squares-2x2')
-                    ->modalHeading(fn($record) => "Manage Fabrics for {$record->name}")
-                    ->modalWidth('7xl')
-                    ->form([
-                        Forms\Components\Section::make('Existing Fabrics')
-                            ->schema([
-                                Forms\Components\Grid::make()
-                                    ->schema([
-                                        Forms\Components\Placeholder::make('fabric_shapes_table')
-                                            ->content(function ($record) {
-                                                $fabricShapes = $record->fabricShapes()->with('fabric')->get();
-
-                                                if ($fabricShapes->isEmpty()) {
-                                                    return 'No fabrics added yet.';
-                                                }
-
-                                                return view('filament.resources.product-resource.relation-managers.fabric-shapes-table', [
-                                                    'fabricShapes' => $fabricShapes,
-                                                ]);
-                                            }),
-                                    ]),
-                            ]),
-                    ])
-                    ->extraModalFooterActions([
-                        Tables\Actions\Action::make('addFabric')
-                            ->label('Add New Fabric')
-                            ->icon('heroicon-o-plus')
-                            ->form([
-                                Select::make('fabric_id')
-                                    ->label('Fabric')
-                                    ->options(Fabric::pluck('name', 'id'))
-                                    ->required()
-                                    ->searchable()
-                                    ->preload(),
-
-                                TextInput::make('usage')
-                                    ->required()
-                                    ->numeric()
-                                    ->minValue(1)
-                                    ->placeholder('Enter fabric usage'),
-
-                                FileUpload::make('image')
-                                    ->image()
-                                    ->directory('fabric-shapes')
-                                    ->preserveFilenames()
-                                    ->imageResizeMode('cover')
-                                    ->imageCropAspectRatio('16:9')
-                                    ->imageResizeTargetWidth('1920')
-                                    ->imageResizeTargetHeight('1080'),
-
-                                Toggle::make('sample')
-                                    ->label('Is Sample')
-                                    ->default(false),
-                            ])
-                            ->action(function (array $data, $record) {
-                                $record->fabricShapes()->create([
-                                    'fabric_id' => $data['fabric_id'],
-                                    'usage' => $data['usage'],
-                                    'image' => $data['image'],
-                                    'sample' => $data['sample'],
-                                ]);
-                            }),
-                    ]),
+                
                 DeleteAction::make(),
             ])
             ->bulkActions([

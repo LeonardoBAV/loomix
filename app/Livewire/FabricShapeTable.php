@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\FabricShape;
+use App\Models\Shape;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Contracts\HasTable;
 use Livewire\Component;
@@ -17,11 +18,13 @@ class FabricShapeTable extends Component implements HasForms, HasTable
     use InteractsWithTable;
     use InteractsWithForms;
 
+    public Shape $shape;
+
     public function table(Table $table): Table
     {
         return $table
         ->query(
-            FabricShape::limit(10)->with('fabric')
+            FabricShape::whereShapeId($this->shape->id)->with('fabric')
         )
         ->columns([ 
             TextColumn::make('fabric.name'),

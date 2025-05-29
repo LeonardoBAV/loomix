@@ -32,6 +32,8 @@ class FabricResource extends Resource
 
     protected static ?string $navigationLabel = 'Fabrics';
 
+    protected static ?string $navigationGroup = 'Supplies';
+
     protected static ?string $modelLabel = 'Fabric';
 
     protected static ?string $pluralModelLabel = 'Fabrics';

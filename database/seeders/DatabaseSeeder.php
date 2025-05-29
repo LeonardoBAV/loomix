@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
             ShapeSeeder::class,
             FabricSeeder::class,
             FabricShapeSeeder::class,
+            TrimSeeder::class,
+            LiningSeeder::class,
         ]);
     }
 }

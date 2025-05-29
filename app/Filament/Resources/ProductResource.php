@@ -135,6 +135,7 @@ class ProductResource extends Resource
     {
         return [
             ShapesRelationManager::class,
+            ShapesRelationManager::class,
         ];
     }
 
