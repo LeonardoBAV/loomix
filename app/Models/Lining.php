@@ -14,23 +14,18 @@ class Lining extends Model
         'name',
         'code',
         'price',
-        'unit'
+        'image'
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
-        'unit' => 'string'
     ];
 
-    public const UNITS = [
-        'meters',
-        'unit',
-        'kilos'
-    ];
 
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)
+            ->using(LiningProduct::class)
             ->withPivot(['quantity', 'total'])
             ->withTimestamps();
     }

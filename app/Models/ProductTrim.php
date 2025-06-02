@@ -29,4 +29,10 @@ class ProductTrim extends Pivot
     {
         return $this->belongsTo(Trim::class);
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+    
 } 

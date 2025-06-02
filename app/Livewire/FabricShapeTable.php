@@ -9,8 +9,10 @@ use Filament\Tables\Contracts\HasTable;
 use Livewire\Component;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 
 class FabricShapeTable extends Component implements HasForms, HasTable
@@ -30,7 +32,16 @@ class FabricShapeTable extends Component implements HasForms, HasTable
             TextColumn::make('fabric.name'),
             TextColumn::make('usage'),
             TextColumn::make('cost'),
-            ImageColumn::make('image')
+            ToggleColumn::make('sample'),
+            ImageColumn::make('image')->disk('public')
+        ])->actions([
+            Action::make('delete')
+                ->label('Delete')
+                ->icon('heroicon-o-trash')
+                ->color('danger')
+                ->action(function (FabricShape $fabric_shape) {
+                    $fabric_shape->delete();
+                }),
         ]);
     }
     

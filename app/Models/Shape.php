@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Shape extends Model
 {
@@ -22,5 +23,10 @@ class Shape extends Model
     public function fabricShapes()
     {
         return $this->hasMany(FabricShape::class);
+    }
+
+    public function fabrics(): BelongsToMany
+    {
+        return $this->belongsToMany(Fabric::class);
     }
 }

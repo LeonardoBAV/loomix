@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\FabricShape;
 use App\Observers\FabricShapeObserver;
 
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -22,5 +23,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         FabricShape::observe(FabricShapeObserver::class);
+
     }
 }

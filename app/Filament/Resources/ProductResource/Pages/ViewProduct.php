@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Filament\Resources\ProductResource\Pages;
+
+use App\Actions\GenerateProductInfoPDFAction;
+use App\Filament\Resources\ProductResource;
+use App\Filament\Resources\ProductResource\Widgets\CostProductWidget;
+use Filament\Actions;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Resources\Pages\ViewRecord;
+use Filament\Support\Colors\Color;
+
+class ViewProduct extends ViewRecord
+{
+    protected static string $resource = ProductResource::class;
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            CostProductWidget::class,
+        ];
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            EditAction::make()->label('Edit')->icon('heroicon-o-pencil-square')->color('primary')->button()->slideOver(),
+            Action::make('info')->icon('heroicon-o-clipboard-document-list')->color('info')->button()
+            ->action(function () {
+                (new GenerateProductInfoPDFAction())->execute($this->record);
+            }),
+        ];
+    }
+}

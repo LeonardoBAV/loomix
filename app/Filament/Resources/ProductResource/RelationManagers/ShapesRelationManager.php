@@ -12,6 +12,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
 use App\Models\Fabric;
 use App\Models\Shape;
 use Filament\Tables\Actions\Action;
@@ -28,6 +29,11 @@ class ShapesRelationManager extends RelationManager
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    public function isReadOnly(): bool
+    {
+        return false;
+    }
+
     public function form(Form $form): Form
     {
         return $form
@@ -42,7 +48,17 @@ class ShapesRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')->sortable()->searchable(),
-                TextColumn::make('fabric_shapes_count')->counts('fabricShapes')->sortable()->label('Fabrics'),
+                TextColumn::make('fabrics.name')->listWithLineBreaks()->bulleted(),
+                ImageColumn::make('sample_image')
+                    ->getStateUsing(function (Shape $shape) {
+                        $fabric_shape = $shape->fabricShapes()
+                            ->whereSample(true)
+                            ->first();
+                            
+                        return $fabric_shape?->image ?? null;
+                    })
+                    ->defaultImageUrl('https://placehold.co/400x400/png?text=No+Image')
+                    ->circular(),
                 TextColumn::make('created_at')->dateTime('d/m/Y H:i')->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([])

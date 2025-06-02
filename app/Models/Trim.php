@@ -14,7 +14,8 @@ class Trim extends Model
         'name',
         'code',
         'price',
-        'unit'
+        'unit',
+        'image'
     ];
 
     protected $casts = [
@@ -31,7 +32,7 @@ class Trim extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)
-            ->withPivot(['quantity'])
+            ->withPivot(['quantity', 'total'])
             ->withTimestamps()
             ->using(ProductTrim::class);
     }

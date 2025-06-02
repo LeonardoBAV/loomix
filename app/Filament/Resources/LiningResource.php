@@ -41,15 +41,13 @@ class LiningResource extends Resource
                     ->prefix('$')
                     ->minValue(0)
                     ->step(0.01),
-                    
-                Forms\Components\Select::make('unit')
-                    ->required()
-                    ->options([
-                        'meters' => 'Meters',
-                        'unit' => 'Unit',
-                        'kilos' => 'Kilos',
-                    ])
-                    ->default('unit'),
+                
+                Forms\Components\FileUpload::make('image')
+                    ->image()
+                    ->imageEditor()
+                    ->disk('public')
+                    ->directory('linings'),
+
             ]);
     }
 
@@ -68,10 +66,11 @@ class LiningResource extends Resource
                 Tables\Columns\TextColumn::make('price')
                     ->money()
                     ->sortable(),
-                    
-                Tables\Columns\TextColumn::make('unit')
-                    ->sortable(),
-                    
+
+                Tables\Columns\ImageColumn::make('image')
+                    ->disk('public'),
+
+                                        
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

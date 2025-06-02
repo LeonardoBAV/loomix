@@ -41,7 +41,13 @@ class TrimResource extends Resource
                     ->prefix('$')
                     ->minValue(0)
                     ->step(0.01),
-                    
+
+                Forms\Components\FileUpload::make('image')
+                    ->image()
+                    ->imageEditor()
+                    ->disk('public')
+                    ->directory('trims'),
+
                 Forms\Components\Select::make('unit')
                     ->required()
                     ->options([
@@ -71,7 +77,10 @@ class TrimResource extends Resource
                     
                 Tables\Columns\TextColumn::make('unit')
                     ->sortable(),
-                    
+
+                Tables\Columns\ImageColumn::make('image')
+                    ->disk('public'),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

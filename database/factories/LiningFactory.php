@@ -15,7 +15,6 @@ class LiningFactory extends Factory
             'name' => fake()->word(),
             'code' => fake()->unique()->regexify('[A-Z]{2}[0-9]{4}'),
             'price' => fake()->randomFloat(2, 0.1, 1000),
-            'unit' => fake()->randomElement(Lining::UNITS),
         ];
     }
 } 

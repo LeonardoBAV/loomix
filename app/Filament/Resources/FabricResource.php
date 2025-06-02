@@ -92,11 +92,6 @@ class FabricResource extends Resource
                     ->sortable()
                     ->alignRight(),
 
-                TextColumn::make('fabric_shapes_count')
-                    ->counts('fabricShapes')
-                    ->sortable()
-                    ->label('Used in Shapes'),
-
                 TextColumn::make('created_at')
                     ->dateTime('d/m/Y H:i')
                     ->sortable()

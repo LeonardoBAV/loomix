@@ -19,6 +19,7 @@ class ProductFactory extends Factory
         return [
             'name' => fake()->words(2, true),
             'code' => fake()->unique()->bothify('PRD-####'),
+            'is_active' => fake()->boolean(),
         ];
     }
 }

@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->decimal('price', 10, 4);
             $table->enum('unit', ['meters', 'unit', 'kilos'])->default('unit');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
