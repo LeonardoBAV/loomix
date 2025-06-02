@@ -87,7 +87,7 @@ class ProductResource extends Resource
                         TextEntry::make('is_active')->badge()
                             ->getStateUsing(fn (Product $record): string => $record->is_active ? 'Active' : 'Inactive')
                             ->color(fn (Product $record): string => $record->is_active ? 'primary' : 'gray'),
-                        TextEntry::make('cost')->money('BRL', locale: 'pt_BR'),
+                        TextEntry::make('totalSampleCost')->money('BRL', locale: 'pt_BR'),
                         TextEntry::make('created_at')->dateTime('d/m/Y H:i'),
                         TextEntry::make('updated_at')->dateTime('d/m/Y H:i'),
                     ]),
@@ -103,7 +103,7 @@ class ProductResource extends Resource
                 TextColumn::make('name')->sortable()->searchable()
                     ->description(fn (Product $product): string => $product->code),
                 ImageColumn::make('image')->disk('public')->circular(),
-                TextColumn::make('cost')->sortable()->searchable()->money('BRL', locale: 'pt_BR'),
+                TextColumn::make('totalSampleCost')->sortable()->searchable()->money('BRL', locale: 'pt_BR'),
                 TextColumn::make('is_active')->badge()
                     ->getStateUsing(fn (Product $record): string => $record->is_active ? 'Active' : 'Inactive')
                     ->color(fn (Product $record): string => $record->is_active ? 'primary' : 'gray'),

@@ -22,6 +22,6 @@ Route::get('/', function () {
     //return view('welcome');
 });
 
-Route::get('teste', Teste::class  );
+//Route::get('teste', Teste::class  );
 
 

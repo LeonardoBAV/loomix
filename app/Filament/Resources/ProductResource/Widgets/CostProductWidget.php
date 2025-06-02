@@ -17,7 +17,7 @@ class CostProductWidget extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Fabric Cost', UtilHelper::formatMoney($this->getFabricCost()))
+            Stat::make('Fabric Cost', UtilHelper::formatMoney($this->record->totalSampleFabricCost))
                 ->description('Only the fabric cost')
                 ->descriptionIcon('heroicon-o-swatch')
                 ->icon('heroicon-o-swatch')
