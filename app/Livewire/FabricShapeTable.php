@@ -29,11 +29,11 @@ class FabricShapeTable extends Component implements HasForms, HasTable
             FabricShape::whereShapeId($this->shape->id)->with('fabric')
         )
         ->columns([ 
-            TextColumn::make('fabric.name'),
-            TextColumn::make('usage'),
-            TextColumn::make('cost'),
-            ToggleColumn::make('sample'),
-            ImageColumn::make('image')->disk('public')
+            TextColumn::make('fabric.name')->label('Name')->translateLabel('Name'),
+            TextColumn::make('usage')->label('Usage')->translateLabel('Usage')->formatStateUsing(fn ($state) => $state . ' kg'),
+            TextColumn::make('cost')->label('Cost')->translateLabel('Cost')->money('BRL', locale: 'pt_BR'),
+            ToggleColumn::make('sample')->label('Sample')->translateLabel('Sample'),
+            ImageColumn::make('image')->disk('public')->label('Image')->translateLabel('Image'),
         ])->actions([
             Action::make('delete')
                 ->label('Delete')

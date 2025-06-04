@@ -79,12 +79,12 @@ class ShapesRelationManager extends RelationManager
                 ->modal()
                 ->modalSubmitAction(false)
                 ->modalCancelAction(false)
-                ->modalHeading(fn(Shape $shape) => "Manage Fabrics for {$shape->name}")
+                ->modalHeading(fn(Shape $shape) => __('Manage Fabrics for').' '.$shape->name)
                 ->modalContent(fn (Action $action, Shape $shape): View => view(
                     'filament.modals.fabric-shape-table',
                     ['action' => $action, 'shape' => $shape],
                 ))->registerModalActions([
-                    Action::make('Add')->label('Add New Fabric')
+                    Action::make('Add')->label('Add')->translateLabel('Add')
                     ->icon('heroicon-o-plus')
                     ->form([
                         Select::make('fabric_id')

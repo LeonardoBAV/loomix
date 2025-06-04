@@ -161,7 +161,7 @@ class ProductResource extends Resource
         return [
             ShapesRelationManager::class,
             TrimsRelationManager::class,
-            LiningsRelationManager::class,
+            //LiningsRelationManager::class,
         ];
     }
 

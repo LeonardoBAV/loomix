@@ -10,11 +10,17 @@ use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TrimsRelationManager extends RelationManager
 {
     protected static string $relationship = 'trims';
+
+    public static function getTitle(Model $ownerRecord, string $pageClass): string
+    {
+        return __('Trims');
+    }
 
     public function isReadOnly(): bool
     {
