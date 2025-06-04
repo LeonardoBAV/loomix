@@ -18,18 +18,18 @@ class CountProductsWidget extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Active Products Count', Product::where('is_active', true)->count())
-                ->description('Total number of active products')
+            Stat::make(__('Active Products Count'), Product::where('is_active', true)->count())
+                ->description(__('Total number of active products'))
                 ->descriptionIcon('heroicon-o-check-circle')
                 ->icon('heroicon-o-check-circle')
                 ->color('primary'),
-            Stat::make('Inactive Products Count', Product::where('is_active', false)->count())
-                ->description('Total number of inactive products')
+            Stat::make(__('Inactive Products Count'), Product::where('is_active', false)->count())
+                ->description(__('Total number of inactive products'))
                 ->descriptionIcon('heroicon-o-x-circle')
                 ->icon('heroicon-o-x-circle')
                 ->color('gray'),
-            Stat::make('Products Count', Product::count())
-                ->description('Total number of products')
+            Stat::make(__('Products Count'), Product::count())
+                ->description(__('Total number of products'))
                 ->descriptionIcon('heroicon-o-shopping-bag')
                 ->icon('heroicon-o-shopping-bag')
                 ->color('info'),

@@ -3,6 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\FabricResource\Pages;
+use App\Filament\Resources\FabricResource\Pages\CreateFabric;
+use App\Filament\Resources\FabricResource\Pages\EditFabric;
+use App\Filament\Resources\FabricResource\Pages\ListFabrics;
 use App\Filament\Resources\FabricResource\RelationManagers;
 use App\Models\Fabric;
 use Filament\Forms;
@@ -22,6 +25,11 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Components\Grid;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Filters\TernaryFilter;
 
 class FabricResource extends Resource
@@ -30,43 +38,42 @@ class FabricResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-swatch';
 
-    protected static ?string $navigationLabel = 'Fabrics';
-
-    protected static ?string $navigationGroup = 'Supplies';
-
-    protected static ?string $modelLabel = 'Fabric';
-
-    protected static ?string $pluralModelLabel = 'Fabrics';
-
     protected static ?int $navigationSort = 2;
+
+    public static function getNavigationGroup(): string
+    {
+        return __('Supplies');
+    }
+    
+    public static function getNavigationLabel(): string
+    {
+        return __('Fabrics');
+    }
+
+
+    public static function getModelLabel(): string
+    {
+        return __('Fabric');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Fabrics');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Section::make('Fabric Information')
+                Section::make(__('Fabric Information'))
                     ->schema([
                         Grid::make(2)
                             ->schema([
-                                TextInput::make('name')
-                                    ->required()
-                                    ->maxLength(255)
-                                    ->placeholder('Enter fabric name'),
-
-                                TextInput::make('code')
-                                    ->required()
-                                    ->maxLength(255)
-                                    ->unique(ignoreRecord: true)
-                                    ->placeholder('Enter fabric code'),
+                                TextInput::make('name')->required()->maxLength(255)->translateLabel('name'),
+                                TextInput::make('code')->required()->maxLength(255)->unique(ignoreRecord: true)->translateLabel('code'),
                             ]),
 
-                        TextInput::make('price')
-                            ->required()
-                            ->numeric()
-                            ->prefix('$')
-                            ->minValue(0)
-                            ->step(0.0001)
-                            ->placeholder('Enter fabric price per unit'),
+                        TextInput::make('price')->required()->numeric()->prefix('$')->minValue(0)->step(0.0001)->placeholder(__('Price per kilo'))->translateLabel('price'),
                     ])
             ]);
     }
@@ -75,32 +82,11 @@ class FabricResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')
-                    ->sortable()
-                    ->searchable(),
-
-                TextColumn::make('name')
-                    ->sortable()
-                    ->searchable(),
-
-                TextColumn::make('code')
-                    ->sortable()
-                    ->searchable(),
-
-                TextColumn::make('price')
-                    ->money('USD')
-                    ->sortable()
-                    ->alignRight(),
-
-                TextColumn::make('created_at')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-
-                TextColumn::make('updated_at')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('name')->searchable()->sortable()->translateLabel('name'),
+                TextColumn::make('code')->searchable()->sortable()->translateLabel('code'),
+                TextColumn::make('price')->money('BRL', locale: 'pt_BR')->sortable()->translateLabel('price'),
+                TextColumn::make('created_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true)->translateLabel('created_at'),
+                TextColumn::make('updated_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true)->translateLabel('updated_at'),
             ])
             ->filters([
                 SelectFilter::make('shapes')
@@ -147,12 +133,12 @@ class FabricResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                     BulkAction::make('export')
                         ->icon('heroicon-o-arrow-down-tray')
                         ->action(function (Collection $records) {
@@ -161,7 +147,7 @@ class FabricResource extends Resource
                 ]),
             ])
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
             ->defaultSort('created_at', 'desc');
     }
@@ -176,9 +162,9 @@ class FabricResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListFabrics::route('/'),
-            'create' => Pages\CreateFabric::route('/create'),
-            'edit' => Pages\EditFabric::route('/{record}/edit'),
+            'index' => ListFabrics::route('/'),
+            'create' => CreateFabric::route('/create'),
+            'edit' => EditFabric::route('/{record}/edit'),
         ];
     }
 }

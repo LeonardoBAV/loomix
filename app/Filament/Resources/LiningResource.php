@@ -2,15 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\LiningResource\Pages;
+use App\Filament\Resources\LiningResource\Pages\CreateLining;
+use App\Filament\Resources\LiningResource\Pages\EditLining;
+use App\Filament\Resources\LiningResource\Pages\ListLinings;
 use App\Models\Lining;
-use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class LiningResource extends Resource
 {
@@ -18,35 +25,37 @@ class LiningResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-square-2-stack';
 
-    protected static ?string $navigationGroup = 'Supplies';
-
     protected static ?int $navigationSort = 4;
+
+    public static function getNavigationGroup(): string
+    {
+        return __('Supplies');
+    }
+    
+    public static function getNavigationLabel(): string
+    {
+        return __('Linings');
+    }
+
+
+    public static function getModelLabel(): string
+    {
+        return __('Lining');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Linings');
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                    
-                Forms\Components\TextInput::make('code')
-                    ->required()
-                    ->unique(ignoreRecord: true)
-                    ->maxLength(255),
-                    
-                Forms\Components\TextInput::make('price')
-                    ->required()
-                    ->numeric()
-                    ->prefix('$')
-                    ->minValue(0)
-                    ->step(0.01),
-                
-                Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->imageEditor()
-                    ->disk('public')
-                    ->directory('linings'),
+                TextInput::make('name')->required()->maxLength(255)->translateLabel('name'),    
+                TextInput::make('code')->required()->unique(ignoreRecord: true)->maxLength(255)->translateLabel('code'),
+                TextInput::make('price')->required()->numeric()->prefix('$')->minValue(0)->step(0.01)->translateLabel('price'),
+                FileUpload::make('image')->image()->imageEditor()->disk('public')->directory('linings')->translateLabel('image'),
 
             ]);
     }
@@ -55,34 +64,15 @@ class LiningResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable()
-                    ->sortable(),
-                    
-                Tables\Columns\TextColumn::make('code')
-                    ->searchable()
-                    ->sortable(),
-                    
-                Tables\Columns\TextColumn::make('price')
-                    ->money()
-                    ->sortable(),
-
-                Tables\Columns\ImageColumn::make('image')
-                    ->disk('public'),
-
-                                        
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                    
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('name')->searchable()->sortable()->translateLabel('name'),
+                TextColumn::make('code')->searchable()->sortable()->translateLabel('code'),
+                TextColumn::make('price')->money('BRL', locale: 'pt_BR')->sortable()->translateLabel('price'),
+                ImageColumn::make('image')->disk('public')->translateLabel('image'),
+                TextColumn::make('created_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true)->translateLabel('created_at'),    
+                TextColumn::make('updated_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true)->translateLabel('updated_at'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('unit')
+                SelectFilter::make('unit')
                     ->options([
                         'meters' => 'Meters',
                         'unit' => 'Unit',
@@ -90,12 +80,12 @@ class LiningResource extends Resource
                     ]),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -110,9 +100,9 @@ class LiningResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListLinings::route('/'),
-            'create' => Pages\CreateLining::route('/create'),
-            'edit' => Pages\EditLining::route('/{record}/edit'),
+            'index' => ListLinings::route('/'),
+            'create' => CreateLining::route('/create'),
+            'edit' => EditLining::route('/{record}/edit'),
         ];
     }
 } 

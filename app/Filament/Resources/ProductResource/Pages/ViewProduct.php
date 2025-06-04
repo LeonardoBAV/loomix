@@ -25,8 +25,8 @@ class ViewProduct extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make()->label('Edit')->icon('heroicon-o-pencil-square')->color('primary')->button()->slideOver(),
-            Action::make('info')->icon('heroicon-o-clipboard-document-list')->color('info')->button()
+            EditAction::make()->label(__('Edit'))->icon('heroicon-o-pencil-square')->color('primary')->button()->slideOver(),
+            Action::make('info')->label(__('Info'))->icon('heroicon-o-clipboard-document-list')->color('info')->button()
             ->action(function () {
                 (new GenerateProductInfoPDFAction())->execute($this->record);
             }),

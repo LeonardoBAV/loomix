@@ -17,20 +17,20 @@ class CostProductWidget extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Fabric Cost', UtilHelper::formatMoney($this->record->totalSampleFabricCost))
-                ->description('Only the fabric cost')
+            Stat::make(__('Fabric Cost'), UtilHelper::formatMoney($this->record->totalSampleFabricCost))
+                ->description(__('Only the fabric cost'))
                 ->descriptionIcon('heroicon-o-swatch')
                 ->icon('heroicon-o-swatch')
                 ->color('info'),
 
-            Stat::make('Other Costs', UtilHelper::formatMoney($this->getOtherCosts()))
-                ->description('Sum of all other costs')
+            Stat::make(__('Other Costs'), UtilHelper::formatMoney($this->getOtherCosts()))
+                ->description(__('Sum of all other costs'))
                 ->descriptionIcon('heroicon-o-clipboard-document-list')
                 ->icon('heroicon-o-clipboard-document-list')
                 ->color('info'),
 
-            Stat::make('Total Cost', UtilHelper::formatMoney($this->getTotalCost()))
-                ->description('Sum of all costs')
+            Stat::make(__('Total Cost'), UtilHelper::formatMoney($this->getTotalCost()))
+                ->description(__('Sum of all costs'))
                 ->descriptionIcon('heroicon-o-calculator')
                 ->icon('heroicon-o-calculator')
                 ->color('primary')

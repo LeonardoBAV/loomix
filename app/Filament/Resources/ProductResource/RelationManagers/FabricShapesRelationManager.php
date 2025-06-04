@@ -20,6 +20,11 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Fabric;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
 
 class FabricShapesRelationManager extends RelationManager
 {
@@ -63,44 +68,27 @@ class FabricShapesRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                TextColumn::make('fabric.name')
-                    ->label('Fabric')
-                    ->sortable()
-                    ->searchable(),
-
-                TextColumn::make('usage')
-                    ->sortable()
-                    ->searchable(),
-
-                ImageColumn::make('image')
-                    ->square(),
-
-                IconColumn::make('sample')
-                    ->boolean()
-                    ->sortable(),
-
-                TextColumn::make('created_at')
-                    ->dateTime('d/m/Y H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('fabric.name')->label('Name')->sortable()->searchable()->translateLabel('Name'),
+                TextColumn::make('usage')->label('Usage')->sortable()->searchable()->translateLabel('usage'),
+                ImageColumn::make('image')->square()->translateLabel('image'),
+                IconColumn::make('sample')->boolean()->sortable()->translateLabel('sample'),
+                TextColumn::make('created_at')->dateTime('d/m/Y H:i')->sortable()->toggleable(isToggledHiddenByDefault: true)->translateLabel('created_at'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make()
+                CreateAction::make()
                     ->modalHeading('Add Fabric to Shape')
                     ->modalWidth('2xl'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->modalHeading('Edit Fabric Shape')
-                    ->modalWidth('2xl'),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make()->modalHeading(__('Edit Fabric Shape'))->modalWidth('2xl'),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');
