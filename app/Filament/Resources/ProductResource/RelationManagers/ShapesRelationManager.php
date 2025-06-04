@@ -70,10 +70,10 @@ class ShapesRelationManager extends RelationManager
             ])
             ->filters([])
             ->headerActions([
-                CreateAction::make()->modalHeading('Create Shape')->label('Create Shape')->translateLabel('Create Shape')->slideOver(),
+                CreateAction::make()->modalHeading(__('Create Shape'))->label('Create Shape')->translateLabel('Create Shape')->slideOver(),
             ])
             ->actions([
-                EditAction::make()->modalHeading('Edit Shape')->slideOver(),
+                EditAction::make()->modalHeading(__('Edit Shape'))->slideOver(),
                 Action::make('teste')->icon('heroicon-o-squares-2x2')
                 ->label('Manage Fabrics')->translateLabel('Manage Fabrics')
                 ->modal()
