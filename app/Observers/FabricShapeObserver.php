@@ -19,7 +19,7 @@ class FabricShapeObserver
             // Calculate cost using rule of three
             // If price is per kg and usage is in kg, then:
             // cost = (price * usage)
-            $fabricShape->cost = $fabric->price * $fabricShape->usage;
+            $fabricShape->cost = ($fabric->price/1000) * $fabricShape->usage;
         }
     }
 
