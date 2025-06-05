@@ -281,13 +281,18 @@
   "shape_image": "imagem da forma",
   "Create Shape": "Criar Forma",
   "Manage Fabrics": "Gerenciar tecidos",
-  "Enter shape name": "Digite o nome da forma",
   "Edit Shape": "Editar Forma",
   "Manage Fabrics for": "Gerenciar tecidos para",
   "Add": "Adicionar",
   "Usage": "Uso",
   "Cost": "Custo",
-  "Sample": "Piloto"
+  "Sample": "Piloto",
+  "sample": "piloto",
+  "usage": "uso",
+  "Is Sample": "É piloto",
+  "Enter fabric usage": "Digite o uso do tecido",
+  "delete": "Deletar",
+  "Quantity": "Quantidade"
 
 
 

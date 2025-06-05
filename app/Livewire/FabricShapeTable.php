@@ -36,7 +36,7 @@ class FabricShapeTable extends Component implements HasForms, HasTable
             ImageColumn::make('image')->disk('public')->label('Image')->translateLabel('Image'),
         ])->actions([
             Action::make('delete')
-                ->label('Delete')
+                ->label('Delete')->translateLabel('Delete')
                 ->icon('heroicon-o-trash')
                 ->color('danger')
                 ->action(function (FabricShape $fabric_shape) {

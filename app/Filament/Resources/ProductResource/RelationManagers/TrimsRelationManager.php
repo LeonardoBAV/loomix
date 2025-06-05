@@ -2,16 +2,16 @@
 
 namespace App\Filament\Resources\ProductResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
 use Filament\Tables\Actions\AttachAction;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\DetachAction;
+use Filament\Tables\Actions\DetachBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TrimsRelationManager extends RelationManager
 {
@@ -32,31 +32,28 @@ class TrimsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('quantity'),
-                TextColumn::make('unit'),
-                TextColumn::make('total'),
+                TextColumn::make('name')->translateLabel('name'),
+                TextColumn::make('quantity')->translateLabel('quantity'),
+                TextColumn::make('unit')->translateLabel('unit'),
+                TextColumn::make('total')->translateLabel('total')->money('BRL', locale: 'pt_BR'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make()
+                AttachAction::make()
                 ->form(fn (AttachAction $action): array => [
                     $action->getRecordSelect(),
-                    Forms\Components\TextInput::make('quantity')
-                ->required()
-                ->numeric()
-                ->step(0.01),
+                    TextInput::make('quantity')->translateLabel('quantity')->required()->numeric()->step(0.01),
                 ]),
             ])
             ->actions([
-                Tables\Actions\DetachAction::make(),
+                DetachAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DetachBulkAction::make(),
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DetachBulkAction::make(),
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
