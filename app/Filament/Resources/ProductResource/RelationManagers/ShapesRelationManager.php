@@ -88,7 +88,7 @@ class ShapesRelationManager extends RelationManager
                     ->icon('heroicon-o-plus')
                     ->form([
                         Select::make('fabric_id')->label('Fabric')->translateLabel('Fabric')->options(Fabric::pluck('name', 'id'))->required()->searchable()->preload(),
-                        TextInput::make('usage')->required()->numeric()->minValue(1)->placeholder(__('Enter fabric usage'))->translateLabel('usage'),
+                        TextInput::make('usage')->required()->numeric()->minValue(1)->placeholder(__('Enter fabric usage'))->translateLabel('usage')->suffix('gr'),
                         FileUpload::make('image')->image()->directory('fabric-shapes')->preserveFilenames()->imageResizeMode('cover')->imageCropAspectRatio('16:9')->imageResizeTargetWidth('1920')->imageResizeTargetHeight('1080')->translateLabel('image'),
                         Toggle::make('sample')->label('sample')->translateLabel('sample')->default(false),
                     ])
