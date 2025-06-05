@@ -18,8 +18,8 @@ Route::get('/', function () {
 
     return 'PDF salvo em storage/app/public/teste.pdf';
 */
-    return view('pdf.product-info');
-    //return view('welcome');
+    //return view('pdf.product-info');
+    return view('welcome');
 });
 
 //Route::get('teste', Teste::class  );

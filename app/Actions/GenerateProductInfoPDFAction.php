@@ -9,20 +9,19 @@ use Illuminate\Support\Facades\Storage;
 class GenerateProductInfoPDFAction
 {
 
-    const DIRECTORY = 'products/pdf';
+    const DIRECTORY = 'products/info';
 
-    public function execute(Product $product): void
+    public function execute(Product $product): string
     {
         $this->checkDirectory();
+        $file_name = $product->code . '.pdf';
 
         Browsershot::html($this->getHtml($product))
             ->setChromePath('/usr/bin/google-chrome-stable')
-            ->addChromiumArguments([
-                'no-sandbox',
-                'disable-setuid-sandbox',
-                'disable-gpu',
-            ])
-            ->save(storage_path($this->getFullPath($product)));
+            ->addChromiumArguments(['no-sandbox', 'disable-setuid-sandbox', 'disable-gpu'])
+            ->save(storage_path($this->getFullPath($file_name)));
+
+        return self::DIRECTORY . '/' . $file_name;
     }
 
     private function checkDirectory(): void
@@ -32,9 +31,9 @@ class GenerateProductInfoPDFAction
         }
     }
 
-    private function getFullPath(Product $product): string
+    private function getFullPath(string $file_name): string
     {
-        return 'app/public/' . self::DIRECTORY . '/' . $product->code . '.pdf';
+        return 'app/public/' . self::DIRECTORY . '/' . $file_name;
     }
 
     private function getHtml(Product $product): string
