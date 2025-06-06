@@ -11,10 +11,10 @@ Route::get('/', function () {
     //Pdf::view('pdfs.invoice', ['invoice' => $invoice])
 
 
-    Pdf::html('<h1>PDF testando args!</h1>')
+   /* Pdf::html('<h1>PDF testando args!</h1>')
     ->format('a4')
     ->save(storage_path('app/public/teste.pdf'));
-
+*/
     /*Pdf::html(function (\Spatie\Browsershot\Browsershot $browser) {
         $browser->setChromePath('/home/sail/.cache/puppeteer/chrome/linux-137.0.7151.55/chrome-linux64/chrome');
         $browser->addChromiumArguments([
@@ -37,10 +37,10 @@ Route::get('/', function () {
     //])
     //->save(storage_path('app/public/teste.pdf'));
 
-    return 'PDF salvo em storage/app/public/teste.pdf';
+    //return 'PDF salvo em storage/app/public/teste.pdf';
 
     //return view('pdf.product-info');
-    //return view('welcome');
+    return view('welcome');
 });
 
 //Route::get('teste', Teste::class  );

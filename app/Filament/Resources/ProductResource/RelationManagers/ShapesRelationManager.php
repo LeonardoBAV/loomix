@@ -55,7 +55,9 @@ class ShapesRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')->sortable()->searchable()->translateLabel('name'),
-                TextColumn::make('fabrics.name')->listWithLineBreaks()->bulleted()->translateLabel('fabrics'),
+                TextColumn::make('fabrics.name')->listWithLineBreaks()->translateLabel('fabrics'),
+                TextColumn::make('fabricShapes.usage')->label('Usage')->translateLabel('Usage')->listWithLineBreaks()->suffix('gr'),
+                TextColumn::make('fabricShapes.cost')->label('Cost')->translateLabel('Cost')->money('BRL', locale: 'pt_BR')->listWithLineBreaks(),
                 ImageColumn::make('sample_image')
                     ->getStateUsing(function (Shape $shape) {
                         $fabric_shape = $shape->fabricShapes()
