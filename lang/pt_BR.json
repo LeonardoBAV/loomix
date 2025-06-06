@@ -292,7 +292,14 @@
   "Is Sample": "É piloto",
   "Enter fabric usage": "Digite o uso do tecido",
   "delete": "Deletar",
-  "Quantity": "Quantidade"
+  "Quantity": "Quantidade",
+  "Expenses": "Despesas",
+  "Expense": "Despesa",
+  "Expense Information": "Informações da despesa",
+  "Enter expense date": "Digite a data da despesa",
+  "Enter expense cost": "Digite o custo da despesa",
+  "Expense Date": "Data da despesa",
+  "Finance": "Financeiro"
 
 
 
