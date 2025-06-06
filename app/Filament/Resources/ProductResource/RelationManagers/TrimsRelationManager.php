@@ -34,7 +34,7 @@ class TrimsRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('name')->translateLabel('name'),
                 TextColumn::make('quantity')->translateLabel('quantity'),
-                TextColumn::make('unit')->translateLabel('unit'),
+                TextColumn::make('unit')->translateLabel('unit')->formatStateUsing(fn (string $state): string => __($state)),
                 TextColumn::make('total')->translateLabel('total')->money('BRL', locale: 'pt_BR'),
             ])
             ->filters([

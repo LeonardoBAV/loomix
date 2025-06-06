@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Observers\ProductTrimObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 #[ObservedBy([ProductTrimObserver::class])]
 class ProductTrim extends Pivot
@@ -34,5 +35,12 @@ class ProductTrim extends Pivot
     {
         return $this->belongsTo(Product::class);
     }
+
+    /*protected function unit(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => __($value),
+        );
+    }*/
     
 } 
