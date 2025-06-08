@@ -24,4 +24,15 @@ class Expense extends Model
     {
         return $this->hasMany(ExpenseItem::class);
     }
+
+    public function updateCost(): void
+    {
+        $expense_items = $this->expenseItems;
+        
+        $sum_cost = $expense_items->sum(function (ExpenseItem $expense_item) {
+            return $expense_item->cost;
+        });
+
+        $this->update(['cost' => $sum_cost]);
+    }
 } 

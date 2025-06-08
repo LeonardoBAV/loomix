@@ -2,19 +2,27 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ExpenseResource\Pages;
-use App\Filament\Resources\ExpenseResource\RelationManagers;
+use App\Filament\Resources\ExpenseResource\Pages\ListExpenses;
+use App\Filament\Resources\ExpenseResource\Pages\ViewExpense;
+use App\Filament\Resources\ExpenseResource\RelationManagers\ExpenseItemsRelationManager;
 use App\Models\Expense;
-use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Infolists\Components\Section as SectionInfolists;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Tables\Actions\DeleteAction;
+use Livewire\Attributes\On;
 
 class ExpenseResource extends Resource
 {
+
     protected static ?string $model = Expense::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-banknotes';
@@ -23,7 +31,7 @@ class ExpenseResource extends Resource
 
     public static function getNavigationGroup(): string
     {
-        return __('Finance');
+        return __('Finances');
     }
 
     public static function getNavigationLabel(): string
@@ -37,17 +45,28 @@ class ExpenseResource extends Resource
         return __('Expense');
     }
 
+    public static function getPluralModelLabel(): string
+    {
+        return __('Expenses');
+    }
+
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\DatePicker::make('date')
-                    ->required(),
-                Forms\Components\TextInput::make('cost')
-                    ->required()
-                    ->numeric()
-                    ->prefix('$'),
+                DatePicker::make('date')->required()->native(false)->displayFormat('m/Y')->format('Y-m')->translateLabel('date')
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                SectionInfolists::make(__('Expense Information'))->schema([
+                    TextEntry::make('date')->translateLabel('date')->date('m/Y'),
+                    TextEntry::make('cost')->translateLabel('cost')->money('BRL', locale: 'pt_BR'),
+                ])->columns(3),
             ]);
     }
 
@@ -55,31 +74,21 @@ class ExpenseResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('date')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('cost')
-                    ->money()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('date')->date('m/Y')->sortable()->translateLabel('date'),
+                TextColumn::make('cost')->money('BRL', locale: 'pt_BR')->sortable()->translateLabel('cost'),
+                TextColumn::make('created_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('updated_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ViewAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -87,17 +96,17 @@ class ExpenseResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ExpenseItemsRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListExpenses::route('/'),
-            'create' => Pages\CreateExpense::route('/create'),
-            'view' => Pages\ViewExpense::route('/{record}'),
-            'edit' => Pages\EditExpense::route('/{record}/edit'),
+            'index' => ListExpenses::route('/'),
+            'view' => ViewExpense::route('/{record}'),
+            //'create' => Pages\CreateExpense::route('/create'),
+            //'edit' => Pages\EditExpense::route('/{record}/edit'),
         ];
     }
 }

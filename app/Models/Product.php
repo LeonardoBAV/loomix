@@ -18,6 +18,7 @@ class Product extends Model
         'code',
         'image',
         'is_active',
+        'production_weight',
     ];
 
     public function shapes()
@@ -49,6 +50,14 @@ class Product extends Model
     public function fabric_shapes(): HasManyThrough
     {
         return $this->hasManyThrough(FabricShape::class, Shape::class);
+    }
+
+    /**
+     * Relacionamento com Productions
+     */
+    public function productionItems(): HasMany
+    {
+        return $this->hasMany(ProductionItem::class);
     }
 
     public function getCostAttribute(): float

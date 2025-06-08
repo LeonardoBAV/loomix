@@ -4,10 +4,14 @@ namespace App\Filament\Resources\ProductResource\Widgets;
 
 use App\Models\Product;
 use App\Helpers\UtilHelper;
+use App\Models\Expense;
+use App\Models\Production;
+use App\Models\ProductionItem;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Support\Colors\Color;
+use Carbon\Carbon;
 
 class CostProductWidget extends BaseWidget
 {
@@ -16,8 +20,12 @@ class CostProductWidget extends BaseWidget
 
     protected function getStats(): array
     {
+        $material_cost = $this->getTotalCost();
+        $production_cost = $this->getProductionCost();
+        $total_cost = $material_cost + $production_cost;
+        
         return [
-            Stat::make(__('Fabric Cost'), UtilHelper::formatMoney($this->record->totalSampleFabricCost))
+            /*Stat::make(__('Fabric Cost'), UtilHelper::formatMoney($this->record->totalSampleFabricCost))
                 ->description(__('Only the fabric cost'))
                 ->descriptionIcon('heroicon-o-swatch')
                 ->icon('heroicon-o-swatch')
@@ -27,13 +35,26 @@ class CostProductWidget extends BaseWidget
                 ->description(__('Sum of all other costs'))
                 ->descriptionIcon('heroicon-o-clipboard-document-list')
                 ->icon('heroicon-o-clipboard-document-list')
-                ->color('info'),
+                ->color('info'),*/
 
-            Stat::make(__('Total Cost'), UtilHelper::formatMoney($this->getTotalCost()))
-                ->description(__('Sum of all costs'))
+            
+            Stat::make(__('Material cost'), UtilHelper::formatMoney($material_cost))
+                ->description(__('fabric + trims'))
+                ->descriptionIcon('heroicon-o-rectangle-stack')
+                ->icon('heroicon-o-rectangle-stack')
+                ->color('primary'),
+
+            Stat::make(__('Production cost'), UtilHelper::formatMoney($production_cost))
+                ->description(__('production cost'))
+                ->descriptionIcon('heroicon-o-adjustments-horizontal')
+                ->icon('heroicon-o-adjustments-horizontal')
+                ->color('primary'),
+
+            Stat::make(__('Total cost'), UtilHelper::formatMoney($total_cost))
+                ->description(__('total cost'))
                 ->descriptionIcon('heroicon-o-calculator')
                 ->icon('heroicon-o-calculator')
-                ->color('primary')
+                ->color('primary'),
         ];
     }
 
@@ -60,6 +81,25 @@ class CostProductWidget extends BaseWidget
     private function getTotalCost(): float
     {
         return $this->getFabricCost() + $this->getOtherCosts();
+    }
+
+    private function getProductionCost(): float
+    {
+        $production_item = ProductionItem::getLatestProductionItemInProductionFromProduct($this->record);
+        $pontuation_product = $production_item->count * $this->record->production_weight;
+        
+        $pontuation_total = $production_item->production->getTotalPontuation();
+        
+        $percentage = ($pontuation_product * 100) / $pontuation_total;
+        $cost = ($this->getExpense($production_item->production->date)*$percentage)/100;
+        
+        return $cost/$production_item->count;
+    }
+
+    private function getExpense(Carbon $date): float
+    {
+        return Expense::whereYear('date', $date->year)
+        ->whereMonth('date', $date->month)->first()->cost;
     }
 
 }

@@ -50,6 +50,10 @@ class ProductResource extends Resource
         return __('Products');
     }
 
+    public static function getNavigationGroup(): string
+    {
+        return __('Manufacturing');
+    }
 
     public static function getModelLabel(): string
     {
@@ -69,8 +73,9 @@ class ProductResource extends Resource
             ->schema([
                 Section::make(__('Product Information'))
                     ->schema([
-                        TextInput::make('name')->required()->maxLength(255)->placeholder(__('Enter product name'))->translateLabel('name'),
+                        TextInput::make('name')->required()->maxLength(255)->placeholder(__('Enter product name'))->translateLabel('name')->columnSpanFull(),
                         TextInput::make('code')->required()->maxLength(255)->unique(ignoreRecord: true)->placeholder(__('Enter product code'))->translateLabel('code'),
+                        TextInput::make('production_weight')->required()->numeric()->minValue(1)->translateLabel('production_weight'),
                         FileUpload::make('image')->image()->imageEditor()->disk('public')->directory('products')->columnSpanFull()->translateLabel('image'),
                         Toggle::make('is_active')->label('Status')->default(true)->visibleOn('edit')->translateLabel('Status'),
                     ])
@@ -91,8 +96,8 @@ class ProductResource extends Resource
                             ->getStateUsing(fn (Product $record): string => $record->is_active ? __('Active') : __('Inactive'))
                             ->color(fn (Product $record): string => $record->is_active ? 'primary' : 'gray'),
                         TextEntry::make('totalSampleCost')->label('Total cost')->money('BRL', locale: 'pt_BR')->translateLabel('Total cost'),
+                        TextEntry::make('production_weight')->translateLabel('production_weight')->icon('heroicon-o-scale'),
                         TextEntry::make('created_at')->dateTime('d/m/Y H:i')->translateLabel('created_at'),
-                        TextEntry::make('updated_at')->dateTime('d/m/Y H:i')->translateLabel('updated_at'),
                     ]),
 
                 ])->columns(3),

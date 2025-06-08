@@ -76,7 +76,7 @@ class ShapesRelationManager extends RelationManager
             ])
             ->actions([
                 EditAction::make()->modalHeading(__('Edit Shape'))->slideOver(),
-                Action::make('teste')->icon('heroicon-o-squares-2x2')
+                Action::make('Manage Fabrics')->icon('heroicon-o-squares-2x2')
                 ->label('Manage Fabrics')->translateLabel('Manage Fabrics')
                 ->modal()
                 ->modalSubmitAction(false)

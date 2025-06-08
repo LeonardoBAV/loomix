@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\ExpenseResource\Pages;
+namespace App\Filament\Resources\ProductionResource\Pages;
 
-use App\Filament\Resources\ExpenseResource;
+use App\Filament\Resources\ProductionResource;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 use Livewire\Attributes\On;
 
-class ViewExpense extends ViewRecord
+class ViewProduction extends ViewRecord
 {
-    protected static string $resource = ExpenseResource::class;
+    protected static string $resource = ProductionResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -18,9 +18,5 @@ class ViewExpense extends ViewRecord
         ];
     }
 
-    #[On('refresh')]
-    public function refresh(): void
-    {
-    }
    
 }
