@@ -340,6 +340,10 @@
   "fabric + trims": "tecido + aviamentos",
   "production cost": "custo de produção",
   "total cost": "custo total",
-  "Production cost": "Custo de produção"
+  "Production cost": "Custo de produção",
+  "Copy": "Copiar",
+  "Saved successfully": "Salvo com sucesso",
+  "Expense copied successfully": "Despesa copiada com sucesso",
+  "Expense copied": "Despesa copiada"
 
 }

@@ -25,19 +25,6 @@ class CostProductWidget extends BaseWidget
         $total_cost = $material_cost + $production_cost;
         
         return [
-            /*Stat::make(__('Fabric Cost'), UtilHelper::formatMoney($this->record->totalSampleFabricCost))
-                ->description(__('Only the fabric cost'))
-                ->descriptionIcon('heroicon-o-swatch')
-                ->icon('heroicon-o-swatch')
-                ->color('info'),
-
-            Stat::make(__('Other Costs'), UtilHelper::formatMoney($this->getOtherCosts()))
-                ->description(__('Sum of all other costs'))
-                ->descriptionIcon('heroicon-o-clipboard-document-list')
-                ->icon('heroicon-o-clipboard-document-list')
-                ->color('info'),*/
-
-            
             Stat::make(__('Material cost'), UtilHelper::formatMoney($material_cost))
                 ->description(__('fabric + trims'))
                 ->descriptionIcon('heroicon-o-rectangle-stack')
@@ -86,6 +73,11 @@ class CostProductWidget extends BaseWidget
     private function getProductionCost(): float
     {
         $production_item = ProductionItem::getLatestProductionItemInProductionFromProduct($this->record);
+
+        if (is_null($production_item)) {
+            return 0;
+        }
+
         $pontuation_product = $production_item->count * $this->record->production_weight;
         
         $pontuation_total = $production_item->production->getTotalPontuation();
