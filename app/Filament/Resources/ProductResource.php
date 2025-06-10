@@ -25,6 +25,7 @@ use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\Section as SectionInfolists;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -142,6 +143,7 @@ class ProductResource extends Resource
 
             ])
             ->actions([
+                Action::make('cost')->translateLabel('cost')->icon('heroicon-o-currency-dollar')->color('secondary')->slideOver(),
                 ViewAction::make(),
                 DeleteAction::make(),
             ])
