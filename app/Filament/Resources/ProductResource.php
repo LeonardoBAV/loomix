@@ -115,6 +115,7 @@ class ProductResource extends Resource
                 TextColumn::make('is_active')->label('Status')->translateLabel('Status')->badge()
                     ->getStateUsing(fn (Product $record): string => $record->is_active ? __('Active') : __('Inactive'))
                     ->color(fn (Product $record): string => $record->is_active ? 'primary' : 'gray'),
+                TextColumn::make('production_weight')->label('Production weight')->sortable()->searchable()->icon('heroicon-m-scale')->translateLabel('Production weight')->badge()->color('info'),
                 TextColumn::make('created_at')->dateTime('d/m/Y H:i')->sortable()->toggleable(isToggledHiddenByDefault: true)->translateLabel('created_at'),
                 TextColumn::make('updated_at')->dateTime('d/m/Y H:i')->sortable()->toggleable(isToggledHiddenByDefault: true)->translateLabel('updated_at'),
             ])
