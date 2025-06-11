@@ -24,6 +24,11 @@ class CostProductWidget extends BaseWidget
         $production_cost = $this->getProductionCost();
         $total_cost = $material_cost + $production_cost;
         
+        $sell_price = $total_cost*1.3;
+        $sell_final_price = $sell_price*1.20;
+        $profit = $sell_price - $total_cost;
+
+        
         return [
             Stat::make(__('Material cost'), UtilHelper::formatMoney($material_cost))
                 ->description(__('fabric + trims'))
@@ -41,6 +46,12 @@ class CostProductWidget extends BaseWidget
                 ->description(__('total cost'))
                 ->descriptionIcon('heroicon-o-calculator')
                 ->icon('heroicon-o-calculator')
+                ->color('primary'),
+
+            Stat::make(__('Sell price'), UtilHelper::formatMoney($sell_final_price))
+                ->description(UtilHelper::formatMoney($sell_price) . ' - ' . UtilHelper::formatMoney($profit))
+                ->descriptionIcon('heroicon-o-tag')
+                ->icon('heroicon-o-tag')
                 ->color('primary'),
         ];
     }
