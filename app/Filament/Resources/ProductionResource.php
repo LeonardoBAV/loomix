@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources;
 
+use App\Actions\CalculateMonthCostsAction;
 use App\Filament\Resources\ProductionResource\Pages;
 use App\Filament\Resources\ProductionResource\Pages\ListProductions;
 use App\Filament\Resources\ProductionResource\Pages\ViewProduction;
 use App\Filament\Resources\ProductionResource\RelationManagers;
 use App\Filament\Resources\ProductionResource\RelationManagers\ProductionItemsRelationManager;
+use App\Helpers\UtilHelper;
+use App\Models\Expense;
 use App\Models\Production;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
@@ -74,11 +77,20 @@ class ProductionResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $expenses = Expense::all();
         return $table
             ->columns([
                 TextColumn::make('date')->date()->sortable()->translateLabel('date')->date('m/Y'),
                 TextColumn::make('productionItems.product.name')->translateLabel('products')->listWithLineBreaks()->sortable(),
                 TextColumn::make('productionItems.count')->label('Count')->translateLabel('count')->listWithLineBreaks()->sortable(),
+                TextColumn::make('totalItems')->label('Total')->translateLabel('count')->sortable(),
+                TextColumn::make('cost')->translateLabel('cost')
+                    ->getStateUsing(fn (Production $production): string => new CalculateMonthCostsAction()->execute($production, $expenses)['total_cost'])
+                    ->description(function (Production $production) use ($expenses){
+                        $costs = new CalculateMonthCostsAction()->execute($production, $expenses);
+                        return UtilHelper::formatMoney($costs['material_cost']) . ' / ' . UtilHelper::formatMoney($costs['expense_monthly']);
+                    })
+                    ->money('BRL', locale: 'pt_BR'),
                 TextColumn::make('created_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true)->translateLabel('created_at'),
                 TextColumn::make('updated_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true)->translateLabel('updated_at'),
             ])
@@ -101,6 +113,11 @@ class ProductionResource extends Resource
         return [
             ProductionItemsRelationManager::class,
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['productionItems']);
     }
 
     public static function getPages(): array

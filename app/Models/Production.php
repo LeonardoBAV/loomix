@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,4 +31,12 @@ class Production extends Model
             return $production_item->count * $production_item->product->production_weight;
         });
     }
+
+    protected function totalItems(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->productionItems->sum('count'),
+        );
+    }
+
 } 
