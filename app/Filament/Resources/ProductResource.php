@@ -42,9 +42,7 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 
-    //protected static ?string $navigationLabel = 'Products';
-    //protected static ?string $modelLabel = 'Product';
-    //protected static ?string $pluralModelLabel = 'Products';
+    protected static ?int $navigationSort = 1;
 
     public static function getNavigationLabel(): string
     {
@@ -66,7 +64,6 @@ class ProductResource extends Resource
         return __('Products');
     }
 
-    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
