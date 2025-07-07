@@ -36,6 +36,11 @@ class ProductionResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
+
     public static function getNavigationGroup(): string
     {
         return __('Manufacturing');
@@ -84,13 +89,13 @@ class ProductionResource extends Resource
                 TextColumn::make('productionItems.product.name')->translateLabel('products')->listWithLineBreaks()->sortable(),
                 TextColumn::make('productionItems.count')->label('Count')->translateLabel('count')->listWithLineBreaks()->sortable(),
                 TextColumn::make('totalItems')->label('Total')->translateLabel('count')->sortable(),
-                TextColumn::make('cost')->translateLabel('cost')
+                /*TextColumn::make('cost')->translateLabel('cost')
                     ->getStateUsing(fn (Production $production): string => new CalculateMonthCostsAction()->execute($production, $expenses)['total_cost'])
                     ->description(function (Production $production) use ($expenses){
                         $costs = new CalculateMonthCostsAction()->execute($production, $expenses);
                         return UtilHelper::formatMoney($costs['material_cost']) . ' / ' . UtilHelper::formatMoney($costs['expense_monthly']);
                     })
-                    ->money('BRL', locale: 'pt_BR'),
+                    ->money('BRL', locale: 'pt_BR'),*/
                 TextColumn::make('created_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true)->translateLabel('created_at'),
                 TextColumn::make('updated_at')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true)->translateLabel('updated_at'),
             ])

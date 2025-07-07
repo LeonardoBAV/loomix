@@ -93,7 +93,7 @@ class ProductResource extends Resource
                         TextEntry::make('is_active')->label('Status')->badge()
                             ->getStateUsing(fn (Product $record): string => $record->is_active ? __('Active') : __('Inactive'))
                             ->color(fn (Product $record): string => $record->is_active ? 'primary' : 'gray'),
-                        TextEntry::make('totalSampleCost')->label('Total cost')->money('BRL', locale: 'pt_BR')->translateLabel('Total cost'),
+                        //TextEntry::make('totalSampleCost')->label('Total cost')->money('BRL', locale: 'pt_BR')->translateLabel('Total cost'),
                         TextEntry::make('production_weight')->translateLabel('production_weight')->icon('heroicon-o-scale'),
                         TextEntry::make('created_at')->dateTime('d/m/Y H:i')->translateLabel('created_at'),
                     ]),
@@ -108,7 +108,7 @@ class ProductResource extends Resource
             ->columns([
                 TextColumn::make('name')->sortable()->searchable()->description(fn (Product $product): string => $product->code)->translateLabel('name'),
                 ImageColumn::make('image')->disk('public')->circular()->translateLabel('image'),
-                TextColumn::make('totalSampleCost')->label('Total cost')->sortable()->searchable()->money('BRL', locale: 'pt_BR')->translateLabel('Total cost'),
+                //TextColumn::make('totalSampleCost')->label('Total cost')->sortable()->searchable()->money('BRL', locale: 'pt_BR')->translateLabel('Total cost'),
                 TextColumn::make('is_active')->label('Status')->translateLabel('Status')->badge()
                     ->getStateUsing(fn (Product $record): string => $record->is_active ? __('Active') : __('Inactive'))
                     ->color(fn (Product $record): string => $record->is_active ? 'primary' : 'gray'),

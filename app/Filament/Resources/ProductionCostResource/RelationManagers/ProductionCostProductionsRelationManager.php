@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ProductionCostResource\RelationManagers;
 
+use App\Filament\Resources\ProductResource;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -47,7 +48,12 @@ class ProductionCostProductionsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('product.name')
             ->columns([
-                TextColumn::make('product.name'),
+                TextColumn::make('product.name')->label(__('resources.production_costs.relation_managers.productions.table.product'))
+                    ->icon('heroicon-m-arrow-top-right-on-square')
+                    ->color('primary')
+                    ->url(fn ($record) => ProductResource::getUrl('view', ['record' => $record->product])),
+                TextColumn::make('count')->label(__('resources.production_costs.relation_managers.productions.table.count')),
+                TextColumn::make('cost')->label(__('resources.production_costs.relation_managers.productions.table.cost'))->money('BRL', locale: 'pt_BR')->badge()->color('success'),
             ])
             ->filters([
                 //

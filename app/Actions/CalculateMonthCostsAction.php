@@ -13,7 +13,7 @@ class CalculateMonthCostsAction
 {
 
 
-    public function execute(Production $production, Collection $expenses): array
+    /*public function execute(Production $production, Collection $expenses): array
     {
         $expense = $expenses->first(fn ($expense) => $expense->date->format('m/Y') == $production->date->format('m/Y'));
 
@@ -65,6 +65,6 @@ class CalculateMonthCostsAction
     {
         return Expense::whereYear('date', $date->year)
         ->whereMonth('date', $date->month)->first()->cost;
-    }
+    }*/
 
 } //$material_cost = $this->getTotalCost();

@@ -45,6 +45,11 @@ return [
                     'count' => 'Quantidade',
                     'cost' => 'Custo',
                 ],
+                'table' => [
+                    'product' => 'Produto',
+                    'count' => 'Quantidade',
+                    'cost' => 'Custo/Pç',
+                ],
             ],
         ],
     ],

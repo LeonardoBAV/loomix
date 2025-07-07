@@ -66,24 +66,31 @@ class Product extends Model
     }
 
 
-    protected function totalSampleCost(): Attribute
+    protected function supplyCost(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->totalSampleFabricCost + $this->totalSampleTrimsCost + $this->totalSampleLiningsCost,
+            get: fn () => $this->fabricCost + $this->trimsCost,
         );
     }
 
-    protected function totalSampleFabricCost(): Attribute
+    protected function fabricCost(): Attribute
     {
         return Attribute::make(
             get: fn () => $this->fabric_shapes()->whereSample(true)->sum('cost'),
         );
     }
 
-    protected function totalSampleTrimsCost(): Attribute
+    protected function trimsCost(): Attribute
     {
         return Attribute::make(
             get: fn () => $this->product_trims()->sum('total'),
+        );
+    }
+
+    /*protected function totalSampleCost(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->totalSampleFabricCost + $this->totalSampleTrimsCost + $this->totalSampleLiningsCost,
         );
     }
 
@@ -92,6 +99,6 @@ class Product extends Model
         return Attribute::make(
             get: fn () => $this->lining_products()->sum('total'),
         );
-    }
+    }*/
 
 }
