@@ -53,8 +53,22 @@ return [
             ],
         ],
     ],
+    'sizes' => [
+        'navigation_label' => 'Tamanhos',
+        'model_label' => 'Tamanho',
+        'plural_model_label' => 'Tamanhos',
+        'form' => [
+            'title' => 'Título',
+            'alias' => 'Alias',
+        ],
+        'table' => [
+            'title' => 'Título',
+            'alias' => 'Alias',
+        ],
+    ],
     'menu' => [
         'manufacturing' => 'Fabricação',
+        'variations' => 'Variações',
     ],
 
 ];

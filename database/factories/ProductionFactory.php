@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Client;
+use App\Models\Cutter;
+use App\Models\Product;
 use App\Models\Production;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,8 +22,17 @@ class ProductionFactory extends Factory
      */
     public function definition(): array
     {
+        $startDate = fake()->dateTimeBetween('-30 days', 'now');
+        
         return [
-            'date' => $this->faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
+            'product_id' => Product::factory(),
+            'cutter_id' => Cutter::factory(),
+            'client_id' => Client::factory(),
+            'date_started' => $startDate,
+            'date_cutting' => fake()->dateTimeBetween($startDate, '+7 days'),
+            'date_sewing' => fake()->dateTimeBetween($startDate, '+14 days'),
+            'date_finishing' => fake()->dateTimeBetween($startDate, '+21 days'),
+            'date_completed' => fake()->dateTimeBetween($startDate, '+30 days'),
         ];
     }
 } 

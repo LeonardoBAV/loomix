@@ -2,31 +2,37 @@
 
 namespace Database\Seeders;
 
+use App\Models\Client;
+use App\Models\Color;
+use App\Models\Cutter;
 use App\Models\Production;
-use App\Models\ProductionItem;
-use App\Models\Product;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\ProductionGrid;
+use App\Models\Size;
 use Illuminate\Database\Seeder;
 
 class ProductionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Criar 20 produções
-        Production::factory(20)->create()->each(function ($production) {
-            // Para cada produção, criar entre 1 e 5 itens de produção
-            $products = Product::inRandomOrder()->limit(rand(1, 5))->get();
-            
-            foreach ($products as $product) {
-                ProductionItem::factory()->create([
-                    'production_id' => $production->id,
-                    'product_id' => $product->id,
-                    'count' => rand(1, 100),
-                ]);
-            }
-        });
+        // Create sizes
+        Size::factory()->count(6)->create();
+        
+        // Create colors
+        Color::factory()->count(8)->create();
+        
+        // Create cutters
+        Cutter::factory()->count(5)->create();
+        
+        // Create clients
+        Client::factory()->count(10)->create();
+        
+        // Create productions with grids
+        Production::factory()
+            ->count(15)
+            ->has(
+                ProductionGrid::factory()
+                    ->count(3)
+            )
+            ->create();
     }
 } 
