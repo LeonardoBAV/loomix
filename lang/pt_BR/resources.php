@@ -66,6 +66,19 @@ return [
             'alias' => 'Alias',
         ],
     ],
+    'colors' => [
+        'navigation_label' => 'Cores',
+        'model_label' => 'Cor',
+        'plural_model_label' => 'Cores',
+        'form' => [
+            'title' => 'Título',
+            'alias' => 'Alias',
+        ],
+        'table' => [
+            'title' => 'Título',
+            'alias' => 'Alias',
+        ],
+    ],
     'menu' => [
         'manufacturing' => 'Fabricação',
         'variations' => 'Variações',
