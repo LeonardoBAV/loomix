@@ -105,10 +105,16 @@ return [
             'name' => 'Nome',
         ],
     ],
+    'productions' => [
+        'navigation_label' => 'Produções',
+        'model_label' => 'Produção',
+        'plural_model_label' => 'Produções',
+    ],
     'menu' => [
         'manufacturing' => 'Fabricação',
         'variations' => 'Variações',
         'registrations' => 'Cadastros',
+        'fabrication' => 'Fabricação',
     ],
 
 ];
