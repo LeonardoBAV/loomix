@@ -79,9 +79,36 @@ return [
             'alias' => 'Alias',
         ],
     ],
+    'clients' => [
+        'navigation_label' => 'Clientes',
+        'model_label' => 'Cliente',
+        'plural_model_label' => 'Clientes',
+        'form' => [
+            'name' => 'Nome',
+            'email' => 'Email',
+            'phone' => 'Telefone',
+        ],
+        'table' => [
+            'name' => 'Nome',
+            'email' => 'Email',
+            'phone' => 'Telefone',
+        ],
+    ],
+    'cutters' => [
+        'navigation_label' => 'Cortadores',
+        'model_label' => 'Cortador',
+        'plural_model_label' => 'Cortadores',
+        'form' => [
+            'name' => 'Nome',
+        ],
+        'table' => [
+            'name' => 'Nome',
+        ],
+    ],
     'menu' => [
         'manufacturing' => 'Fabricação',
         'variations' => 'Variações',
+        'registrations' => 'Cadastros',
     ],
 
 ];
