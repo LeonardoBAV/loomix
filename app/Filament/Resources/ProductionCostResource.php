@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ProductionCostResource\Pages;
 use App\Filament\Resources\ProductionCostResource\Pages\EditProductionCost;
 use App\Filament\Resources\ProductionCostResource\Pages\ListProductionCosts;
-use App\Filament\Resources\ProductionCostResource\Pages\ViewProductionCost;
+use App\Filament\Resources\ProductionCostResource\Pages\ViewProductionCosts;
 use App\Filament\Resources\ProductionCostResource\RelationManagers;
 use App\Filament\Resources\ProductionCostResource\RelationManagers\ExpensesRelationManager;
 use App\Filament\Resources\ProductionCostResource\RelationManagers\ProductionCostExpensesRelationManager;
@@ -130,7 +130,7 @@ class ProductionCostResource extends Resource
     {
         return [
             'index' => ListProductionCosts::route('/'),
-            'view' => ViewProductionCost::route('/{record}'),
+            'view' => ViewProductionCosts::route('/{record}'),
         ];
     }
 }

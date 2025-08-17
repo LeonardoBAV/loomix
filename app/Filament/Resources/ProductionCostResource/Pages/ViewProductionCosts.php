@@ -10,7 +10,7 @@ use Filament\Support\Colors\Color;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 
-class ViewProductionCost extends ViewRecord
+class ViewProductionCosts extends ViewRecord
 {
     protected static string $resource = ProductionCostResource::class;
 
