@@ -12,9 +12,9 @@ return new class extends Migration
         Schema::create('productions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->restrictOnDelete();
+            $table->foreignId('color_id')->constrained()->restrictOnDelete();
             $table->foreignId('cutter_id')->constrained()->restrictOnDelete();
             $table->foreignId('client_id')->constrained()->restrictOnDelete();
-            $table->foreignId('color_id')->constrained()->restrictOnDelete();
             $table->date('date_started')->nullable();
             $table->date('date_cutting')->nullable();
             $table->date('date_sewing')->nullable();

@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+use App\Enums\ProductionStatusEnum;
+use App\Observers\ProductionObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
+#[ObservedBy([ProductionObserver::class])]
 class Production extends Model
 {
     use HasFactory;
@@ -15,6 +20,7 @@ class Production extends Model
         'product_id',
         'cutter_id',
         'client_id',
+        'color_id',
         'date_started',
         'date_cutting',
         'date_sewing',
@@ -53,5 +59,34 @@ class Production extends Model
     public function productionGrids(): HasMany
     {
         return $this->hasMany(ProductionGrid::class);
+    }
+
+    public function qty(Size $size): int
+    {
+        return $this->productionGrids()->whereSizeId($size->id)->first()->qty ?? 0;
+    }
+
+    protected function status(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->getStatus(),
+        );
+    }
+
+    private function getStatus(): string
+    {
+        if($this->date_completed) {
+            return ProductionStatusEnum::Completed->value;
+        }
+        if($this->date_finishing) {
+            return ProductionStatusEnum::Finishing->value;
+        }
+        if($this->date_sewing) {
+            return ProductionStatusEnum::Sewing->value;
+        }
+        if($this->date_cutting) {
+            return ProductionStatusEnum::Cutting->value;
+        }
+        return ProductionStatusEnum::Pending->value;
     }
 } 
