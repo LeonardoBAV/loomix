@@ -21,6 +21,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
@@ -118,6 +119,7 @@ class ProductionResource extends Resource
             ])
             ->actions([
                 ViewAction::make(),
+                DeleteAction::make(),
                 ActionGroup::make([
                     //next and previus action
                     Action::make('next')->label(__('resources.productions.table.next'))->icon('fas-arrow-right')->color('primary')
