@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\ProductionStatusEnum;
 use App\Filament\Resources\ProductionResource\Pages;
 use App\Filament\Resources\ProductionResource\Pages\ListProductions;
 use App\Filament\Resources\ProductionResource\Pages\ViewProduction;
@@ -18,13 +19,15 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use ProductionStatusEnum;
+
 
 class ProductionResource extends Resource
 {
@@ -94,11 +97,13 @@ class ProductionResource extends Resource
             ->columns([
                 TextColumn::make('product.name')->label(__('resources.productions.table.product'))->sortable(),
                 TextColumn::make('color.title')->label(__('resources.productions.table.color'))->sortable(),
-                TextColumn::make('date_started')->label(__('resources.productions.table.date_started'))->date('d/m/Y')->sortable(),
                 ...$sizes->map(function (Size $size) {
                     return TextColumn::make('size_'.$size->alias)->formatStateUsing(fn (Production $record) => $record->qty($size))->label($size->alias)->default(0);
                 }),
-                TextColumn::make('status')->label(__('resources.productions.table.status'))->badge()->sortable(),
+                TextColumn::make('status')->label(__('resources.productions.table.status'))->badge()->sortable()
+                    ->getStateUsing(fn (Production $record) => __('enums.production_status.'.$record->status->value))
+                    ->color(fn (Production $record) => $record->status->color()),
+                TextColumn::make('date_started')->label(__('resources.productions.table.date_started'))->date('d/m/Y')->sortable(),
                 TextColumn::make('cutter.name')->label(__('resources.productions.table.cutter'))->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('client.name')->label(__('resources.productions.table.client'))->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date_cutting')->label(__('resources.productions.table.date_cutting'))->date()->sortable()->toggleable(isToggledHiddenByDefault: true),
@@ -113,6 +118,16 @@ class ProductionResource extends Resource
             ])
             ->actions([
                 ViewAction::make(),
+                ActionGroup::make([
+                    //next and previus action
+                    Action::make('next')->label(__('resources.productions.table.next'))->icon('fas-arrow-right')->color('primary')
+                        ->action(fn (Production $record) => $record->nextStep())
+                        ->visible(fn (Production $record) => $record->status !== ProductionStatusEnum::Completed),
+                    Action::make('previus')->label(__('resources.productions.table.previus'))->icon('fas-arrow-left')->color('primary')
+                        ->action(fn (Production $record) => $record->previusStep())
+                        ->visible(fn (Production $record) => $record->status !== ProductionStatusEnum::Pending),
+                ]),
+                //group button with start production, stop production, complete production
             ])
             ->bulkActions([
                 

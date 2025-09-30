@@ -73,20 +73,60 @@ class Production extends Model
         );
     }
 
-    private function getStatus(): string
+    private function getStatus(): ProductionStatusEnum
     {
         if($this->date_completed) {
-            return ProductionStatusEnum::Completed->value;
+            return ProductionStatusEnum::Completed;
         }
         if($this->date_finishing) {
-            return ProductionStatusEnum::Finishing->value;
+            return ProductionStatusEnum::Finishing;
         }
         if($this->date_sewing) {
-            return ProductionStatusEnum::Sewing->value;
+            return ProductionStatusEnum::Sewing;
         }
         if($this->date_cutting) {
-            return ProductionStatusEnum::Cutting->value;
+            return ProductionStatusEnum::Cutting;
         }
-        return ProductionStatusEnum::Pending->value;
+        return ProductionStatusEnum::Pending;
     }
+
+    public function nextStep()
+    {
+        switch($this->status) {
+            case ProductionStatusEnum::Pending:
+                $this->date_cutting = now();
+                break;
+            case ProductionStatusEnum::Cutting:
+                $this->date_sewing = now();
+                break;
+            case ProductionStatusEnum::Sewing:
+                $this->date_finishing = now();
+                break;
+            case ProductionStatusEnum::Finishing:
+                $this->date_completed = now();
+                break;
+        }
+
+        $this->save();
+    }
+
+    public function previusStep()
+    {
+        switch($this->status) {
+            case ProductionStatusEnum::Completed:
+                $this->date_completed = null;
+                break;
+            case ProductionStatusEnum::Finishing:
+                $this->date_finishing = null;
+                break;
+            case ProductionStatusEnum::Sewing:
+                $this->date_sewing = null;
+                break;
+            case ProductionStatusEnum::Cutting:
+                $this->date_cutting = null;
+                break;
+        }
+        $this->save();
+    }
+    
 } 

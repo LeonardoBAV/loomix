@@ -126,12 +126,15 @@ return [
             'client' => 'Cliente',
             'color' => 'Cor',
             'date_started' => 'Data de Início',
+            'status' => 'Status',
             'date_cutting' => 'Data de Corte',
             'date_sewing' => 'Data de Costura',
             'date_finishing' => 'Data de Acabamento',
             'date_completed' => 'Data de Conclusão',
             'created_at' => 'Criado em',
             'updated_at' => 'Atualizado em',
+            'next' => 'Próximo',
+            'previus' => 'Anterior',
         ],
         'infolist' => [
             'section' => [
