@@ -141,7 +141,7 @@ class ProductResource extends Resource
 
             ])
             ->actions([
-                Action::make('cost')->translateLabel('cost')->icon('heroicon-o-currency-dollar')->color('secondary')->slideOver(),
+                //Action::make('cost')->translateLabel('cost')->icon('heroicon-o-currency-dollar')->color('secondary')->slideOver(),
                 ViewAction::make(),
                 DeleteAction::make(),
             ])

@@ -27,11 +27,15 @@ class ViewProduct extends ViewRecord
     {
         return [
             EditAction::make()->label(__('Edit'))->icon('heroicon-o-pencil-square')->color('primary')->button()->slideOver(),
-            Action::make('info')->label(__('Info'))->icon('heroicon-o-clipboard-document-list')->color('info')->button()
+            Action::make('cost')->label(__('Cost'))->icon('heroicon-o-currency-dollar')->color('info')->button()
+            ->action(function () {
+                
+            }),
+            /*Action::make('info')->label(__('Info'))->icon('heroicon-o-clipboard-document-list')->color('info')->button()
             ->action(function () {
                 $file_path = (new GenerateProductInfoPDFAction())->execute($this->record);
                 return Storage::disk('public')->download($file_path);
-            }),
+            }),*/
         ];
     }
 }
