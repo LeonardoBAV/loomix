@@ -3,11 +3,11 @@
 return [
 
     'production_status' => [
-        'pending' => 'Pendente',
+        'pending' => 'Programado',
         'cutting' => 'Cortando',
         'sewing' => 'Costurando',
-        'finishing' => 'Acabando',
-        'completed' => 'Completo',
+        'finishing' => 'Arrematando',
+        'completed' => 'Finalizado',
     ],
 
 ];

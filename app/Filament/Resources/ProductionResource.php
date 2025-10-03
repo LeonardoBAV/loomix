@@ -136,6 +136,11 @@ class ProductionResource extends Resource
             ]);
     }
 
+    protected function getTableQuery(): Builder
+    {
+        return parent::getTableQuery()->orderBy('created_at', 'desc');
+    }
+
     public static function getRelations(): array
     {
         return [
