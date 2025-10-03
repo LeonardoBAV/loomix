@@ -133,7 +133,8 @@ class ProductionResource extends Resource
             ])
             ->bulkActions([
                 
-            ]);
+            ])
+            ->modifyQueryUsing(fn (Builder $query) => $query->orderBy('created_at', 'desc'));
     }
 
     protected function getTableQuery(): Builder
