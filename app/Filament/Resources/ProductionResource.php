@@ -89,9 +89,15 @@ class ProductionResource extends Resource
         return $form
             ->schema([
                 Select::make('product_id')->relationship('product', 'name')->label(__('resources.productions.form.product'))->required(),
-                Select::make('cutter_id')->relationship('cutter', 'name')->label(__('resources.productions.form.cutter'))->required(),
+                Select::make('cutter_id')->relationship('cutter', 'name')->label(__('resources.productions.form.cutter')),
                 Select::make('client_id')->relationship('client', 'name')->label(__('resources.productions.form.client'))->required(),
                 Select::make('color_id')->relationship('color', 'title')->label(__('resources.productions.form.color'))->required(),
+                // put date_started in the form
+                DatePicker::make('date_started')->label(__('resources.productions.form.date_started'))->required()->columnSpanFull(),
+                DatePicker::make('date_cutting')->label(__('resources.productions.form.date_cutting'))->visibleOn('edit'),
+                DatePicker::make('date_sewing')->label(__('resources.productions.form.date_sewing'))->visibleOn('edit'),
+                DatePicker::make('date_finishing')->label(__('resources.productions.form.date_finishing'))->visibleOn('edit'),
+                DatePicker::make('date_completed')->label(__('resources.productions.form.date_completed'))->visibleOn('edit'),
             ]);
     }
 
