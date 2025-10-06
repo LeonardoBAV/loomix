@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\ProductionStatusEnum;
+use App\Filament\Exports\ProductionExporter;
 use App\Filament\Resources\ProductionResource\Pages;
 use App\Filament\Resources\ProductionResource\Pages\ListProductions;
 use App\Filament\Resources\ProductionResource\Pages\ViewProduction;
@@ -23,6 +24,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
@@ -200,6 +202,10 @@ class ProductionResource extends Resource
                         ->visible(fn (Production $record) => $record->status !== ProductionStatusEnum::Pending),
                 ]),
                 //group button with start production, stop production, complete production
+            ])
+            ->headerActions([
+                ExportAction::make()
+                    ->exporter(ProductionExporter::class)->columnMapping(false)
             ])
             ->bulkActions([
                 
