@@ -170,6 +170,16 @@ class ProductionResource extends Resource
 
                         return $query;
                             
+                    })->indicateUsing(function (array $data) use ($statuses): string {
+                        if (! $data['status']) {
+                            return '';
+                        }
+
+                        $values = collect($data['status'])->map(function ($status) use ($statuses) {
+                            return $statuses[$status];
+                        });
+
+                        return __('resources.productions.table.filter.status') . ': ' . implode(', ',  $values->toArray());
                     }),
             ])
             ->filtersTriggerAction(
