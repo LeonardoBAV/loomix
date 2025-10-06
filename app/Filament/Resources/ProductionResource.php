@@ -25,6 +25,8 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -94,17 +96,24 @@ class ProductionResource extends Resource
     public static function table(Table $table): Table
     {
         $sizes = Size::all();
+        
+        $statuses = collect(ProductionStatusEnum::cases())->mapWithKeys(function ($status) {
+            return [
+                $status->value => __('enums.production_status.'.$status->value)
+            ];
+        });
+
         return $table
             ->columns([
-                TextColumn::make('product.name')->label(__('resources.productions.table.product'))->sortable(),
-                TextColumn::make('color.title')->label(__('resources.productions.table.color'))->sortable(),
+                TextColumn::make('product.name')->label(__('resources.productions.table.product'))->sortable()->searchable(),
+                TextColumn::make('color.title')->label(__('resources.productions.table.color'))->sortable()->searchable(),
                 ...$sizes->map(function (Size $size) {
                     return TextColumn::make('size_'.$size->alias)->formatStateUsing(fn (Production $record) => $record->qty($size))->label($size->alias)->default(0);
                 }),
                 TextColumn::make('status')->label(__('resources.productions.table.status'))->badge()->sortable()
                     ->getStateUsing(fn (Production $record) => __('enums.production_status.'.$record->status->value))
                     ->color(fn (Production $record) => $record->status->color()),
-                TextColumn::make('date_started')->label(__('resources.productions.table.date_started'))->date('d/m/Y')->sortable(),
+                //TextColumn::make('date_started')->label(__('resources.productions.table.date_started'))->date('d/m/Y')->sortable(),
                 TextColumn::make('cutter.name')->label(__('resources.productions.table.cutter'))->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('client.name')->label(__('resources.productions.table.client'))->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date_cutting')->label(__('resources.productions.table.date_cutting'))->date()->sortable()->toggleable(isToggledHiddenByDefault: true),
@@ -115,8 +124,59 @@ class ProductionResource extends Resource
                 TextColumn::make('updated_at')->label(__('resources.productions.table.updated_at'))->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('client_id')
+                    ->relationship('client', 'name')->label(__('resources.productions.table.filter.client')),
+                SelectFilter::make('color_id')
+                    ->relationship('color', 'title')->label(__('resources.productions.table.filter.color')),
+                Filter::make('status')
+                    ->form([
+                        Select::make('status')->options($statuses)->label(__('resources.productions.table.filter.status'))->multiple(),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        $query->where(function (Builder $query) use ($data) {
+                            if(in_array(ProductionStatusEnum::Completed->value, $data['status'])) {
+                                $query->orWhere(function (Builder $query) {
+                                    $query->whereNotNull('date_completed');
+                                });
+                            }
+
+                            if(in_array(ProductionStatusEnum::Finishing->value, $data['status'])) {
+                                $query->orWhere(function (Builder $query) {
+                                    $query->whereNotNull('date_finishing');
+                                    $query->whereNull('date_completed');
+                                });
+                            }
+
+                            if(in_array(ProductionStatusEnum::Sewing->value, $data['status'])) {
+                                $query->orWhere(function (Builder $query) {
+                                    $query->whereNotNull('date_sewing');
+                                    $query->whereNull('date_finishing');
+                                });
+                            }
+
+                            if(in_array(ProductionStatusEnum::Cutting->value, $data['status'])) {
+                                $query->orWhere(function (Builder $query) {
+                                    $query->whereNotNull('date_cutting');
+                                    $query->whereNull('date_sewing');
+                                });
+                            }
+                            
+                            if(in_array(ProductionStatusEnum::Pending->value, $data['status'])) {
+                                $query->orWhere(function (Builder $query) {
+                                    $query->whereNull('date_cutting');
+                                });
+                            }
+                        });
+
+                        return $query;
+                            
+                    }),
             ])
+            ->filtersTriggerAction(
+                fn (Action $action) => $action
+                    ->button()
+                    ->label(__('resources.productions.table.filter.button')),
+            )
             ->actions([
                 ViewAction::make(),
                 DeleteAction::make(),

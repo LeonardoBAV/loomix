@@ -135,6 +135,12 @@ return [
             'updated_at' => 'Atualizado em',
             'next' => 'Próximo',
             'previus' => 'Anterior',
+            'filter' => [
+                'status' => 'Estado da Produção',
+                'button' => 'Filtrar',
+                'client' => 'Cliente',
+                'color' => 'Cor',
+            ],
         ],
         'infolist' => [
             'section' => [
