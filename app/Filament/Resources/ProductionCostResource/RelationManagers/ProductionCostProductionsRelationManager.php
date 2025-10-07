@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ProductionCostResource\RelationManagers;
 
 use App\Filament\Resources\ProductResource;
+use App\Helpers\UtilHelper;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -56,6 +57,7 @@ class ProductionCostProductionsRelationManager extends RelationManager
                 TextColumn::make('count')->label(__('resources.production_costs.relation_managers.productions.table.count'))
                     ->summarize(Sum::make()),
                 TextColumn::make('cost')->label(__('resources.production_costs.relation_managers.productions.table.cost'))->money('BRL', locale: 'pt_BR')->badge()->color('success'),
+                TextColumn::make('20%')->label(__('20%'))->badge()->color('success')->formatStateUsing(fn ($record) => UtilHelper::formatMoney($this->calculateSalePrice($record, 20)))->default(0),
             ])
             ->filters([
                 //
@@ -73,5 +75,10 @@ class ProductionCostProductionsRelationManager extends RelationManager
                     DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    private function calculateSalePrice($record , $percent): float
+    {
+        return ((($percent*($record->product->supply_cost+$record->cost))/(80-$percent) ) * 100)/ ($percent);
     }
 }
