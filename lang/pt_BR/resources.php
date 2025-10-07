@@ -49,6 +49,7 @@ return [
                     'product' => 'Produto',
                     'count' => 'Quantidade',
                     'cost' => 'C.O.',
+                    'material' => 'C.I.',
                 ],
             ],
         ],

@@ -56,6 +56,7 @@ class ProductionCostProductionsRelationManager extends RelationManager
                     ->url(fn ($record) => ProductResource::getUrl('view', ['record' => $record->product])),
                 TextColumn::make('count')->label(__('resources.production_costs.relation_managers.productions.table.count'))
                     ->summarize(Sum::make()),
+                TextColumn::make('cost_material')->label(__('resources.production_costs.relation_managers.productions.table.material'))->money('BRL', locale: 'pt_BR')->badge()->color('success'),
                 TextColumn::make('cost')->label(__('resources.production_costs.relation_managers.productions.table.cost'))->money('BRL', locale: 'pt_BR')->badge()->color('success'),
                 TextColumn::make('10%')->label(__('10%'))->badge()->color('info')->formatStateUsing(fn ($record) => UtilHelper::formatMoney($this->calculateSalePrice($record, 10)))->default(0),
                 TextColumn::make('20%')->label(__('20%'))->badge()->color('info')->formatStateUsing(fn ($record) => UtilHelper::formatMoney($this->calculateSalePrice($record, 20)))->default(0),
