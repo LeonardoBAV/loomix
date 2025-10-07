@@ -14,6 +14,7 @@ use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -52,7 +53,8 @@ class ProductionCostProductionsRelationManager extends RelationManager
                     ->icon('heroicon-m-arrow-top-right-on-square')
                     ->color('primary')
                     ->url(fn ($record) => ProductResource::getUrl('view', ['record' => $record->product])),
-                TextColumn::make('count')->label(__('resources.production_costs.relation_managers.productions.table.count')),
+                TextColumn::make('count')->label(__('resources.production_costs.relation_managers.productions.table.count'))
+                    ->summarize(Sum::make()),
                 TextColumn::make('cost')->label(__('resources.production_costs.relation_managers.productions.table.cost'))->money('BRL', locale: 'pt_BR')->badge()->color('success'),
             ])
             ->filters([
