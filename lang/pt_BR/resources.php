@@ -48,7 +48,7 @@ return [
                 'table' => [
                     'product' => 'Produto',
                     'count' => 'Quantidade',
-                    'cost' => 'Custo/Pç',
+                    'cost' => 'C.O.',
                 ],
             ],
         ],
