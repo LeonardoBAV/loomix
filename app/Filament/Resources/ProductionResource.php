@@ -10,6 +10,7 @@ use App\Filament\Resources\ProductionResource\Pages\ViewProduction;
 use App\Filament\Resources\ProductionResource\RelationManagers;
 use App\Filament\Resources\ProductionResource\RelationManagers\ProductionGridsRelationManager;
 use App\Models\Production;
+use App\Models\ProductionGrid;
 use App\Models\Size;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
@@ -26,6 +27,7 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -115,8 +117,11 @@ class ProductionResource extends Resource
             ->columns([
                 TextColumn::make('product.name')->label(__('resources.productions.table.product'))->sortable()->searchable(),
                 TextColumn::make('color.title')->label(__('resources.productions.table.color'))->sortable()->searchable(),
+                //...$sizes->map(function (Size $size) {
+                //    return TextColumn::make('size_'.$size->alias)->formatStateUsing(fn (Production $record) => $record->qty($size))->label($size->alias)->default(0);
+                //}),
                 ...$sizes->map(function (Size $size) {
-                    return TextColumn::make('size_'.$size->alias)->formatStateUsing(fn (Production $record) => $record->qty($size))->label($size->alias)->default(0);
+                    return TextColumn::make('size_'.$size->alias)->summarize(Sum::make())->label($size->alias)->default(0);
                 }),
                 TextColumn::make('status')->label(__('resources.productions.table.status'))->badge()->sortable()
                     ->getStateUsing(fn (Production $record) => __('enums.production_status.'.$record->status->value))
@@ -216,7 +221,17 @@ class ProductionResource extends Resource
             ->bulkActions([
                 
             ])
-            ->modifyQueryUsing(fn (Builder $query) => $query->orderBy('created_at', 'desc'));
+            ->modifyQueryUsing(function (Builder $query) use ($sizes) {
+                foreach($sizes as $size) {
+                    $query->addSelect([
+                        'size_'.$size->alias => ProductionGrid::select('qty')
+                            ->whereColumn('production_id', 'productions.id')
+                            ->where('size_id', $size->id)
+                            ->limit(1)
+                    ]);
+                }
+                return $query->orderBy('created_at', 'desc');
+            });
     }
 
     protected function getTableQuery(): Builder

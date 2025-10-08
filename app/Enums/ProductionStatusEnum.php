@@ -21,7 +21,7 @@ enum ProductionStatusEnum: string
             self::Pending => 'gray',
             self::Cutting => 'warning',
             self::Sewing => 'info',
-            self::Finishing => 'info',
+            self::Finishing => 'primary',
             self::Completed => 'success',
         };
     }
