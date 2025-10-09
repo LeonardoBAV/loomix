@@ -20,6 +20,7 @@ use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
@@ -115,14 +116,15 @@ class ProductionResource extends Resource
 
         return $table
             ->columns([
-                TextColumn::make('product.name')->label(__('resources.productions.table.product'))->sortable()->searchable(),
-                TextColumn::make('color.title')->label(__('resources.productions.table.color'))->sortable()->searchable(),
+                TextColumn::make('product.name')->label(__('resources.productions.table.product'))->description(fn (Production $record) => $record->color->title)->weight(FontWeight::Bold)->sortable()->searchable(),
+                //TextColumn::make('color.title')->label(__('resources.productions.table.color'))->sortable()->searchable(),
                 //...$sizes->map(function (Size $size) {
                 //    return TextColumn::make('size_'.$size->alias)->formatStateUsing(fn (Production $record) => $record->qty($size))->label($size->alias)->default(0);
                 //}),
                 ...$sizes->map(function (Size $size) {
                     return TextColumn::make('size_'.$size->alias)->summarize(Sum::make())->label($size->alias)->default(0);
                 }),
+                TextColumn::make('total_qty')->label(__('resources.productions.table.total_qty'))->summarize(Sum::make())->default(0),
                 TextColumn::make('status')->label(__('resources.productions.table.status'))->badge()->sortable()
                     ->getStateUsing(fn (Production $record) => __('enums.production_status.'.$record->status->value))
                     ->color(fn (Production $record) => $record->status->color()),
@@ -222,6 +224,8 @@ class ProductionResource extends Resource
                 
             ])
             ->modifyQueryUsing(function (Builder $query) use ($sizes) {
+                
+                // Adicionar subquery para cada tamanho
                 foreach($sizes as $size) {
                     $query->addSelect([
                         'size_'.$size->alias => ProductionGrid::select('qty')
@@ -230,6 +234,20 @@ class ProductionResource extends Resource
                             ->limit(1)
                     ]);
                 }
+
+                $query->withSum([
+                    'productionGrids as total_qty' => function (Builder $q) {
+                    }
+                ], 'qty');
+                                    
+                /*$query->addSelect([
+                    'total_qty' => ProductionGrid::select('qty')
+                        ->whereColumn('production_id', 'productions.id')
+                        ->where('size_id', 1)
+                        ->sum('qty')
+                ]);*/
+
+               
                 return $query->orderBy('created_at', 'desc');
             });
     }

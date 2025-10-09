@@ -136,6 +136,7 @@ return [
             'updated_at' => 'Atualizado em',
             'next' => 'Próximo',
             'previus' => 'Anterior',
+            'total_qty' => 'Total',
             'filter' => [
                 'status' => 'Estado da Produção',
                 'button' => 'Filtrar',
