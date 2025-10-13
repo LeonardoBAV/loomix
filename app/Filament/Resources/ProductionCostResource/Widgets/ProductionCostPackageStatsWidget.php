@@ -24,7 +24,7 @@ class ProductionCostPackageStatsWidget extends BaseWidget
         return [
             Stat::make(
                 __('resources.production_costs.widgets.stats.total_weight'),
-                $total_weight
+                number_format($total_weight, 0, ',', '.')
             )
                 ->description(__('resources.production_costs.widgets.stats.total_weight_description'))
                 ->descriptionIcon('heroicon-o-scale')
@@ -42,7 +42,7 @@ class ProductionCostPackageStatsWidget extends BaseWidget
             
             Stat::make(
                 __('resources.production_costs.widgets.stats.total_products'),
-                $total_products
+                number_format($total_products, 0, ',', '.')
             )
                 ->description(__('resources.production_costs.widgets.stats.total_products_description'))
                 ->descriptionIcon('heroicon-o-shopping-bag')
