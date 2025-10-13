@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\ProductCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,6 +21,7 @@ class ProductFactory extends Factory
             'name' => fake()->words(2, true),
             'code' => fake()->unique()->bothify('PRD-####'),
             'is_active' => fake()->boolean(),
+            'product_category_id' => ProductCategory::inRandomOrder()->first()?->id,
         ];
     }
 }

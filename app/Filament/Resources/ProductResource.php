@@ -8,9 +8,11 @@ use App\Filament\Resources\ProductResource\RelationManagers\LiningsRelationManag
 use App\Filament\Resources\ProductResource\RelationManagers\ShapesRelationManager;
 use App\Filament\Resources\ProductResource\RelationManagers\TrimsRelationManager;
 use App\Models\Product;
+use App\Models\ProductCategory;
 
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
@@ -73,6 +75,9 @@ class ProductResource extends Resource
                     ->schema([
                         TextInput::make('name')->required()->maxLength(255)->placeholder(__('Enter product name'))->translateLabel('name')->columnSpanFull(),
                         TextInput::make('code')->required()->maxLength(255)->unique(ignoreRecord: true)->placeholder(__('Enter product code'))->translateLabel('code'),
+                        Select::make('product_category_id')->label(__('resources.products.form.category'))->relationship('product_category', 'name')->searchable()->preload()->required()
+                            ->createOptionForm(ProductCategoryResource::formSchema()) //obs: tem coisa melkhor automatica do reouserce para pegar aqui
+                            ->editOptionForm(ProductCategoryResource::formSchema()),
                         TextInput::make('production_weight')->required()->numeric()->minValue(1)->translateLabel('production_weight'),
                         FileUpload::make('image')->image()->imageEditor()->disk('public')->directory('products')->columnSpanFull()->translateLabel('image'),
                         Toggle::make('is_active')->label('Status')->default(true)->visibleOn('edit')->translateLabel('Status'),
@@ -90,6 +95,7 @@ class ProductResource extends Resource
                     Group::make()->columnSpan(2)->columns(2)->schema([  
                         TextEntry::make('name')->translateLabel('name'),
                         TextEntry::make('code')->translateLabel('code'),
+                        TextEntry::make('product_category.name')->label(__('resources.products.infolist.category'))->icon('heroicon-o-tag'),
                         TextEntry::make('is_active')->label('Status')->badge()
                             ->getStateUsing(fn (Product $record): string => $record->is_active ? __('Active') : __('Inactive'))
                             ->color(fn (Product $record): string => $record->is_active ? 'primary' : 'gray'),
@@ -108,6 +114,7 @@ class ProductResource extends Resource
             ->columns([
                 TextColumn::make('name')->sortable()->searchable()->description(fn (Product $product): string => $product->code)->translateLabel('name'),
                 ImageColumn::make('image')->disk('public')->circular()->translateLabel('image'),
+                TextColumn::make('product_category.name')->label(__('resources.products.table.category'))->sortable()->searchable()->icon('heroicon-o-tag'),
                 //TextColumn::make('totalSampleCost')->label('Total cost')->sortable()->searchable()->money('BRL', locale: 'pt_BR')->translateLabel('Total cost'),
                 TextColumn::make('is_active')->label('Status')->translateLabel('Status')->badge()
                     ->getStateUsing(fn (Product $record): string => $record->is_active ? __('Active') : __('Inactive'))
@@ -117,6 +124,12 @@ class ProductResource extends Resource
                 TextColumn::make('updated_at')->dateTime('d/m/Y H:i')->sortable()->toggleable(isToggledHiddenByDefault: true)->translateLabel('updated_at'),
             ])
             ->filters([
+                SelectFilter::make('product_category_id')
+                    ->label(__('resources.products.table.filter.category'))
+                    ->relationship('product_category', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
                 Filter::make('created_at')
                     ->form([
                         DatePicker::make('created_from'),

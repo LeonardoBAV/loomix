@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\ProductionCostResource\RelationManagers;
 
+use App\Filament\Resources\ProductionCostResource\Widgets\CategoryDistributionChart;
+use App\Filament\Resources\ProductionCostResource\Widgets\ProductionCostStatsWidget;
 use App\Filament\Resources\ProductResource;
 use App\Helpers\UtilHelper;
 use Filament\Forms;
@@ -21,6 +23,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\HtmlString;
+use Livewire\Livewire;
 
 class ProductionCostProductionsRelationManager extends RelationManager
 {
@@ -54,8 +59,7 @@ class ProductionCostProductionsRelationManager extends RelationManager
                     ->icon('heroicon-m-arrow-top-right-on-square')
                     ->color('primary')
                     ->url(fn ($record) => ProductResource::getUrl('view', ['record' => $record->product])),
-                TextColumn::make('count')->label(__('resources.production_costs.relation_managers.productions.table.count'))
-                    ->summarize(Sum::make()),
+                TextColumn::make('count')->label(__('resources.production_costs.relation_managers.productions.table.count')),
                 TextColumn::make('cost_material')->label(__('resources.production_costs.relation_managers.productions.table.material'))->money('BRL', locale: 'pt_BR')->badge()->color('success')->formatStateUsing(fn ($record) => UtilHelper::formatMoney($record->product->supply_cost))->default(0),
                 TextColumn::make('cost')->label(__('resources.production_costs.relation_managers.productions.table.cost'))->money('BRL', locale: 'pt_BR')->badge()->color('success'),
                 TextColumn::make('10%')->label(__('10%'))->badge()->color('info')->formatStateUsing(fn ($record) => UtilHelper::formatMoney($this->calculateSalePrice($record, 10)))->default(0),
@@ -84,4 +88,5 @@ class ProductionCostProductionsRelationManager extends RelationManager
     {
         return ((($percent*($record->product->supply_cost+$record->cost))/(80-$percent) ) * 100)/ ($percent);
     }
+
 }

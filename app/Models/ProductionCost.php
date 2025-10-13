@@ -42,4 +42,53 @@ class ProductionCost extends Model
             get: fn () => $this->productionCostExpenses->sum('value'),
         );
     }
+
+    
+    
+    
+    
+    
+    /**
+     * Retorna a distribuição de categorias de produtos com percentuais
+     * para uso no gráfico de pizza
+     */
+    public function getCategoryDistribution(): array
+    {
+        $productions = $this->productionCostProductions()
+            ->with('product.product_category')
+            ->get();
+        
+        $total = $productions->sum('count');
+        
+        if ($total === 0) {
+            return [];
+        }
+        
+        $distribution = $productions
+            ->groupBy(fn($item) => $item->product->product_category?->name ?? 'Sem Categoria')
+            ->map(function ($items) use ($total) {
+                $category_total = $items->sum('count');
+                return [
+                    'count' => $category_total,
+                    'percentage' => round(($category_total / $total) * 100, 2),
+                ];
+            })
+            ->sortByDesc('count');
+        
+        return $distribution->toArray();
+    }
+
+    public function getTotalWeight(): float
+    {
+        return $this->productionCostProductions()->with('product')->get()
+            ->sum(function ($production) {
+                $weight = $production->product->production_weight ?? 0;
+                return $weight * $production->count;
+            });
+    }
+
+    public function getTotalPieces(): int
+    {
+        return $this->productionCostProductions()->sum('count');
+    }
 } 

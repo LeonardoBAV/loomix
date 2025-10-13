@@ -53,6 +53,20 @@ return [
                 ],
             ],
         ],
+        'widgets' => [
+            'category_distribution' => [
+                'heading' => 'Distribuição por Categoria',
+                'description' => 'Total de :total peças',
+            ],
+            'stats' => [
+                'total_pieces' => 'Total de Peças',
+                'total_pieces_description' => 'Quantidade total de peças',
+                'total_weight' => 'Peso Total',
+                'total_weight_description' => 'Peso total da produção',
+                'total_products' => 'Produtos',
+                'total_products_description' => 'Quantidade de produtos diferentes',
+            ],
+        ],
     ],
     'sizes' => [
         'navigation_label' => 'Tamanhos',
@@ -65,6 +79,32 @@ return [
         'table' => [
             'title' => 'Título',
             'alias' => 'Alias',
+        ],
+    ],
+    'products' => [
+        'form' => [
+            'category' => 'Categoria',
+        ],
+        'table' => [
+            'category' => 'Categoria',
+            'filter' => [
+                'category' => 'Categoria',
+            ],
+        ],
+        'infolist' => [
+            'category' => 'Categoria',
+        ],
+    ],
+    'product_categories' => [
+        'navigation_label' => 'Categorias de Produtos',
+        'model_label' => 'Categoria de Produto',
+        'plural_model_label' => 'Categorias de Produtos',
+        'form' => [
+            'name' => 'Nome',
+        ],
+        'table' => [
+            'name' => 'Nome',
+            'products' => 'Produtos',
         ],
     ],
     'colors' => [
@@ -167,11 +207,22 @@ return [
             ],
         ],
     ],
+    'product_categories' => [
+        'navigation_label' => 'Categorias de Produtos',
+        'model_label' => 'Categoria de Produto',
+        'plural_model_label' => 'Categorias de Produtos',
+        'form' => [
+            'name' => 'Nome',
+        ],
+        'table' => [
+            'name' => 'Nome',
+            'products' => 'Produtos',
+        ],
+    ],
     'menu' => [
         'manufacturing' => 'Fabricação',
         'variations' => 'Variações',
         'registrations' => 'Cadastros',
         'fabrication' => 'Fabricação',
     ],
-
 ];
