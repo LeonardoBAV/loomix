@@ -86,7 +86,7 @@ class ProductionCostProductionsRelationManager extends RelationManager
 
     private function calculateSalePrice($record , $percent): float
     {
-        return ((($percent*($record->product->supply_cost+$record->cost))/(80-$percent) ) * 100)/ ($percent);
+        return ceil(((($percent*($record->product->supply_cost+$record->cost))/(80-$percent) ) * 100)/ ($percent));
     }
 
 }
