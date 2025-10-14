@@ -6,6 +6,9 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\FabricShape;
 use App\Observers\FabricShapeObserver;
 use Illuminate\Support\Facades\URL;
+use Filament\Http\Responses\Auth\Contracts\LoginResponse as FilamentLoginResponse;
+use App\Http\Responses\LoginResponse;
+
 
 
 class AppServiceProvider extends ServiceProvider
@@ -28,6 +31,11 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.force_https')) {
             URL::forceScheme('https');
         }
+
+        $this->app->singleton(
+            FilamentLoginResponse::class,
+            LoginResponse::class
+        );
 
     }
 }
