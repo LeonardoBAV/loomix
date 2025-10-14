@@ -67,10 +67,10 @@ class ProductionResource extends Resource
             ->filters([
             ])
             ->actions([
-                Action::make('previus')->label(__('resources.productions.table.previus'))->icon('fas-arrow-left')->color('primary')->button()
+                Action::make('previus')->label('')->icon('fas-arrow-left')->color('primary')->button()
                 ->action(fn (Production $record) => $record->previusStep())
                 ->visible(fn (Production $record) => $record->status !== ProductionStatusEnum::Pending),
-                Action::make('next')->label(__('resources.productions.table.next'))->icon('fas-arrow-right')->color('info')->button()
+                Action::make('next')->label('')->icon('fas-arrow-right')->color('info')->button()
                     ->action(fn (Production $record) => $record->nextStep())
                     ->visible(fn (Production $record) => $record->status !== ProductionStatusEnum::Completed),
             ])
