@@ -53,9 +53,9 @@ class ProductionResource extends Resource
             ->columns([
                 TextColumn::make('product.name')->label(__('resources.productions.table.product'))->description(fn (Production $record) => $record->color->title)->weight(FontWeight::Bold)->sortable(),
                 ...$sizes->map(function (Size $size) {
-                    return TextColumn::make('size_'.$size->alias)->summarize(Sum::make())->label($size->alias)->default(0);
+                    return TextColumn::make('size_'.$size->alias)->label($size->alias)->default(0);
                 }),
-                TextColumn::make('total_qty')->label(__('resources.productions.table.total_qty'))->summarize(Sum::make())->default(0),
+                TextColumn::make('total_qty')->label(__('resources.productions.table.total_qty'))->default(0),
                 TextColumn::make('status')->label(__('resources.productions.table.status'))->badge()
                     ->getStateUsing(fn (Production $record) => __('enums.production_status.'.$record->status->value))
                     ->color(fn (Production $record) => $record->status->color()),
