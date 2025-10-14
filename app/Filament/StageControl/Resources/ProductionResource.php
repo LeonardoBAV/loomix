@@ -95,7 +95,7 @@ class ProductionResource extends Resource
                 $query->whereNull('date_completed');
                                       
                 return $query->orderBy('created_at', 'desc');
-            });
+            })->paginated(false);
     }
 
     public static function getPages(): array
