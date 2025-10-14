@@ -55,13 +55,13 @@ class ProductionResource extends Resource
                 ...$sizes->map(function (Size $size) {
                     return TextColumn::make('size_'.$size->alias)->label($size->alias)->default(0);
                 }),
-                TextColumn::make('total_qty')->label(__('resources.productions.table.total_qty'))->default(0),
+                //TextColumn::make('total_qty')->label(__('resources.productions.table.total_qty'))->default(0),
                 TextColumn::make('status')->label(__('resources.productions.table.status'))->badge()
                     ->getStateUsing(fn (Production $record) => __('enums.production_status.'.$record->status->value))
                     ->color(fn (Production $record) => $record->status->color()),
-                TextColumn::make('client.name')->label(__('resources.productions.table.client'))->sortable(),
-                TextColumn::make('cutter.name')->label(__('resources.productions.table.cutter'))->sortable(),
-                TextColumn::make('date_started')->label(__('resources.productions.table.date_started'))->date('d/m/Y')->sortable(),
+                //TextColumn::make('client.name')->label(__('resources.productions.table.client'))->sortable(),
+                //TextColumn::make('cutter.name')->label(__('resources.productions.table.cutter'))->sortable(),
+                //TextColumn::make('date_started')->label(__('resources.productions.table.date_started'))->date('d/m/Y')->sortable(),
 
             ])
             ->filters([
