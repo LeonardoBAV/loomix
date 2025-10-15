@@ -40,6 +40,8 @@ return [
             'productions' => [
                 'title' => 'Produções',
                 'create' => 'Adicionar Produção',
+                'quick_building' => 'Pacote Rápido',
+                'qty' => 'Quantidade',
                 'form' => [
                     'product' => 'Produto',
                     'count' => 'Quantidade',

@@ -237,5 +237,8 @@ return [
         'blood_type' => 'tipo sanguíneo',
         'birth_date' => 'data de nascimento'
     ],
+    'form' => [
+        'sum' => 'A soma dos valores foi :value%, mas deveria ser :expected%.',
+    ],
 
 ];

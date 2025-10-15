@@ -43,6 +43,11 @@ class ProductionCost extends Model
         );
     }
 
+    public function clearPackage(): void
+    {
+        $this->productionCostProductions()->delete();
+    }
+
     
     
     
@@ -52,7 +57,7 @@ class ProductionCost extends Model
      * Retorna a distribuição de categorias de produtos com percentuais
      * para uso no gráfico de pizza
      */
-    public function getCategoryDistribution(): array
+    /*public function getCategoryDistribution(): array
     {
         $productions = $this->productionCostProductions()
             ->with('product.product_category')
@@ -76,7 +81,7 @@ class ProductionCost extends Model
             ->sortByDesc('count');
         
         return $distribution->toArray();
-    }
+    }*/
 
     public function getTotalWeight(): float
     {

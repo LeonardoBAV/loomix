@@ -16,4 +16,12 @@ return [
             'production_updated' => 'Produção atualizada com sucesso',
         ],
     ],
+
+    'body' => [
+        'actions' => [
+            'production_cost_packge_auto_build' => 'Pacote de produção criado com sucesso',
+        ],
+    ],
+
+ 
 ];

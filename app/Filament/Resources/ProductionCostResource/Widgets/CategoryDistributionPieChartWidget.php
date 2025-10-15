@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ProductionCostResource\Widgets;
 
+use App\Actions\CategoryDistributionOfPCAction;
 use App\Models\ProductionCost;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Database\Eloquent\Model;
@@ -58,7 +59,8 @@ class CategoryDistributionPieChartWidget extends ChartWidget
             ];
         }
 
-        $distribution = $this->record->getCategoryDistribution();
+        //$distribution = $this->record->getCategoryDistribution();
+        $distribution = (new CategoryDistributionOfPCAction())->execute($this->record);
 
         if (empty($distribution)) {
             return [
@@ -76,16 +78,16 @@ class CategoryDistributionPieChartWidget extends ChartWidget
         $counts = array_column($distribution, 'count');
         $percentages = array_column($distribution, 'percentage');
 
-        // Cores vibrantes para o gráfico
+        // cores menos vibrantes
         $colors = [
-            '#3b82f6', // blue
-            '#10b981', // green
-            '#f59e0b', // amber
-            '#ef4444', // red
-            '#8b5cf6', // violet
-            '#ec4899', // pink
-            '#06b6d4', // cyan
-            '#f97316', // orange
+            '#3b82f6', 
+            '#10b981', 
+            '#f59e0b', 
+            '#ef4444', 
+            '#8b5cf6', 
+            '#ec4899', 
+            '#06b6d4', 
+            '#f97316', 
         ];
 
         return [
