@@ -96,7 +96,7 @@ class ProductionCostProductionsRelationManager extends RelationManager
                                 ->numeric()
                                 ->minValue(1)
                                 ->maxValue(100)
-                                ->placeholder((int)(100/$product_categories->count()))
+                                ->default((int)(100/$product_categories->count()))
                                 ->required()
                                 ->suffixIcon('heroicon-o-percent-badge')
                                 ->hint((int) $product_category->average_weight)
