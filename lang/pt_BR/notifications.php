@@ -11,4 +11,9 @@ return [
     'default_updated_error' => 'Erro ao atualizar o padrão',
     'default_updated_warning' => 'Atenção ao atualizar o padrão',
 
+    'production' => [
+        'observer' => [
+            'production_updated' => 'Produção atualizada com sucesso',
+        ],
+    ],
 ];
