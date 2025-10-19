@@ -58,7 +58,7 @@ class ShapesRelationManager extends RelationManager
                 TextColumn::make('fabrics.name')->listWithLineBreaks()->translateLabel('fabrics'),
                 TextColumn::make('fabricShapes.usage')->label('Usage')->translateLabel('Usage')->listWithLineBreaks()->suffix('gr'),
                 TextColumn::make('fabricShapes.cost')->label('Cost')->translateLabel('Cost')->money('BRL', locale: 'pt_BR')->listWithLineBreaks(),
-                ImageColumn::make('sample_image')
+                /*ImageColumn::make('sample_image')
                     ->getStateUsing(function (Shape $shape) {
                         $fabric_shape = $shape->fabricShapes()
                             ->whereSample(true)
@@ -67,7 +67,7 @@ class ShapesRelationManager extends RelationManager
                         return $fabric_shape?->image ?? null;
                     })
                     ->defaultImageUrl('https://placehold.co/400x400/png?text=No+Image')
-                    ->circular()->label('Image')->translateLabel('Image'),
+                    ->circular()->label('Image')->translateLabel('Image'),*/
                 TextColumn::make('created_at')->dateTime('d/m/Y H:i')->sortable()->toggleable(isToggledHiddenByDefault: true)->translateLabel('created_at'),
             ])
             ->filters([])

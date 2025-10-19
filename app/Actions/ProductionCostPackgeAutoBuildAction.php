@@ -15,7 +15,6 @@ class ProductionCostPackgeAutoBuildAction
 
     public function execute(ProductionCost $production_cost, int $qty, Collection $percentages): void
     {
-        //remove all production cost productions
         $production_cost->clearPackage();
 
         $percentages = $percentages->map(fn($percentage) => ['product_category_id' => $percentage['product_category_id'], 'percentage' => $percentage['percentage'], 'qty' => ($percentage['percentage'] * $qty / 100)]);

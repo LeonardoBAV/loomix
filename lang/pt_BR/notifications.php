@@ -21,7 +21,25 @@ return [
         'actions' => [
             'production_cost_packge_auto_build' => 'Pacote de produção criado com sucesso',
         ],
+        'resources' => [
+            'products' => [
+                'relation_managers' => [
+                    'product_arrangements' => [
+                        'table' => [
+                            'created' => 'Arranjo criado com sucesso',
+                            'default_updated' => 'Arranjo padrão atualizado com sucesso',
+                            'at_least_one_default_required' => 'Pelo menos um arranjo deve ser padrão',
+                            'arrangement_already_exists' => 'Arranjo já existe',
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'observer' => [
+            'product_arrangement' => [
+                'at_least_one_default_required' => 'Pelo menos um arranjo deve ser padrão',
+            ],
+        ],
     ],
 
- 
 ];

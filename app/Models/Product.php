@@ -45,28 +45,26 @@ class Product extends Model
         return $this->hasMany(ProductTrim::class);
     }
 
-    public function lining_products(): HasMany
-    {
-        return $this->hasMany(LiningProduct::class);
-    }
-
-    public function linings(): BelongsToMany
-    {
-        return $this->belongsToMany(Lining::class)->withPivot('quantity', 'total')->using(LiningProduct::class);
-    }
 
     public function fabric_shapes(): HasManyThrough
     {
         return $this->hasManyThrough(FabricShape::class, Shape::class);
     }
 
-    /**
-     * Relacionamento com Productions
-     */
-    public function productionItems(): HasMany
+    public function productArrangements(): HasMany
+    {
+        return $this->hasMany(ProductArrangement::class);
+    }
+
+    public function productionCostProductions(): HasMany
+    {
+        return $this->hasMany(ProductionCostProduction::class);
+    }
+
+    /*public function productionItems(): HasMany
     {
         return $this->hasMany(ProductionItem::class);
-    }
+    }*/
 
     public function getCostAttribute(): float
     {
@@ -83,8 +81,17 @@ class Product extends Model
 
     protected function fabricCost(): Attribute
     {
+        /*$fabric_shapes = $this->fabric_shapes()->whereHas('productArrangements', function ($query) {
+            $query->whereDefault(true);
+            $query->whereProductId($this->id);
+        })->sum('cost');*/
+        $id = $this->id;
+        //$this->productArrangements()->whereDefault(true)->sum('cost');
         return Attribute::make(
-            get: fn () => $this->fabric_shapes()->whereSample(true)->sum('cost'),
+            get: fn () => $this->fabric_shapes()->whereHas('productArrangements', function ($query) use ($id) {
+                $query->whereDefault(true);
+                $query->whereProductId($id);
+            })->sum('cost'),
         );
     }
 
@@ -100,6 +107,21 @@ class Product extends Model
         return self::whereProductCategoryId($category_id)->get();
     }
 
+    public function switchDefaultProductArrangement(ProductArrangement | int $product_arrangement): void
+    {
+        if(!$product_arrangement instanceof ProductArrangement) {
+            $product_arrangement = ProductArrangement::find($product_arrangement);
+        }
+        
+        $this->productArrangements()->whereDefault(true)->update(['default' => false]);
+        $product_arrangement->update(['default' => true]);
+    }
+
+    public function hasDefaultProductArrangement(): bool
+    { 
+        return $this->productArrangements()->whereDefault(true)->exists();
+    }
+     
     /*protected function totalSampleCost(): Attribute
     {
         return Attribute::make(

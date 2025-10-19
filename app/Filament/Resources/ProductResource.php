@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ProductResource\Pages\ListProducts;
 use App\Filament\Resources\ProductResource\Pages\ViewProduct;
-use App\Filament\Resources\ProductResource\RelationManagers\LiningsRelationManager;
+use App\Filament\Resources\ProductResource\RelationManagers\ProductArrangementsRelationManager;
 use App\Filament\Resources\ProductResource\RelationManagers\ShapesRelationManager;
 use App\Filament\Resources\ProductResource\RelationManagers\TrimsRelationManager;
 use App\Models\Product;
@@ -27,6 +27,7 @@ use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\Section as SectionInfolists;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Actions\BulkAction;
@@ -112,8 +113,8 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->sortable()->searchable()->description(fn (Product $product): string => $product->code)->translateLabel('name'),
-                ImageColumn::make('image')->disk('public')->circular()->translateLabel('image'),
+                ImageColumn::make('image')->disk('public')->circular()->translateLabel('image')->width('40px')->defaultImageUrl('https://placehold.co/400x400/png?text=No+Image'),
+                TextColumn::make('name')->sortable()->searchable()->weight(FontWeight::Bold)->description(fn (Product $product): string => $product->code)->translateLabel('name'),
                 TextColumn::make('product_category.name')->label(__('resources.products.table.category'))->sortable()->searchable()->icon('heroicon-o-tag'),
                 //TextColumn::make('totalSampleCost')->label('Total cost')->sortable()->searchable()->money('BRL', locale: 'pt_BR')->translateLabel('Total cost'),
                 TextColumn::make('is_active')->label('Status')->translateLabel('Status')->badge()
@@ -177,9 +178,9 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
+            ProductArrangementsRelationManager::class,
             ShapesRelationManager::class,
             TrimsRelationManager::class,
-            //LiningsRelationManager::class,
         ];
     }
 

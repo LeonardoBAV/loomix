@@ -48,7 +48,7 @@ class ProductionCostResource extends Resource
 
     public static function getNavigationGroup(): string
     {
-        return __('resources.menu.manufacturing');
+        return __('resources.menu.commercial');
     }
 
     public static function getModelLabel(): string

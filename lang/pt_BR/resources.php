@@ -52,6 +52,7 @@ return [
                     'count' => 'Quantidade',
                     'cost' => 'C.O.',
                     'material' => 'C.I.',
+                    'total' => 'Total',
                 ],
             ],
         ],
@@ -95,6 +96,22 @@ return [
         ],
         'infolist' => [
             'category' => 'Categoria',
+        ],
+        'relation_managers' => [
+            'product_arrangements' => [
+                'title' => 'Arranjos',
+                'form' => [
+                    'default' => 'Padrão',
+                ],
+                'table' => [
+                    'create' => 'Criar Arranjo',
+                    'default' => 'Padrão',
+                    'shapes' => 'Formas',   
+                    'fabric' => 'Tecido',
+                    'count' => 'Quantidade',
+                    'cost' => 'Custo Por Arranjo',
+                ],
+            ],
         ],
     ],
     'product_categories' => [
@@ -226,5 +243,6 @@ return [
         'variations' => 'Variações',
         'registrations' => 'Cadastros',
         'fabrication' => 'Fabricação',
+        'commercial' => 'Comercial',
     ],
 ];

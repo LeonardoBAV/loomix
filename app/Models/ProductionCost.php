@@ -48,6 +48,11 @@ class ProductionCost extends Model
         $this->productionCostProductions()->delete();
     }
 
+    public static function loadDefault(): ProductionCost|null
+    {
+        return ProductionCost::whereDefault(true)->first();
+    }
+
     
     
     

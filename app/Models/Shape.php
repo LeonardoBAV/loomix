@@ -29,4 +29,9 @@ class Shape extends Model
     {
         return $this->belongsToMany(Fabric::class);
     }
+
+    public static function listByProductId($product_id, $relations = [])
+    {
+        return self::whereProductId($product_id)->with($relations)->get();
+    }
 }

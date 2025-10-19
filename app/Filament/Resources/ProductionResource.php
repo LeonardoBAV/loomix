@@ -43,8 +43,7 @@ class ProductionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office';
 
-    protected static ?int $navigationSort = 1;
-
+    protected static ?int $navigationSort = 3;
 
 
     public static function getNavigationLabel(): string
