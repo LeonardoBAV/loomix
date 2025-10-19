@@ -21,7 +21,7 @@ class CostProductWidget extends BaseWidget
 
     protected function getStats(): array
     {
-        $supply_cost = $this->record->supply_cost;
+        $supply_cost = $this->record->fabric_cost + $this->record->trims_cost;
         $production_cost = $this->getProductionCost();
         $total_cost = $supply_cost + $production_cost;
         

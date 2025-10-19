@@ -70,9 +70,9 @@ class ProductionCostProductionsRelationManager extends RelationManager
                     ->color('primary')
                     ->url(fn ($record) => ProductResource::getUrl('view', ['record' => $record->product])),
                 TextColumn::make('count')->label(__('resources.production_costs.relation_managers.productions.table.count')),
-                TextColumn::make('cost_material')->label(__('resources.production_costs.relation_managers.productions.table.material'))->money('BRL', locale: 'pt_BR')->badge()->color('success')->formatStateUsing(fn ($record) => UtilHelper::formatMoney($record->product->supply_cost))->default(0),
+                //TextColumn::make('cost_material')->label(__('resources.production_costs.relation_managers.productions.table.material'))->money('BRL', locale: 'pt_BR')->badge()->color('success')->formatStateUsing(fn ($record) => UtilHelper::formatMoney($record->product->supply_cost))->default(0),
                 TextColumn::make('cost')->label(__('resources.production_costs.relation_managers.productions.table.cost'))->money('BRL', locale: 'pt_BR')->badge()->color('success'),
-                TextColumn::make('total')->label(__('resources.production_costs.relation_managers.productions.table.total'))->money('BRL', locale: 'pt_BR')->badge()->color('success')->formatStateUsing(fn ($record) => UtilHelper::formatMoney($record->product->supply_cost+$record->cost))->default(0),
+                //TextColumn::make('total')->label(__('resources.production_costs.relation_managers.productions.table.total'))->money('BRL', locale: 'pt_BR')->badge()->color('success')->formatStateUsing(fn ($record) => UtilHelper::formatMoney($record->product->supply_cost+$record->cost))->default(0),
 
                 //TextColumn::make('10%')->label(__('10%'))->badge()->color('info')->formatStateUsing(fn ($record) => UtilHelper::formatMoney($this->calculateSalePrice($record, 10)))->default(0),
                 //TextColumn::make('20%')->label(__('20%'))->badge()->color('info')->formatStateUsing(fn ($record) => UtilHelper::formatMoney($this->calculateSalePrice($record, 20)))->default(0),
@@ -140,9 +140,9 @@ class ProductionCostProductionsRelationManager extends RelationManager
             ]);
     }
 
-    private function calculateSalePrice($record , $percent): float
+    /*private function calculateSalePrice($record , $percent): float
     {
         return ((($percent*($record->product->supply_cost+$record->cost))/(80-$percent) ) * 100)/ ($percent);
-    }
+    }*/
 
 }

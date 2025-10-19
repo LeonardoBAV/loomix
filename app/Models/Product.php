@@ -72,12 +72,12 @@ class Product extends Model
     }
 
 
-    protected function supplyCost(): Attribute
+    /*protected function supplyCost(): Attribute
     {
         return Attribute::make(
             get: fn () => $this->fabricCost + $this->trimsCost,
         );
-    }
+    }*/
 
     protected function fabricCost(): Attribute
     {
@@ -100,6 +100,11 @@ class Product extends Model
         return Attribute::make(
             get: fn () => $this->product_trims()->sum('total'),
         );
+    }
+
+    public function materialCost(ProductArrangement $product_arrangement): float
+    {
+        return $product_arrangement->fabricShapes()->sum('cost') + $this->trimsCost;
     }
 
     public static function listByCategoryId(int $category_id): Collection
