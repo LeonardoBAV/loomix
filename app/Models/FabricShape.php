@@ -18,8 +18,6 @@ class FabricShape extends Model
         'shape_id',
         'usage',
         'cost',
-        'image',
-        'sample',
     ];
 
     public function fabric()

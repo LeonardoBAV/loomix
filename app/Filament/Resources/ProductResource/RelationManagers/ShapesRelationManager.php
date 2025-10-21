@@ -12,7 +12,6 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ImageColumn;
 use App\Models\Fabric;
 use App\Models\Shape;
 use Filament\Tables\Actions\Action;
@@ -91,15 +90,11 @@ class ShapesRelationManager extends RelationManager
                     ->form([
                         Select::make('fabric_id')->label('Fabric')->translateLabel('Fabric')->options(Fabric::pluck('name', 'id'))->required()->searchable()->preload(),
                         TextInput::make('usage')->required()->numeric()->minValue(1)->placeholder(__('Enter fabric usage'))->translateLabel('usage')->suffix('gr'),
-                        FileUpload::make('image')->image()->directory('fabric-shapes')->preserveFilenames()->imageResizeMode('cover')->imageCropAspectRatio('16:9')->imageResizeTargetWidth('1920')->imageResizeTargetHeight('1080')->translateLabel('image'),
-                        Toggle::make('sample')->label('sample')->translateLabel('sample')->default(false),
                     ])
                     ->action(function (array $data, $record) {
                         $record->fabricShapes()->create([
                             'fabric_id' => $data['fabric_id'],
                             'usage' => $data['usage'],
-                            'image' => $data['image'],
-                            'sample' => $data['sample'],
                         ]);
                     }),
                 ]),

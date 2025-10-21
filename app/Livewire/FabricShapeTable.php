@@ -32,8 +32,6 @@ class FabricShapeTable extends Component implements HasForms, HasTable
             TextColumn::make('fabric.name')->label('Name')->translateLabel('Name'),
             TextColumn::make('usage')->label('Usage')->translateLabel('Usage')->formatStateUsing(fn ($state) => $state . ' gr'),
             TextColumn::make('cost')->label('Cost')->translateLabel('Cost')->money('BRL', locale: 'pt_BR'),
-            ToggleColumn::make('sample')->label('Sample')->translateLabel('Sample'),
-            ImageColumn::make('image')->disk('public')->label('Image')->translateLabel('Image'),
         ])->actions([
             Action::make('delete')
                 ->label('Delete')->translateLabel('Delete')
