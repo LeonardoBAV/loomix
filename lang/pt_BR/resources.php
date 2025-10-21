@@ -102,6 +102,7 @@ return [
                 'title' => 'Arranjos',
                 'form' => [
                     'default' => 'Padrão',
+                    'sale_price' => 'Preço de Venda',
                 ],
                 'table' => [
                     'create' => 'Criar Arranjo',
@@ -110,6 +111,7 @@ return [
                     'fabric' => 'Tecido',
                     'count' => 'Quantidade',
                     'cost' => 'Custo Por Arranjo',
+                    'sale_price' => 'Preço de Venda',
                 ],
             ],
         ],

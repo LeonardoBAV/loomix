@@ -16,6 +16,7 @@ class ProductArrangement extends Model
     protected $fillable = [
         'product_id',
         'default',
+        'sale_price',
     ];
 
     protected $casts = [

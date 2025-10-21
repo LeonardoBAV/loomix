@@ -60,7 +60,7 @@ class ProductionCostProductionsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         $product_categories = ProductCategory::listAllProductsCategoriesWithProducts(['products']);
-        $product_category_id_last = $product_categories->last()->id;
+        $product_category_id_last = $product_categories->last()->id ?? null;
 
         return $table
             ->recordTitleAttribute('product.name')

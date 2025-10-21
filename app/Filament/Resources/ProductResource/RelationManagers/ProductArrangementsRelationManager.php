@@ -6,6 +6,7 @@ use App\Models\ProductArrangement;
 use App\Models\Shape;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -14,6 +15,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -44,8 +46,9 @@ class ProductArrangementsRelationManager extends RelationManager
         return $form
             ->schema([
                 ...$shapes->map(function (Shape $shape) {
-                    return Select::make('shape_id_'.$shape->id)->label($shape->name)->options($shape->fabricShapes->pluck('fabric.name', 'id'))->required();
-                })
+                    return Select::make('shape_id_'.$shape->id)->label($shape->name)->options($shape->fabricShapes->pluck('fabric.name', 'id'))->required()->hiddenOn('edit');
+                }),
+                TextInput::make('sale_price')->label(__('resources.products.relation_managers.product_arrangements.form.sale_price'))->required()->numeric()->minValue(0)->hiddenOn('create'),
             ]);
     }
 
@@ -81,14 +84,15 @@ class ProductArrangementsRelationManager extends RelationManager
                 
                 TextColumn::make('fabricShapes_sum_cost')->label(__('resources.products.relation_managers.product_arrangements.table.cost'))->getStateUsing(function (ProductArrangement $product_arrangement) {
                     return $product_arrangement->fabricShapes()->sum('cost');
-                })->money('BRL', locale: 'pt_BR')->badge()->color('success'),
-
+                })->money('BRL', locale: 'pt_BR')->badge()->color('info')->alignCenter(),
+                TextColumn::make('sale_price')->label(__('resources.products.relation_managers.product_arrangements.table.sale_price'))->money('BRL', locale: 'pt_BR')->badge()->color('success')->default('N/A')->alignCenter(),
 
                 TextColumn::make('updated_at')->dateTime('d/m/Y H:i')->sortable()->translateLabel('updated_at')->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')->dateTime('d/m/Y H:i')->sortable()->translateLabel('created_at')->toggleable(isToggledHiddenByDefault: true),
             ])
             ->actions([
                 DeleteAction::make(),
+                EditAction::make(),
             ])
             ->headerActions([
                 CreateAction::make()

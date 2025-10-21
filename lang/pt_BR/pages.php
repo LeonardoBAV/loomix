@@ -20,6 +20,7 @@ return [
             'arrangements_count' => 'Arranjos cadastrados: :count',
             'production_cost' => 'Custo de Produção',
             'production_total_cost' => 'Custo Total',
+            'sale_price' => 'Preço de Venda',
         ],
     ],
     'menu' => [

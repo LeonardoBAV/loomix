@@ -84,21 +84,23 @@ class PriceListPage extends Page implements HasForms, HasTable
             TextColumn::make('productionTotalCost')->label(__('pages.price_list.table.production_total_cost'))->money('BRL', locale: 'pt_BR')->badge()->color('info')
                 ->getStateUsing(fn ($record) => (($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)))->alignCenter(),
 
-            TextColumn::make('30%')->money('BRL', locale: 'pt_BR')->badge()->color('success')
+            TextColumn::make('30%')->money('BRL', locale: 'pt_BR')->badge()->color('primary')
                 ->getStateUsing(fn ($record) => $this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 30))
                 ->alignCenter()
                 //font smaller of the description
                 ->description(fn ($record) => new HtmlString('<span class="text-xs text-gray-500">' . UtilHelper::formatMoney($this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 30) * 0.3 ) . '</span>')),
 
-            TextColumn::make('35%')->money('BRL', locale: 'pt_BR')->badge()->color('success')
+            TextColumn::make('35%')->money('BRL', locale: 'pt_BR')->badge()->color('primary')
                 ->getStateUsing(fn ($record) => $this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 35))
                 ->alignCenter()
                 ->description(fn ($record) => new HtmlString('<span class="text-xs text-gray-500">' . UtilHelper::formatMoney($this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 35) * 0.35 ) . '</span>')),
 
-            TextColumn::make('40%')->money('BRL', locale: 'pt_BR')->badge()->color('success')
+            TextColumn::make('40%')->money('BRL', locale: 'pt_BR')->badge()->color('primary')
                 ->getStateUsing(fn ($record) => $this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 40))
                 ->alignCenter()
                 ->description(fn ($record) => new HtmlString('<span class="text-xs text-gray-500">' . UtilHelper::formatMoney($this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 40) * 0.4 ) . '</span>')),
+
+            TextColumn::make('sale_price')->label(__('pages.price_list.table.sale_price'))->money('BRL', locale: 'pt_BR')->badge()->color('success')->default('N/A')->alignCenter(),
 
 
         ])->groups([
