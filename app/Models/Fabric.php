@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Observers\FabricObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+#[ObservedBy([FabricObserver::class])]
 class Fabric extends Model
 {
     use HasFactory;
