@@ -59,7 +59,6 @@ class CategoryDistributionPieChartWidget extends ChartWidget
             ];
         }
 
-        //$distribution = $this->record->getCategoryDistribution();
         $distribution = (new CategoryDistributionOfPCAction())->execute($this->record);
 
         if (empty($distribution)) {

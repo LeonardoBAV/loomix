@@ -17,9 +17,11 @@ class ProductionCostPackageStatsWidget extends BaseWidget
             return [];
         }
 
-        $total_weight = $this->record->getTotalWeight();
-        $total_pieces = $this->record->getTotalPieces();
-        $total_products = $this->record->productionCostProductions()->count();
+        $total_weight = $this->record->getTotalWeight(); // teste
+        $total_pieces = $this->record->getTotalPieces(); // test cover this in action and job
+        $total_products = $this->record->productionCostProductions()->count(); // test cover this in action and job
+
+        
 
         return [
             Stat::make(
