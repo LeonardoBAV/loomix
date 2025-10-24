@@ -16,6 +16,7 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Illuminate\Support\HtmlString;
@@ -103,13 +104,28 @@ class PriceListPage extends Page implements HasForms, HasTable
             TextColumn::make('sale_price')->label(__('pages.price_list.table.sale_price'))->money('BRL', locale: 'pt_BR')->badge()->color('success')->default('N/A')->alignCenter(),
 
 
-        ])->groups([
+        ])
+        ->groups([
             Group::make('product.id')
                 ->label(__('pages.price_list.table.product'))
                 ->getTitleFromRecordUsing(fn (ProductArrangement $record): string => $record->product->name)
                 ->getDescriptionFromRecordUsing(fn (ProductArrangement $record): string => __("pages.price_list.table.arrangements_count", ['count' => $record->product->productArrangements()->count()]))
                 ->collapsible()
         ])
+            ->filters([
+                SelectFilter::make('product_category_id')
+                    ->label(__('pages.price_list.table.filter.category'))
+                    ->relationship('product.product_category', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
+                SelectFilter::make('product_id')
+                    ->label(__('pages.price_list.table.filter.product'))
+                    ->relationship('product', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->multiple(),
+            ])
         ->defaultGroup('product.id')
         ->paginated(false);
         /*return $table

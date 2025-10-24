@@ -21,6 +21,10 @@ return [
             'production_cost' => 'Custo de Produção',
             'production_total_cost' => 'Custo Total',
             'sale_price' => 'Preço de Venda',
+            'filter' => [
+                'category' => 'Categoria',
+                'product' => 'Produto',
+            ],
         ],
     ],
     'menu' => [
