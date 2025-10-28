@@ -4,9 +4,55 @@ use App\Models\Product;
 use App\Models\ProductionCost;
 use App\Models\ProductionCostProduction;
 
-describe('ProductionCost getTotalWeight', function () {
+
+
+describe('getTotalWeight', function () {
     
-    it('calculates total weight with single product', function () {
+
+    it('calculates correctly', function (array $production_weights, array $counts, float $expected) {
+        // Arrange
+        $productionCost = ProductionCost::factory()->create();
+
+        foreach ($production_weights as $index => $production_weight) {
+            $product = Product::factory()->create(['production_weight' => $production_weight]);
+            ProductionCostProduction::factory()->create([
+                'production_cost_id' => $productionCost->id,
+                'product_id' => $product->id,
+                'count' => $counts[$index]
+            ]);
+        }
+        
+        // Act
+        $totalWeight = $productionCost->getTotalWeight();
+        
+        // Assert
+        expect($totalWeight)->toBe($expected); 
+    })->with('scenarios');
+
+    dataset('scenarios', [
+        'empty' => [
+            'production_weights' => [],
+            'counts' => [],
+            'expected' => 0.0,
+        ],
+        /*'zero production weight' => [ //obs: test in any production weight never be 0
+            'production_weights' => [0],
+            'counts' => [10],
+            'expected' => 0.0,
+        ],*/
+        'single product' => [
+            'production_weights' => [2.5],
+            'counts' => [10],
+            'expected' => 25.0,
+        ],
+        'multiple products' => [
+            'production_weights' => [2.5, 1.5, 0.5],
+            'counts' => [10, 5, 20],
+            'expected' => 42.5,
+        ],
+    ]);
+
+   /* it('calculates total weight with single product', function () {
         // Arrange
         $productionCost = ProductionCost::factory()->create();
         $product = Product::factory()->create(['production_weight' => 2.5]);
@@ -102,7 +148,7 @@ describe('ProductionCost getTotalWeight', function () {
         
         // Assert
         expect($totalWeight)->toBe(5.25); // 1.5 * 3.5
-    });
+    });*/
 });
 
 
