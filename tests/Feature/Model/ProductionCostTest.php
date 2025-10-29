@@ -10,13 +10,14 @@ describe('getTotalWeight', function () {
     it('calculates correctly', function (array $products_data, array $counts, float $expected) {
         //arrange
         $products = createProducts($products_data);
-        createProductionCostProductions(buildProductionCostProductionsData($this->production_cost, $products, $counts));
+        $production_cost_productions_data = buildProductionCostProductionsData($this->production_cost, $products, $counts);
+        createProductionCostProductions($production_cost_productions_data);
 
         // act
-        $totalWeight = $this->production_cost->getTotalWeight();
+        $total_weight = $this->production_cost->getTotalWeight();
         
         // assert
-        expect($totalWeight)->toBe($expected); 
+        expect($total_weight)->toBe($expected); 
     })->with('scenarios');
 
     dataset('scenarios', [
