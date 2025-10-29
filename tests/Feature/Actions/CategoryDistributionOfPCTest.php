@@ -11,7 +11,7 @@ use App\Models\ProductionCostProduction;
 it('calculates correctly', function ($product_distributions, $expected) {
     //arrange
     $production_cost = ProductionCost::first();
-    createProductionCostProduction($production_cost, $product_distributions);
+    createProductionCostProduction2($production_cost, $product_distributions);
 
     // act
     $distribution = (new CategoryDistributionOfPCAction())->execute($production_cost);
@@ -37,7 +37,7 @@ it('no products in production cost', function () {
 it('products without category', function ($product_distributions, $expected) {
     // arrange
     $production_cost = ProductionCost::first();
-    createProductionCostProduction($production_cost, $product_distributions);
+    createProductionCostProduction2($production_cost, $product_distributions);
 
     // act
     $distribution = (new CategoryDistributionOfPCAction())->execute($production_cost);
@@ -50,7 +50,7 @@ it('products without category', function ($product_distributions, $expected) {
 it('multiple products in the same category', function ($product_distributions, $expected) {
     // arrange
     $production_cost = ProductionCost::first();
-    createProductionCostProduction($production_cost, $product_distributions);
+    createProductionCostProduction2($production_cost, $product_distributions);
 
     // act
     $distribution = (new CategoryDistributionOfPCAction())->execute($production_cost);
@@ -132,7 +132,7 @@ dataset('multiple_products_in_the_same_category', [
     ]
 ]);
 
-function createProductionCostProduction($production_cost, $product_distributions){
+function createProductionCostProduction2($production_cost, $product_distributions){
     
     foreach ($product_distributions as $product_distribution) {
         ProductionCostProduction::factory()->create([

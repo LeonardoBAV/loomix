@@ -1,4 +1,8 @@
 <?php
+
+use App\Models\Product;
+use App\Models\ProductionCostProduction;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 /*
 |--------------------------------------------------------------------------
@@ -48,7 +52,12 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function createProductionCostProductions(array $production_cost_productions_data): Collection
 {
-    // ..
+    return ProductionCostProduction::factory()->createMany($production_cost_productions_data);
+}
+
+function createProducts(array $products_data): Collection
+{
+    return Product::factory()->createMany($products_data);
 }
