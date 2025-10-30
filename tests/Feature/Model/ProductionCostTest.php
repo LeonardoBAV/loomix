@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Collection;
 
 describe('Model ProductionCost: getTotalWeight', function () {
 
+    beforeEach(function () {
+        $this->production_cost = ProductionCost::factory()->create(['id' => 1]);
+    });
+
     it('calculates correctly', function (array $production_cost_productions, $expected) {
         //arrange
         $production_cost_productions = createManyProductionCostProduction($production_cost_productions);
@@ -46,9 +50,5 @@ describe('Model ProductionCost: getTotalWeight', function () {
         ],
 
     ]);
-
-    beforeEach(function () {
-        $this->production_cost = ProductionCost::factory()->create(['id' => 1]);
-    });
 
 });

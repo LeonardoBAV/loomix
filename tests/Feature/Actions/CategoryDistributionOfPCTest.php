@@ -8,6 +8,11 @@ use App\Models\ProductionCostProduction;
 use Illuminate\Database\Eloquent\Collection;
 
 describe('Action: CategoryDistributionOfPC', function () {
+    
+    beforeEach(function () {
+        $this->production_cost = ProductionCost::factory()->create(['id' => 1]);
+    });
+
 
     it('calculates correctly', function (array $production_cost_productions, $expected) {
         //arrange
@@ -19,11 +24,6 @@ describe('Action: CategoryDistributionOfPC', function () {
         // assert
         expect($distribution)->toBe($expected);
     })->with('distribution_scenarios');
-
-
-    beforeEach(function () {
-        $this->production_cost = ProductionCost::factory()->create(['id' => 1]);
-    });
 
     dataset('distribution_scenarios', [
         '46/31/23' => [
