@@ -1,9 +1,11 @@
 <?php
 
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Models\ProductionCostProduction;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Arr;
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -52,12 +54,29 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function createProductionCostProductions(array $production_cost_productions_data): Collection
+function createManyProductionCostProduction(array $production_cost_productions): Collection
 {
-    return ProductionCostProduction::factory()->createMany($production_cost_productions_data);
+    $production_cost_productions = collect($production_cost_productions)->map(function ($production_cost_production) {
+        if (Arr::has($production_cost_production, 'product')) {
+            $production_cost_production['product_id'] = createProduct($production_cost_production['product'])->id;
+            unset($production_cost_production['product']);
+        }
+        return $production_cost_production;
+    });
+
+    return ProductionCostProduction::factory()->createMany($production_cost_productions);
 }
 
-function createProducts(array $products_data): Collection
+function createProduct(array $product): Product
 {
-    return Product::factory()->createMany($products_data);
+    if (Arr::has($product, 'product_category')) {
+        if(ProductCategory::whereName($product['product_category']['name'])->exists()) {
+            $product['product_category_id'] = ProductCategory::whereName($product['product_category']['name'])->first()->id;
+        } else {
+            $product['product_category_id'] = ProductCategory::factory()->create($product['product_category'])->id;
+        }
+        
+        unset($product['product_category']);  
+    }
+    return Product::factory()->create($product);
 }
