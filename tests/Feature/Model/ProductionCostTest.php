@@ -2,7 +2,6 @@
 
 use App\Models\Product;
 use App\Models\ProductionCost;
-use App\Models\ProductionCostProduction;
 use Illuminate\Database\Eloquent\Collection;
 
 describe('getTotalWeight', function () {
