@@ -200,6 +200,7 @@ return [
             'previus' => 'Anterior',
             'total_qty' => 'Total',
             'sample' => 'Piloto',
+            'note_modal_heading' => 'Nota',
             'summary' => [
                 'status' => 'Peso',
             ],

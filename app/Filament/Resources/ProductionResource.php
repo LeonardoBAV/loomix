@@ -37,10 +37,11 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use Illuminate\Support\HtmlString;
 
 class ProductionResource extends Resource
 {
@@ -254,6 +255,15 @@ class ProductionResource extends Resource
                     ->label(__('resources.productions.table.filter.button')),
             )
             ->actions([
+                Action::make('view_note')
+                    ->label(__('resources.productions.actions.note'))
+                    ->icon('heroicon-o-document-text')
+                    ->color('info')
+                    ->modalHeading(__('resources.productions.table.note_modal_heading'))
+                    ->modalContent(fn (Production $record): Htmlable => new HtmlString('<div class="p-4 whitespace-pre-wrap">' . e($record->note) . '</div>'))
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel(__('Close'))
+                    ->visible(fn (Production $record) => !empty($record->note)),
                 ActionGroup::make([
                     ViewAction::make(),
                     DeleteAction::make(),
