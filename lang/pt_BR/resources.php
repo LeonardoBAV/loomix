@@ -206,6 +206,7 @@ return [
                 'button' => 'Filtrar',
                 'client' => 'Cliente',
                 'color' => 'Cor',
+                'date_finishing' => 'Data de Acabamento',
             ],
         ],
         'infolist' => [

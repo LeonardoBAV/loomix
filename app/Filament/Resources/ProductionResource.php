@@ -9,9 +9,11 @@ use App\Filament\Resources\ProductionResource\Pages\ListProductions;
 use App\Filament\Resources\ProductionResource\Pages\ViewProduction;
 use App\Filament\Resources\ProductionResource\RelationManagers;
 use App\Filament\Resources\ProductionResource\RelationManagers\ProductionGridsRelationManager;
+use App\Models\Client;
 use App\Models\Production;
 use App\Models\ProductionGrid;
 use App\Models\Size;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -159,17 +161,33 @@ class ProductionResource extends Resource
                 TextColumn::make('updated_at')->label(__('resources.productions.table.updated_at'))->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('client_id')
-                    ->relationship('client', 'name')->label(__('resources.productions.table.filter.client')),
-                SelectFilter::make('color_id')
-                    ->relationship('color', 'title')->label(__('resources.productions.table.filter.color')),
+                //filter by date finishing year and month only
+                Filter::make('date_finishing')
+                    ->form([
+                        DatePicker::make('date_finishing')->label(__('resources.productions.table.filter.date_finishing'))->displayFormat('m/Y')->native(false)->closeOnDateSelection(),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        if ($data['date_finishing']) {
+                            $date_finishing = Carbon::parse($data['date_finishing']);
+                            $query->whereYear('date_finishing', $date_finishing->year)->whereMonth('date_finishing', $date_finishing->month);
+                        }
+                        return $query;
+                    })->indicateUsing(function (array $data): string {
+                        if ($data['date_finishing']) {
+                            $date_finishing = Carbon::parse($data['date_finishing']);
+                            return __('resources.productions.table.filter.date_finishing') . ': ' . $date_finishing->format('m/Y');
+                        }
+                        return '';
+                    }),
+
                 Filter::make('status')
                     ->form([
-                        Select::make('status')->options($statuses)->label(__('resources.productions.table.filter.status'))->multiple(),
+                        Select::make('status')->options($statuses)->label(__('resources.productions.table.filter.status'))->multiple()->default(['pending','cutting','sewing','finishing']),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         $query->where(function (Builder $query) use ($data) {
                             if (in_array(ProductionStatusEnum::Completed->value, $data['status'])) {
+                                //dd($data);
                                 $query->orWhere(function (Builder $query) {
                                     $query->whereNotNull('date_completed');
                                 });
@@ -215,6 +233,10 @@ class ProductionResource extends Resource
 
                         return __('resources.productions.table.filter.status') . ': ' . implode(', ',  $values->toArray());
                     }),
+                SelectFilter::make('client_id')
+                    ->relationship('client', 'name')->label(__('resources.productions.table.filter.client')),
+                SelectFilter::make('color_id')
+                    ->relationship('color', 'title')->label(__('resources.productions.table.filter.color')),
             ])
             ->filtersTriggerAction(
                 fn(Action $action) => $action
