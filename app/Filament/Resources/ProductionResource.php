@@ -140,7 +140,7 @@ class ProductionResource extends Resource
                                     WHERE production_grids.production_id = productions.id
                                 ), 0)) as total_weight')
                                 ->value('total_weight') ?? 0;
-                        }),
+                        })->numeric(),
                     ),
 
 
