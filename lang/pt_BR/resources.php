@@ -198,6 +198,9 @@ return [
             'next' => 'Próximo',
             'previus' => 'Anterior',
             'total_qty' => 'Total',
+            'summary' => [
+                'status' => 'Peso',
+            ],
             'filter' => [
                 'status' => 'Estado da Produção',
                 'button' => 'Filtrar',
