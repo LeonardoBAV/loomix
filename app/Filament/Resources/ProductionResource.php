@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
@@ -84,6 +85,11 @@ class ProductionResource extends Resource
                     TextEntry::make('date_sewing')->label(__('resources.productions.table.date_sewing')),
                     TextEntry::make('date_finishing')->label(__('resources.productions.table.date_finishing')),
                     TextEntry::make('date_completed')->label(__('resources.productions.table.date_completed')),
+                    TextEntry::make('sample')
+                        ->label(__('resources.productions.form.sample'))
+                        ->badge()
+                        ->formatStateUsing(fn($state): string => $state ? __('resources.productions.infolist.sample.yes') : __('resources.productions.infolist.sample.no'))
+                        ->color(fn($state): string => $state ? 'primary' : 'gray'),
                     TextEntry::make('created_at')->label(__('resources.productions.table.created_at')),
                     TextEntry::make('updated_at')->label(__('resources.productions.table.updated_at')),
                 ])->columns(3),
@@ -104,6 +110,7 @@ class ProductionResource extends Resource
                 DatePicker::make('date_sewing')->label(__('resources.productions.form.date_sewing'))->visibleOn('edit'),
                 DatePicker::make('date_finishing')->label(__('resources.productions.form.date_finishing'))->visibleOn('edit'),
                 DatePicker::make('date_completed')->label(__('resources.productions.form.date_completed'))->visibleOn('edit'),
+                Toggle::make('sample')->label(__('resources.productions.form.sample'))->default(false),
             ]);
     }
 
@@ -119,7 +126,7 @@ class ProductionResource extends Resource
 
         return $table
             ->columns([
-                TextColumn::make('product.name')->label(__('resources.productions.table.product'))->description(fn(Production $record) => $record->color->title)->weight(FontWeight::Bold)->sortable()->searchable()
+                TextColumn::make('product.name')->label(__('resources.productions.table.product'))->description(fn(Production $record) => $record->color->title . ' - ' . ($record->sample ? __('resources.productions.table.sample') : ''))->weight(FontWeight::Bold)->sortable()->searchable()
                     ->icon('heroicon-m-arrow-top-right-on-square')
                     ->color('primary')
                     ->url(fn($record) => ProductResource::getUrl('view', ['record' => $record->product])),
@@ -182,7 +189,7 @@ class ProductionResource extends Resource
 
                 Filter::make('status')
                     ->form([
-                        Select::make('status')->options($statuses)->label(__('resources.productions.table.filter.status'))->multiple()->default(['pending','cutting','sewing','finishing']),
+                        Select::make('status')->options($statuses)->label(__('resources.productions.table.filter.status'))->multiple()->default(['pending', 'cutting', 'sewing', 'finishing']),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         $query->where(function (Builder $query) use ($data) {
@@ -233,6 +240,9 @@ class ProductionResource extends Resource
 
                         return __('resources.productions.table.filter.status') . ': ' . implode(', ',  $values->toArray());
                     }),
+                Filter::make('sample')->label(__('resources.productions.table.filter.sample'))->query(function (Builder $query, array $data): Builder {
+                    return $query->whereSample(true);
+                }),
                 SelectFilter::make('client_id')
                     ->relationship('client', 'name')->label(__('resources.productions.table.filter.client')),
                 SelectFilter::make('color_id')

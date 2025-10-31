@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'production_costs' => [
         'navigation_label' => 'Custos de Produção',
         'model_label' => 'Custo de Produção',
@@ -181,6 +180,7 @@ return [
             'date_sewing' => 'Data de Costura',
             'date_finishing' => 'Data de Acabamento',
             'date_completed' => 'Data de Conclusão',
+            'sample' => 'Piloto',
         ],
         'table' => [
             'product' => 'Produto',
@@ -198,6 +198,7 @@ return [
             'next' => 'Próximo',
             'previus' => 'Anterior',
             'total_qty' => 'Total',
+            'sample' => 'Piloto',
             'summary' => [
                 'status' => 'Peso',
             ],
@@ -207,6 +208,7 @@ return [
                 'client' => 'Cliente',
                 'color' => 'Cor',
                 'date_finishing' => 'Finalizados',
+                'sample' => 'Piloto',
             ],
         ],
         'infolist' => [
@@ -222,6 +224,11 @@ return [
             'date_sewing' => 'Data de Costura',
             'date_finishing' => 'Data de Acabamento',
             'date_completed' => 'Data de Conclusão',
+            'sample' => 'Piloto',
+            'sample' => [
+                'yes' => 'Sim',
+                'no' => 'Não',
+            ],
             'created_at' => 'Criado em',
             'updated_at' => 'Atualizado em',
         ],

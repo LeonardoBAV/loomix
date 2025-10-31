@@ -25,7 +25,8 @@ class Production extends Model
         'date_cutting',
         'date_sewing',
         'date_finishing',
-        'date_completed'
+        'date_completed',
+        'sample'
     ];
 
     protected $casts = [
@@ -33,7 +34,8 @@ class Production extends Model
         'date_cutting' => 'date',
         'date_sewing' => 'date',
         'date_finishing' => 'date',
-        'date_completed' => 'date'
+        'date_completed' => 'date',
+        'sample' => 'boolean'
     ];
 
     public function product(): BelongsTo
