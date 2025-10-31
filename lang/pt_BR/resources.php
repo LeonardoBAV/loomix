@@ -211,6 +211,7 @@ return [
                 'color' => 'Cor',
                 'date_finishing' => 'Finalizados',
                 'sample' => 'Piloto',
+                'note' => 'Nota',
             ],
         ],
         'infolist' => [

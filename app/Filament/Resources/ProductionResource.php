@@ -244,6 +244,9 @@ class ProductionResource extends Resource
                 Filter::make('sample')->label(__('resources.productions.table.filter.sample'))->query(function (Builder $query, array $data): Builder {
                     return $query->whereSample(true);
                 }),
+                Filter::make('note')->label(__('resources.productions.table.filter.note'))->query(function (Builder $query, array $data): Builder {
+                    return $query->where('note', '!=', '');
+                }),
                 SelectFilter::make('client_id')
                     ->relationship('client', 'name')->label(__('resources.productions.table.filter.client')),
                 SelectFilter::make('color_id')
