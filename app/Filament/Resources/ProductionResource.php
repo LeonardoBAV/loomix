@@ -126,7 +126,7 @@ class ProductionResource extends Resource
 
         return $table
             ->columns([
-                TextColumn::make('product.name')->label(__('resources.productions.table.product'))->description(fn(Production $record) => $record->color->title . ' - ' . ($record->sample ? __('resources.productions.table.sample') : ''))->weight(FontWeight::Bold)->sortable()->searchable()
+                TextColumn::make('product.name')->label(__('resources.productions.table.product'))->description(fn(Production $record) => $record->color->title . ($record->sample ? ' - ' . __('resources.productions.table.sample') : ''))->weight(FontWeight::Bold)->sortable()->searchable()
                     ->icon('heroicon-m-arrow-top-right-on-square')
                     ->color('primary')
                     ->url(fn($record) => ProductResource::getUrl('view', ['record' => $record->product])),
