@@ -181,6 +181,7 @@ return [
             'date_finishing' => 'Data de Acabamento',
             'date_completed' => 'Data de Conclusão',
             'sample' => 'Piloto',
+            'note' => 'Nota',
         ],
         'table' => [
             'product' => 'Produto',
@@ -231,6 +232,11 @@ return [
             ],
             'created_at' => 'Criado em',
             'updated_at' => 'Atualizado em',
+        ],
+        'actions' => [
+            'note' => 'Nota',
+            'note_modal_heading' => 'Editar Nota',
+            'note_saved' => 'Nota salva com sucesso',
         ],
         'production_grids' => [
             'title' => 'Grids de Produção',

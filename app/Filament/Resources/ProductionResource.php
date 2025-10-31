@@ -254,9 +254,9 @@ class ProductionResource extends Resource
                     ->label(__('resources.productions.table.filter.button')),
             )
             ->actions([
-                ViewAction::make(),
-                DeleteAction::make(),
                 ActionGroup::make([
+                    ViewAction::make(),
+                    DeleteAction::make(),
                     //next and previus action
                     Action::make('next')->label(__('resources.productions.table.next'))->icon('fas-arrow-right')->color('primary')
                         ->action(fn(Production $record) => $record->nextStep())

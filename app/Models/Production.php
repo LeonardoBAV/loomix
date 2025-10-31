@@ -26,7 +26,8 @@ class Production extends Model
         'date_sewing',
         'date_finishing',
         'date_completed',
-        'sample'
+        'sample',
+        'note'
     ];
 
     protected $casts = [

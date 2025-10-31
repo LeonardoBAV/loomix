@@ -34,6 +34,11 @@ return [
                     ],
                 ],
             ],
+            'productions' => [
+                'actions' => [
+                    'note_saved' => 'Nota salva com sucesso',
+                ],
+            ],
         ],
         'observer' => [
             'product_arrangement' => [
