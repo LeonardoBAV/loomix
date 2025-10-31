@@ -108,46 +108,46 @@ class ProductionResource extends Resource
     public static function table(Table $table): Table
     {
         $sizes = Size::all();
-        
+
         $statuses = collect(ProductionStatusEnum::cases())->mapWithKeys(function ($status) {
             return [
-                $status->value => __('enums.production_status.'.$status->value)
+                $status->value => __('enums.production_status.' . $status->value)
             ];
         });
 
         return $table
             ->columns([
-                TextColumn::make('product.name')->label(__('resources.productions.table.product'))->description(fn (Production $record) => $record->color->title)->weight(FontWeight::Bold)->sortable()->searchable(),
-                //TextColumn::make('color.title')->label(__('resources.productions.table.color'))->sortable()->searchable(),
-                //...$sizes->map(function (Size $size) {
-                //    return TextColumn::make('size_'.$size->alias)->formatStateUsing(fn (Production $record) => $record->qty($size))->label($size->alias)->default(0);
-                //}),
+                TextColumn::make('product.name')->label(__('resources.productions.table.product'))->description(fn(Production $record) => $record->color->title)->weight(FontWeight::Bold)->sortable()->searchable()
+                    ->icon('heroicon-m-arrow-top-right-on-square')
+                    ->color('primary')
+                    ->url(fn($record) => ProductResource::getUrl('view', ['record' => $record->product])),
                 ...$sizes->map(function (Size $size) {
-                    return TextColumn::make('size_'.$size->alias)->summarize(Sum::make())->label($size->alias)->default(0);
+                    return TextColumn::make('size_' . $size->alias)->summarize(Sum::make())->label($size->alias)->default(0);
                 }),
                 TextColumn::make('total_qty')->label(__('resources.productions.table.total_qty'))->summarize(Sum::make())->default(0),
                 TextColumn::make('status')->label(__('resources.productions.table.status'))->badge()->sortable()
-                    ->getStateUsing(fn (Production $record) => __('enums.production_status.'.$record->status->value))
-                    ->color(fn (Production $record) => $record->status->color())
-                    ->summarize(Summarizer::make()
-                        ->label(__('resources.productions.table.summary.status'))
-                        ->using(function (QueryBuilder $query): string {
-                            return (string) $query
-                                ->join('products', 'productions.product_id', '=', 'products.id')
-                                ->selectRaw('SUM(products.production_weight * COALESCE((
+                    ->getStateUsing(fn(Production $record) => __('enums.production_status.' . $record->status->value))
+                    ->color(fn(Production $record) => $record->status->color())
+                    ->summarize(
+                        Summarizer::make()
+                            ->label(__('resources.productions.table.summary.status'))
+                            ->using(function (QueryBuilder $query): string {
+                                return (string) $query
+                                    ->join('products', 'productions.product_id', '=', 'products.id')
+                                    ->selectRaw('SUM(products.production_weight * COALESCE((
                                     SELECT SUM(qty) 
                                     FROM production_grids 
                                     WHERE production_grids.production_id = productions.id
                                 ), 0)) as total_weight')
-                                ->value('total_weight') ?? 0;
-                        })->numeric(),
+                                    ->value('total_weight') ?? 0;
+                            })->numeric(),
                     ),
 
 
-                 /*
+                /*
                  ->summarize(Summarizer::make()
         ->label('First last name')
-        ->using(fn (Builder $query): string => $query->min('last_name'))) */   
+        ->using(fn (Builder $query): string => $query->min('last_name'))) */
                 //TextColumn::make('date_started')->label(__('resources.productions.table.date_started'))->date('d/m/Y')->sortable(),
                 TextColumn::make('cutter.name')->label(__('resources.productions.table.cutter'))->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('client.name')->label(__('resources.productions.table.client'))->sortable()->toggleable(isToggledHiddenByDefault: true),
@@ -169,34 +169,34 @@ class ProductionResource extends Resource
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         $query->where(function (Builder $query) use ($data) {
-                            if(in_array(ProductionStatusEnum::Completed->value, $data['status'])) {
+                            if (in_array(ProductionStatusEnum::Completed->value, $data['status'])) {
                                 $query->orWhere(function (Builder $query) {
                                     $query->whereNotNull('date_completed');
                                 });
                             }
 
-                            if(in_array(ProductionStatusEnum::Finishing->value, $data['status'])) {
+                            if (in_array(ProductionStatusEnum::Finishing->value, $data['status'])) {
                                 $query->orWhere(function (Builder $query) {
                                     $query->whereNotNull('date_finishing');
                                     $query->whereNull('date_completed');
                                 });
                             }
 
-                            if(in_array(ProductionStatusEnum::Sewing->value, $data['status'])) {
+                            if (in_array(ProductionStatusEnum::Sewing->value, $data['status'])) {
                                 $query->orWhere(function (Builder $query) {
                                     $query->whereNotNull('date_sewing');
                                     $query->whereNull('date_finishing');
                                 });
                             }
 
-                            if(in_array(ProductionStatusEnum::Cutting->value, $data['status'])) {
+                            if (in_array(ProductionStatusEnum::Cutting->value, $data['status'])) {
                                 $query->orWhere(function (Builder $query) {
                                     $query->whereNotNull('date_cutting');
                                     $query->whereNull('date_sewing');
                                 });
                             }
-                            
-                            if(in_array(ProductionStatusEnum::Pending->value, $data['status'])) {
+
+                            if (in_array(ProductionStatusEnum::Pending->value, $data['status'])) {
                                 $query->orWhere(function (Builder $query) {
                                     $query->whereNull('date_cutting');
                                 });
@@ -204,7 +204,6 @@ class ProductionResource extends Resource
                         });
 
                         return $query;
-                            
                     })->indicateUsing(function (array $data) use ($statuses): string {
                         if (! $data['status']) {
                             return '';
@@ -218,7 +217,7 @@ class ProductionResource extends Resource
                     }),
             ])
             ->filtersTriggerAction(
-                fn (Action $action) => $action
+                fn(Action $action) => $action
                     ->button()
                     ->label(__('resources.productions.table.filter.button')),
             )
@@ -228,11 +227,11 @@ class ProductionResource extends Resource
                 ActionGroup::make([
                     //next and previus action
                     Action::make('next')->label(__('resources.productions.table.next'))->icon('fas-arrow-right')->color('primary')
-                        ->action(fn (Production $record) => $record->nextStep())
-                        ->visible(fn (Production $record) => $record->status !== ProductionStatusEnum::Completed),
+                        ->action(fn(Production $record) => $record->nextStep())
+                        ->visible(fn(Production $record) => $record->status !== ProductionStatusEnum::Completed),
                     Action::make('previus')->label(__('resources.productions.table.previus'))->icon('fas-arrow-left')->color('primary')
-                        ->action(fn (Production $record) => $record->previusStep())
-                        ->visible(fn (Production $record) => $record->status !== ProductionStatusEnum::Pending),
+                        ->action(fn(Production $record) => $record->previusStep())
+                        ->visible(fn(Production $record) => $record->status !== ProductionStatusEnum::Pending),
                 ]),
                 //group button with start production, stop production, complete production
             ])
@@ -240,15 +239,13 @@ class ProductionResource extends Resource
                 ExportAction::make()
                     ->exporter(ProductionExporter::class)->columnMapping(false)
             ])
-            ->bulkActions([
-                
-            ])
+            ->bulkActions([])
             ->modifyQueryUsing(function (Builder $query) use ($sizes) {
-                
+
                 // Adicionar subquery para cada tamanho
-                foreach($sizes as $size) {
+                foreach ($sizes as $size) {
                     $query->addSelect([
-                        'size_'.$size->alias => ProductionGrid::select('qty')
+                        'size_' . $size->alias => ProductionGrid::select('qty')
                             ->whereColumn('production_id', 'productions.id')
                             ->where('size_id', $size->id)
                             ->limit(1)
@@ -256,10 +253,9 @@ class ProductionResource extends Resource
                 }
 
                 $query->withSum([
-                    'productionGrids as total_qty' => function (Builder $q) {
-                    }
+                    'productionGrids as total_qty' => function (Builder $q) {}
                 ], 'qty');
-                                    
+
                 /*$query->addSelect([
                     'total_qty' => ProductionGrid::select('qty')
                         ->whereColumn('production_id', 'productions.id')
@@ -267,7 +263,7 @@ class ProductionResource extends Resource
                         ->sum('qty')
                 ]);*/
 
-               
+
                 return $query->orderBy('created_at', 'desc');
             });
     }
