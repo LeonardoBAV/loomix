@@ -245,7 +245,7 @@ class ProductionResource extends Resource
                     return $query->whereSample(true);
                 }),
                 Filter::make('note')->label(__('resources.productions.table.filter.note'))->query(function (Builder $query, array $data): Builder {
-                    return $query->where('note', '!=', '');
+                    return $query->whereNotNull('note');
                 }),
                 SelectFilter::make('client_id')
                     ->relationship('client', 'name')->label(__('resources.productions.table.filter.client')),
@@ -266,7 +266,7 @@ class ProductionResource extends Resource
                     ->modalContent(fn (Production $record): Htmlable => new HtmlString('<div class="p-4 whitespace-pre-wrap">' . e($record->note) . '</div>'))
                     ->modalSubmitAction(false)
                     ->modalCancelActionLabel(__('Close'))
-                    ->visible(fn (Production $record) => !empty($record->note)),
+                    ->visible(fn (Production $record) => !is_null($record->note)),
                 ActionGroup::make([
                     ViewAction::make(),
                     DeleteAction::make(),

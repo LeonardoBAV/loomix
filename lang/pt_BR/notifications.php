@@ -37,6 +37,7 @@ return [
             'productions' => [
                 'actions' => [
                     'note_saved' => 'Nota salva com sucesso',
+                    'note_cleared' => 'Nota limpa com sucesso',
                 ],
             ],
         ],

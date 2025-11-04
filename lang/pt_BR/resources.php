@@ -239,6 +239,9 @@ return [
             'note' => 'Nota',
             'note_modal_heading' => 'Editar Nota',
             'note_saved' => 'Nota salva com sucesso',
+            'note_cleared' => 'Nota limpa com sucesso',
+            'save' => 'Salvar',
+            'clear' => 'Limpar',
         ],
         'production_grids' => [
             'title' => 'Grids de Produção',

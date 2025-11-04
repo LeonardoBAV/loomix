@@ -18,6 +18,8 @@ class ViewProduction extends ViewRecord
     {
         return [
             Action::make('note')->label(__('resources.productions.actions.note'))->icon('heroicon-o-document-text')->color('info')->button()->modalHeading(__('resources.productions.actions.note_modal_heading'))
+                ->modalCancelAction(false)
+                ->modalSubmitActionLabel(__('resources.productions.actions.save'))
                 ->form([
                     Textarea::make('note')
                         ->label(__('resources.productions.form.note'))
@@ -27,7 +29,7 @@ class ViewProduction extends ViewRecord
                 ])
                 ->action(function (array $data) {
                     $this->record->update([
-                        'note' => $data['note'] ?? '',
+                        'note' => !empty(trim($data['note'] ?? '')) ? $data['note'] : null,
                     ]);
 
                     Notification::make()
@@ -37,6 +39,7 @@ class ViewProduction extends ViewRecord
                         ->success()
                         ->send();
                 }),
+                
             EditAction::make()->label(__('Edit'))->icon('heroicon-o-pencil-square')->color('primary')->button()->slideOver()
         ];
     }
