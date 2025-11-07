@@ -77,9 +77,10 @@ class ProductionResource extends Resource
         return $infolist
             ->schema([
                 Section::make(__('Production Information'))->schema([
-                    TextEntry::make('product.name')->label(__('resources.productions.table.product')),
+                    TextEntry::make('product.name')->label(__('resources.productions.table.product'))->url(fn($record) => ProductResource::getUrl('view', ['record' => $record->product]))->icon('heroicon-o-arrow-top-right-on-square')->color('primary')->iconColor('primary')->weight(FontWeight::Bold),
+                    TextEntry::make('order.id')->label(__('resources.productions.infolist.order'))->url(fn($record) => OrderResource::getUrl('view', ['record' => $record->order]))->icon('heroicon-o-arrow-top-right-on-square')->color('info')->iconColor('info')->prefix('#'),
+                    TextEntry::make('order.client.name')->label(__('resources.productions.table.client')),
                     TextEntry::make('cutter.name')->label(__('resources.productions.table.cutter')),
-                    TextEntry::make('client.name')->label(__('resources.productions.table.client')),
                     TextEntry::make('color.title')->label(__('resources.productions.table.color')),
                     TextEntry::make('date_started')->label(__('resources.productions.table.date_started')),
                     TextEntry::make('date_cutting')->label(__('resources.productions.table.date_cutting')),
@@ -103,7 +104,7 @@ class ProductionResource extends Resource
             ->schema([
                 Select::make('product_id')->relationship('product', 'name')->label(__('resources.productions.form.product'))->required(),
                 Select::make('cutter_id')->relationship('cutter', 'name')->label(__('resources.productions.form.cutter')),
-                Select::make('client_id')->relationship('client', 'name')->label(__('resources.productions.form.client'))->required(),
+                //Select::make('client_id')->relationship('client', 'name')->label(__('resources.productions.form.client'))->required(),
                 Select::make('color_id')->relationship('color', 'title')->label(__('resources.productions.form.color'))->required(),
                 // put date_started in the form
                 DatePicker::make('date_started')->label(__('resources.productions.form.date_started'))->required()->columnSpanFull(),
@@ -160,7 +161,7 @@ class ProductionResource extends Resource
         ->using(fn (Builder $query): string => $query->min('last_name'))) */
                 //TextColumn::make('date_started')->label(__('resources.productions.table.date_started'))->date('d/m/Y')->sortable(),
                 TextColumn::make('cutter.name')->label(__('resources.productions.table.cutter'))->sortable()->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('client.name')->label(__('resources.productions.table.client'))->sortable()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('order.client.name')->label(__('resources.productions.table.client'))->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date_cutting')->label(__('resources.productions.table.date_cutting'))->date()->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date_sewing')->label(__('resources.productions.table.date_sewing'))->date()->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date_finishing')->label(__('resources.productions.table.date_finishing'))->date()->sortable()->toggleable(isToggledHiddenByDefault: true),
@@ -247,8 +248,8 @@ class ProductionResource extends Resource
                 Filter::make('note')->label(__('resources.productions.table.filter.note'))->query(function (Builder $query, array $data): Builder {
                     return $query->whereNotNull('note');
                 }),
-                SelectFilter::make('client_id')
-                    ->relationship('client', 'name')->label(__('resources.productions.table.filter.client')),
+                //SelectFilter::make('client_id')
+                //    ->relationship('client', 'name')->label(__('resources.productions.table.filter.client')),
                 SelectFilter::make('color_id')
                     ->relationship('color', 'title')->label(__('resources.productions.table.filter.color')),
             ])

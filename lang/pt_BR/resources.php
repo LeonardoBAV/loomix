@@ -218,6 +218,7 @@ return [
             'section' => [
                 'title' => 'Informações',
             ],
+            'order' => 'Pedido',
             'product' => 'Produto',
             'cutter' => 'Cortador',
             'client' => 'Cliente',
@@ -260,6 +261,66 @@ return [
         'table' => [
             'name' => 'Nome',
             'products' => 'Produtos',
+        ],
+    ],
+    'orders' => [
+        'navigation_label' => 'Pedidos',
+        'model_label' => 'Pedido',
+        'plural_model_label' => 'Pedidos',
+        'form' => [ 
+            'client' => 'Cliente',
+            'note' => 'Nota',
+        ],
+        'table' => [
+            'client' => 'Cliente',
+            'note' => 'Nota',
+        ],
+        'infolist' => [
+            'client' => 'Cliente',
+            'note' => 'Nota',
+            'title' => 'Informações',
+        ],
+        'relation_managers' => [
+            'productions' => [
+                'title' => 'Produções',
+                'header_actions' => [
+                    'create' => 'Adicionar Produção',
+                ],
+                'form' => [
+                    'product' => 'Produto',
+                    'cutter' => 'Cortador',
+                    'client' => 'Cliente',
+                    'color' => 'Cor',
+                    'date_started' => 'Data de Início',
+                    'date_cutting' => 'Data de Corte',
+                    'date_sewing' => 'Data de Costura',
+                    'date_finishing' => 'Data de Acabamento',
+                    'date_completed' => 'Data de Conclusão',
+                    'sample' => 'Piloto',
+                ],
+                'table' => [
+                    'product' => 'Produto',
+                    'cutter' => 'Cortador',
+                    'client' => 'Cliente',
+                    'color' => 'Cor',
+                    'date_started' => 'Data de Início',
+                    'date_cutting' => 'Data de Corte',
+                    'date_sewing' => 'Data de Costura',
+                    'date_finishing' => 'Data de Acabamento',
+                    'date_completed' => 'Data de Conclusão',
+                    'sample' => 'Piloto',
+                    'total_qty' => 'Total',
+                    'status' => 'Status',
+                    'cutter' => 'Cortador',
+                    'client' => 'Cliente',
+                    'created_at' => 'Criado em',
+                    'updated_at' => 'Atualizado em',
+                    'view' => 'Visualizar',
+                    'summary' => [
+                        'status' => 'Peso',
+                    ],
+                ]
+            ],
         ],
     ],
     'menu' => [

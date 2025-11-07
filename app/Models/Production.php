@@ -54,9 +54,14 @@ class Production extends Model
         return $this->belongsTo(Color::class);
     }
 
-    public function client(): BelongsTo
+    /*public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
+    }*/
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
     }
 
     public function productionGrids(): HasMany

@@ -1,0 +1,20 @@
+// Código para copiar e colar no tinker
+// Este script atualiza todos os productions que têm note como string vazia para null
+
+// Primeiro, vamos ver quantos registros serão afetados
+$count = \App\Models\Production::whereNotNull('note')->where('note', '')->count();
+echo "Registros que serão atualizados: {$count}\n";
+
+// Executar a atualização
+$updated = \App\Models\Production::whereNotNull('note')
+    ->where('note', '')
+    ->update(['note' => null]);
+
+echo "Registros atualizados: {$updated}\n";
+
+// Verificar se funcionou (deve retornar 0)
+$remaining = \App\Models\Production::whereNotNull('note')->where('note', '')->count();
+echo "Registros restantes com note vazio: {$remaining}\n";
+
+
+
