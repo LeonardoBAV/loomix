@@ -41,7 +41,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('productions', function (Blueprint $table) {
-            $table->foreignId('client_id')->constrained()->restrictOnDelete();
+            $table->foreignId('client_id')->nullable()->constrained()->restrictOnDelete();
             $table->foreignId('order_id')->nullable()->change();
         });
     }

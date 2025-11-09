@@ -69,16 +69,24 @@ class Production extends Model
         return $this->hasMany(ProductionGrid::class);
     }
 
-    public function qty(Size $size): int
-    {
-        return $this->productionGrids()->whereSizeId($size->id)->first()->qty ?? 0;
-    }
 
     protected function status(): Attribute
     {
         return Attribute::make(
             get: fn () => $this->getStatus(),
         );
+    }
+
+    protected function units(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->productionGrids->sum('qty'),
+        );
+    }
+
+    public function qty(Size $size): int
+    {
+        return $this->productionGrids()->whereSizeId($size->id)->first()->qty ?? 0;
     }
 
     private function getStatus(): ProductionStatusEnum
@@ -136,5 +144,6 @@ class Production extends Model
         }
         $this->save();
     }
+
     
 } 

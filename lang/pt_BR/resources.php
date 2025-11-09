@@ -182,6 +182,7 @@ return [
             'date_completed' => 'Data de Conclusão',
             'sample' => 'Piloto',
             'note' => 'Nota',
+            'order' => 'Pedido',
         ],
         'table' => [
             'product' => 'Produto',
@@ -200,6 +201,7 @@ return [
             'previus' => 'Anterior',
             'total_qty' => 'Total',
             'sample' => 'Piloto',
+            'order' => 'Pedido',
             'note_modal_heading' => 'Nota',
             'summary' => [
                 'status' => 'Peso',
@@ -212,6 +214,7 @@ return [
                 'date_finishing' => 'Finalizados',
                 'sample' => 'Piloto',
                 'note' => 'Nota',
+                'order' => 'Pedido',
             ],
         ],
         'infolist' => [
@@ -274,6 +277,8 @@ return [
         'table' => [
             'client' => 'Cliente',
             'note' => 'Nota',
+            'units' => 'Unidades',
+            'units_suffix' => 'un',
         ],
         'infolist' => [
             'client' => 'Cliente',

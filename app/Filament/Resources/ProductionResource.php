@@ -10,6 +10,7 @@ use App\Filament\Resources\ProductionResource\Pages\ViewProduction;
 use App\Filament\Resources\ProductionResource\RelationManagers;
 use App\Filament\Resources\ProductionResource\RelationManagers\ProductionGridsRelationManager;
 use App\Models\Client;
+use App\Models\Order;
 use App\Models\Production;
 use App\Models\ProductionGrid;
 use App\Models\Size;
@@ -103,9 +104,11 @@ class ProductionResource extends Resource
         return $form
             ->schema([
                 Select::make('product_id')->relationship('product', 'name')->label(__('resources.productions.form.product'))->required(),
+                Select::make('color_id')->relationship('color', 'title')->label(__('resources.productions.form.color'))->required(),
+                Select::make('order_id')->relationship('order', 'id')->label(__('resources.productions.form.order'))->required()
+                    ->getOptionLabelFromRecordUsing(fn(Order $record) => "#{$record->id} - {$record->client->name}")->searchable()->preload(),
                 Select::make('cutter_id')->relationship('cutter', 'name')->label(__('resources.productions.form.cutter')),
                 //Select::make('client_id')->relationship('client', 'name')->label(__('resources.productions.form.client'))->required(),
-                Select::make('color_id')->relationship('color', 'title')->label(__('resources.productions.form.color'))->required(),
                 // put date_started in the form
                 DatePicker::make('date_started')->label(__('resources.productions.form.date_started'))->required()->columnSpanFull(),
                 DatePicker::make('date_cutting')->label(__('resources.productions.form.date_cutting'))->visibleOn('edit'),
@@ -128,6 +131,9 @@ class ProductionResource extends Resource
 
         return $table
             ->columns([
+                TextColumn::make('order.id')->label(__('resources.productions.table.order'))->tooltip(fn($record) => $record->order->client->name)->icon('heroicon-o-arrow-top-right-on-square')->color('info')->iconColor('info')->prefix('#')
+                    ->url(fn($record) => OrderResource::getUrl('view', ['record' => $record->order])),
+                    //->description(fn($record) => $record->order->client->name),
                 TextColumn::make('product.name')->label(__('resources.productions.table.product'))->description(fn(Production $record) => $record->color->title . ($record->sample ? ' - ' . __('resources.productions.table.sample') : ''))->weight(FontWeight::Bold)->sortable()->searchable()
                     ->icon('heroicon-m-arrow-top-right-on-square')
                     ->color('primary')
@@ -242,11 +248,13 @@ class ProductionResource extends Resource
 
                         return __('resources.productions.table.filter.status') . ': ' . implode(', ',  $values->toArray());
                     }),
-                Filter::make('sample')->label(__('resources.productions.table.filter.sample'))->query(function (Builder $query, array $data): Builder {
-                    return $query->whereSample(true);
-                }),
+                SelectFilter::make('order_id')
+                    ->relationship('order', 'id')->label(__('resources.productions.table.filter.order'))->searchable()->preload(),
                 Filter::make('note')->label(__('resources.productions.table.filter.note'))->query(function (Builder $query, array $data): Builder {
                     return $query->whereNotNull('note');
+                }),
+                Filter::make('sample')->label(__('resources.productions.table.filter.sample'))->query(function (Builder $query, array $data): Builder {
+                    return $query->whereSample(true);
                 }),
                 //SelectFilter::make('client_id')
                 //    ->relationship('client', 'name')->label(__('resources.productions.table.filter.client')),
@@ -264,10 +272,10 @@ class ProductionResource extends Resource
                     ->icon('heroicon-o-document-text')
                     ->color('info')
                     ->modalHeading(__('resources.productions.table.note_modal_heading'))
-                    ->modalContent(fn (Production $record): Htmlable => new HtmlString('<div class="p-4 whitespace-pre-wrap">' . e($record->note) . '</div>'))
+                    ->modalContent(fn(Production $record): Htmlable => new HtmlString('<div class="p-4 whitespace-pre-wrap">' . e($record->note) . '</div>'))
                     ->modalSubmitAction(false)
                     ->modalCancelActionLabel(__('Close'))
-                    ->visible(fn (Production $record) => !is_null($record->note)),
+                    ->visible(fn(Production $record) => !is_null($record->note)),
                 ActionGroup::make([
                     ViewAction::make(),
                     DeleteAction::make(),

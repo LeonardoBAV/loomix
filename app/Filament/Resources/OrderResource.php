@@ -90,7 +90,13 @@ class OrderResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('client.name')->label(__('resources.orders.table.client'))->sortable()->description(fn (Order $record) => "#{$record->id}")->weight(FontWeight::Bold),
+                TextColumn::make('units')->label(__('resources.orders.table.units'))->getStateUsing(function(Order $record) {
+                    $record->load('productions.productionGrids');
+                    return "$record->units " . __('resources.orders.table.units_suffix');
+                }),
+
                 TextColumn::make('note')->label(__('resources.orders.table.note')),
+                
                 TextColumn::make('created_at')->translateLabel()->dateTime('d/m/Y H:i')->sortable(),
                 TextColumn::make('updated_at')->translateLabel()->dateTime('d/m/Y H:i')->sortable(),
             ])
