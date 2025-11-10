@@ -1,4 +1,4 @@
-name: Laravel Pint
+name: Fix Code Style With Laravel Pint
 
 on: [push]
 
@@ -8,13 +8,13 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v5
 
       - name: Setup
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
-          tools: composer:v2
+          tools: pint
 
       - name: Run Pint
-        run: ./vendor/bin/pint --test
+        run: pint --test
