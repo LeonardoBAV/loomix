@@ -33,8 +33,7 @@ class PriceListPage extends Page implements HasForms, HasTable
 
     public ?array $data = [];
 
-    public function getTitle(): string
-    {
+    public function getTitle(): string {
         return __('pages.price_list.title');
     }
 
