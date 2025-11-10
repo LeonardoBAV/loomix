@@ -31,14 +31,14 @@ class FabricShapeTable extends Component implements HasForms, HasTable
                 TextColumn::make('usage')->label('Usage')->translateLabel('Usage')->formatStateUsing(fn ($state) => $state.' gr'),
                 TextColumn::make('cost')->label('Cost')->translateLabel('Cost')->money('BRL', locale: 'pt_BR'),
             ])->actions([
-            Action::make('delete')
-                ->label('Delete')->translateLabel('Delete')
-                ->icon('heroicon-o-trash')
-                ->color('danger')
-                ->action(function (FabricShape $fabric_shape) {
-                    $fabric_shape->delete();
-                }),
-        ]);
+                Action::make('delete')
+                    ->label('Delete')->translateLabel('Delete')
+                    ->icon('heroicon-o-trash')
+                    ->color('danger')
+                    ->action(function (FabricShape $fabric_shape) {
+                        $fabric_shape->delete();
+                    }),
+            ]);
     }
 
     public function render()

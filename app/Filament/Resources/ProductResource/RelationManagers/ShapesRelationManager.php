@@ -80,19 +80,19 @@ class ShapesRelationManager extends RelationManager
                         'filament.modals.fabric-shape-table',
                         ['action' => $action, 'shape' => $shape],
                     ))->registerModalActions([
-                    Action::make('Add')->label('Add')->translateLabel('Add')
-                        ->icon('heroicon-o-plus')
-                        ->form([
-                            Select::make('fabric_id')->label('Fabric')->translateLabel('Fabric')->options(Fabric::pluck('name', 'id'))->required()->searchable()->preload(),
-                            TextInput::make('usage')->required()->numeric()->minValue(1)->placeholder(__('Enter fabric usage'))->translateLabel('usage')->suffix('gr'),
-                        ])
-                        ->action(function (array $data, $record) {
-                            $record->fabricShapes()->create([
-                                'fabric_id' => $data['fabric_id'],
-                                'usage' => $data['usage'],
-                            ]);
-                        }),
-                ]),
+                        Action::make('Add')->label('Add')->translateLabel('Add')
+                            ->icon('heroicon-o-plus')
+                            ->form([
+                                Select::make('fabric_id')->label('Fabric')->translateLabel('Fabric')->options(Fabric::pluck('name', 'id'))->required()->searchable()->preload(),
+                                TextInput::make('usage')->required()->numeric()->minValue(1)->placeholder(__('Enter fabric usage'))->translateLabel('usage')->suffix('gr'),
+                            ])
+                            ->action(function (array $data, $record) {
+                                $record->fabricShapes()->create([
+                                    'fabric_id' => $data['fabric_id'],
+                                    'usage' => $data['usage'],
+                                ]);
+                            }),
+                    ]),
 
                 DeleteAction::make(),
             ])

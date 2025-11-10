@@ -59,18 +59,18 @@ class ProductionCostExpensesRelationManager extends RelationManager
                     }),
             ])
             ->actions([
-                    EditAction::make()->after(function () {
-                        $this->dispatch('refresh');
-                    }),
-                    DeleteAction::make()->after(function () {
-                        $this->dispatch('refresh');
-                    }),
+                EditAction::make()->after(function () {
+                    $this->dispatch('refresh');
+                }),
+                DeleteAction::make()->after(function () {
+                    $this->dispatch('refresh');
+                }),
             ])
             ->bulkActions([
-                    BulkActionGroup::make([
-                        DissociateBulkAction::make(),
-                        DeleteBulkAction::make(),
-                    ]),
+                BulkActionGroup::make([
+                    DissociateBulkAction::make(),
+                    DeleteBulkAction::make(),
+                ]),
             ]);
     }
 }
