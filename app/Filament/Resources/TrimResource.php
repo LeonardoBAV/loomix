@@ -103,8 +103,7 @@ class TrimResource extends Resource
         ];
     }
 
-    public static function getPages(): array
-    {
+    public static function getPages(): array{
         return [
             'index' => ListTrims::route('/'),
             'create' => CreateTrim::route('/create'),
