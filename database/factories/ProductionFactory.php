@@ -23,7 +23,7 @@ class ProductionFactory extends Factory
     public function definition(): array
     {
         $startDate = fake()->dateTimeBetween('-30 days', 'now');
-        
+
         return [
             'product_id' => Product::factory(),
             'cutter_id' => Cutter::factory(),
@@ -35,4 +35,4 @@ class ProductionFactory extends Factory
             'date_completed' => fake()->dateTimeBetween($startDate, '+30 days'),
         ];
     }
-} 
+}

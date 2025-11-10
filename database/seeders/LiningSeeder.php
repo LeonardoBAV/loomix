@@ -9,6 +9,6 @@ class LiningSeeder extends Seeder
 {
     public function run(): void
     {
-        //Lining::factory()->count(20)->create();
+        // Lining::factory()->count(20)->create();
     }
-} 
+}

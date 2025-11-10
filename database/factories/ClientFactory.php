@@ -17,4 +17,4 @@ class ClientFactory extends Factory
             'phone' => fake()->phoneNumber(),
         ];
     }
-} 
+}

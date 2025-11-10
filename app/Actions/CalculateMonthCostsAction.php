@@ -6,13 +6,9 @@ use App\Models\Expense;
 use App\Models\Product;
 use App\Models\Production;
 use Illuminate\Database\Eloquent\Collection;
-use Spatie\Browsershot\Browsershot;
-use Illuminate\Support\Facades\Storage;
 
 class CalculateMonthCostsAction
 {
-
-
     /*public function execute(Production $production, Collection $expenses): array
     {
         $expense = $expenses->first(fn ($expense) => $expense->date->format('m/Y') == $production->date->format('m/Y'));
@@ -52,12 +48,12 @@ class CalculateMonthCostsAction
         }
 
         $pontuation_product = $production_item->count * $this->record->production_weight;
-        
+
         $pontuation_total = $production_item->production->getTotalPontuation();
-        
+
         $percentage = ($pontuation_product * 100) / $pontuation_total;
         $cost = ($this->getExpense($production_item->production->date)*$percentage)/100;
-        
+
         return $cost/$production_item->count;
     }
 
@@ -67,4 +63,4 @@ class CalculateMonthCostsAction
         ->whereMonth('date', $date->month)->first()->cost;
     }*/
 
-} //$material_cost = $this->getTotalCost();
+} // $material_cost = $this->getTotalCost();

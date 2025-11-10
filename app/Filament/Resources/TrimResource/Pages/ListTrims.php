@@ -16,4 +16,4 @@ class ListTrims extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
-} 
+}

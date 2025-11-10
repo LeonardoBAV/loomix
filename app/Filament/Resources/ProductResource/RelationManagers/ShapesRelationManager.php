@@ -2,24 +2,20 @@
 
 namespace App\Filament\Resources\ProductResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Toggle;
-use Filament\Tables\Columns\TextColumn;
 use App\Models\Fabric;
 use App\Models\Shape;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,7 +29,6 @@ class ShapesRelationManager extends RelationManager
     {
         return __('Shapes');
     }
-
 
     public function isReadOnly(): bool
     {
@@ -62,7 +57,7 @@ class ShapesRelationManager extends RelationManager
                         $fabric_shape = $shape->fabricShapes()
                             ->whereSample(true)
                             ->first();
-                            
+
                         return $fabric_shape?->image ?? null;
                     })
                     ->defaultImageUrl('https://placehold.co/400x400/png?text=No+Image')
@@ -76,29 +71,29 @@ class ShapesRelationManager extends RelationManager
             ->actions([
                 EditAction::make()->modalHeading(__('Edit Shape'))->slideOver(),
                 Action::make('Manage Fabrics')->icon('heroicon-o-squares-2x2')
-                ->label('Manage Fabrics')->translateLabel('Manage Fabrics')
-                ->modal()
-                ->modalSubmitAction(false)
-                ->modalCancelAction(false)
-                ->modalHeading(fn(Shape $shape) => __('Manage Fabrics for').' '.$shape->name)
-                ->modalContent(fn (Action $action, Shape $shape): View => view(
-                    'filament.modals.fabric-shape-table',
-                    ['action' => $action, 'shape' => $shape],
-                ))->registerModalActions([
+                    ->label('Manage Fabrics')->translateLabel('Manage Fabrics')
+                    ->modal()
+                    ->modalSubmitAction(false)
+                    ->modalCancelAction(false)
+                    ->modalHeading(fn (Shape $shape) => __('Manage Fabrics for').' '.$shape->name)
+                    ->modalContent(fn (Action $action, Shape $shape): View => view(
+                        'filament.modals.fabric-shape-table',
+                        ['action' => $action, 'shape' => $shape],
+                    ))->registerModalActions([
                     Action::make('Add')->label('Add')->translateLabel('Add')
-                    ->icon('heroicon-o-plus')
-                    ->form([
-                        Select::make('fabric_id')->label('Fabric')->translateLabel('Fabric')->options(Fabric::pluck('name', 'id'))->required()->searchable()->preload(),
-                        TextInput::make('usage')->required()->numeric()->minValue(1)->placeholder(__('Enter fabric usage'))->translateLabel('usage')->suffix('gr'),
-                    ])
-                    ->action(function (array $data, $record) {
-                        $record->fabricShapes()->create([
-                            'fabric_id' => $data['fabric_id'],
-                            'usage' => $data['usage'],
-                        ]);
-                    }),
+                        ->icon('heroicon-o-plus')
+                        ->form([
+                            Select::make('fabric_id')->label('Fabric')->translateLabel('Fabric')->options(Fabric::pluck('name', 'id'))->required()->searchable()->preload(),
+                            TextInput::make('usage')->required()->numeric()->minValue(1)->placeholder(__('Enter fabric usage'))->translateLabel('usage')->suffix('gr'),
+                        ])
+                        ->action(function (array $data, $record) {
+                            $record->fabricShapes()->create([
+                                'fabric_id' => $data['fabric_id'],
+                                'usage' => $data['usage'],
+                            ]);
+                        }),
                 ]),
-                
+
                 DeleteAction::make(),
             ])
             ->bulkActions([

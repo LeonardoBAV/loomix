@@ -19,4 +19,4 @@ class ProductionGridFactory extends Factory
             'qty' => fake()->numberBetween(10, 100),
         ];
     }
-} 
+}

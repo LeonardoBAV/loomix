@@ -14,7 +14,7 @@ class ProductionObserver
 
     public function updated(Production $production)
     {
-        if($production->wasChanged('date_completed') || $production->wasChanged('date_finishing') || $production->wasChanged('date_sewing') || $production->wasChanged('date_cutting')) {
+        if ($production->wasChanged('date_completed') || $production->wasChanged('date_finishing') || $production->wasChanged('date_sewing') || $production->wasChanged('date_cutting')) {
             Notification::make()
                 ->title(__('notifications.success'))
                 ->body(__('notifications.production.observer.production_updated'))
@@ -23,5 +23,4 @@ class ProductionObserver
                 ->send();
         }
     }
-
 }

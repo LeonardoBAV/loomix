@@ -3,7 +3,6 @@
 namespace App\Observers;
 
 use App\Models\LiningProduct;
-use App\Models\Lining;
 
 class LiningProductObserver
 {
@@ -11,5 +10,4 @@ class LiningProductObserver
     {
         $lining_product->total = $lining_product->lining->price * $lining_product->quantity;
     }
-
-} 
+}

@@ -27,4 +27,4 @@ class ProductionItemFactory extends Factory
             'count' => $this->faker->numberBetween(1, 500),
         ];
     }
-} 
+}

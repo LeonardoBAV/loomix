@@ -2,23 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ColorResource\Pages;
 use App\Filament\Resources\ColorResource\Pages\ManageColors;
-use App\Filament\Resources\ColorResource\RelationManagers;
 use App\Models\Color;
-use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ColorResource extends Resource
 {
@@ -32,12 +26,11 @@ class ColorResource extends Resource
     {
         return __('resources.menu.variations');
     }
-    
+
     public static function getNavigationLabel(): string
     {
         return __('resources.colors.navigation_label');
     }
-
 
     public static function getModelLabel(): string
     {

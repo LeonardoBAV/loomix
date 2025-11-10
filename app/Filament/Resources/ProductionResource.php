@@ -4,10 +4,8 @@ namespace App\Filament\Resources;
 
 use App\Enums\ProductionStatusEnum;
 use App\Filament\Exports\ProductionExporter;
-use App\Filament\Resources\ProductionResource\Pages;
 use App\Filament\Resources\ProductionResource\Pages\ListProductions;
 use App\Filament\Resources\ProductionResource\Pages\ViewProduction;
-use App\Filament\Resources\ProductionResource\RelationManagers;
 use App\Filament\Resources\ProductionResource\RelationManagers\ProductionGridsRelationManager;
 use App\Models\Client;
 use App\Models\Order;
@@ -15,7 +13,6 @@ use App\Models\Production;
 use App\Models\ProductionGrid;
 use App\Models\Size;
 use Carbon\Carbon;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
@@ -25,11 +22,9 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ExportAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\Summarizers\Sum;
@@ -41,7 +36,6 @@ use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
 
 class ProductionResource extends Resource
@@ -51,7 +45,6 @@ class ProductionResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-building-office';
 
     protected static ?int $navigationSort = 3;
-
 
     public static function getNavigationLabel(): string
     {
@@ -78,8 +71,8 @@ class ProductionResource extends Resource
         return $infolist
             ->schema([
                 Section::make(__('Production Information'))->schema([
-                    TextEntry::make('product.name')->label(__('resources.productions.table.product'))->url(fn($record) => ProductResource::getUrl('view', ['record' => $record->product]))->icon('heroicon-o-arrow-top-right-on-square')->color('primary')->iconColor('primary')->weight(FontWeight::Bold),
-                    TextEntry::make('order.id')->label(__('resources.productions.infolist.order'))->url(fn($record) => OrderResource::getUrl('view', ['record' => $record->order]))->icon('heroicon-o-arrow-top-right-on-square')->color('info')->iconColor('info')->prefix('#'),
+                    TextEntry::make('product.name')->label(__('resources.productions.table.product'))->url(fn ($record) => ProductResource::getUrl('view', ['record' => $record->product]))->icon('heroicon-o-arrow-top-right-on-square')->color('primary')->iconColor('primary')->weight(FontWeight::Bold),
+                    TextEntry::make('order.id')->label(__('resources.productions.infolist.order'))->url(fn ($record) => OrderResource::getUrl('view', ['record' => $record->order]))->icon('heroicon-o-arrow-top-right-on-square')->color('info')->iconColor('info')->prefix('#'),
                     TextEntry::make('order.client.name')->label(__('resources.productions.table.client')),
                     TextEntry::make('cutter.name')->label(__('resources.productions.table.cutter')),
                     TextEntry::make('color.title')->label(__('resources.productions.table.color')),
@@ -91,8 +84,8 @@ class ProductionResource extends Resource
                     TextEntry::make('sample')
                         ->label(__('resources.productions.form.sample'))
                         ->badge()
-                        ->formatStateUsing(fn($state): string => $state ? __('resources.productions.infolist.sample.yes') : __('resources.productions.infolist.sample.no'))
-                        ->color(fn($state): string => $state ? 'primary' : 'gray'),
+                        ->formatStateUsing(fn ($state): string => $state ? __('resources.productions.infolist.sample.yes') : __('resources.productions.infolist.sample.no'))
+                        ->color(fn ($state): string => $state ? 'primary' : 'gray'),
                     TextEntry::make('created_at')->label(__('resources.productions.table.created_at')),
                     TextEntry::make('updated_at')->label(__('resources.productions.table.updated_at')),
                 ])->columns(3),
@@ -106,9 +99,9 @@ class ProductionResource extends Resource
                 Select::make('product_id')->relationship('product', 'name')->label(__('resources.productions.form.product'))->required(),
                 Select::make('color_id')->relationship('color', 'title')->label(__('resources.productions.form.color'))->required(),
                 Select::make('order_id')->relationship('order', 'id')->label(__('resources.productions.form.order'))->required()
-                    ->getOptionLabelFromRecordUsing(fn(Order $record) => "#{$record->id} - {$record->client->name}")->searchable()->preload(),
+                    ->getOptionLabelFromRecordUsing(fn (Order $record) => "#{$record->id} - {$record->client->name}")->searchable()->preload(),
                 Select::make('cutter_id')->relationship('cutter', 'name')->label(__('resources.productions.form.cutter')),
-                //Select::make('client_id')->relationship('client', 'name')->label(__('resources.productions.form.client'))->required(),
+                // Select::make('client_id')->relationship('client', 'name')->label(__('resources.productions.form.client'))->required(),
                 // put date_started in the form
                 DatePicker::make('date_started')->label(__('resources.productions.form.date_started'))->required()->columnSpanFull(),
                 DatePicker::make('date_cutting')->label(__('resources.productions.form.date_cutting'))->visibleOn('edit'),
@@ -125,26 +118,26 @@ class ProductionResource extends Resource
 
         $statuses = collect(ProductionStatusEnum::cases())->mapWithKeys(function ($status) {
             return [
-                $status->value => __('enums.production_status.' . $status->value)
+                $status->value => __('enums.production_status.'.$status->value),
             ];
         });
 
         return $table
             ->columns([
-                TextColumn::make('order.id')->label(__('resources.productions.table.order'))->tooltip(fn($record) => $record->order->client->name)->icon('heroicon-o-arrow-top-right-on-square')->color('info')->iconColor('info')->prefix('#')
-                    ->url(fn($record) => OrderResource::getUrl('view', ['record' => $record->order])),
-                    //->description(fn($record) => $record->order->client->name),
-                TextColumn::make('product.name')->label(__('resources.productions.table.product'))->description(fn(Production $record) => $record->color->title . ($record->sample ? ' - ' . __('resources.productions.table.sample') : ''))->weight(FontWeight::Bold)->sortable()->searchable()
+                TextColumn::make('order.id')->label(__('resources.productions.table.order'))->tooltip(fn ($record) => $record->order->client->name)->icon('heroicon-o-arrow-top-right-on-square')->color('info')->iconColor('info')->prefix('#')
+                    ->url(fn ($record) => OrderResource::getUrl('view', ['record' => $record->order])),
+                // ->description(fn($record) => $record->order->client->name),
+                TextColumn::make('product.name')->label(__('resources.productions.table.product'))->description(fn (Production $record) => $record->color->title.($record->sample ? ' - '.__('resources.productions.table.sample') : ''))->weight(FontWeight::Bold)->sortable()->searchable()
                     ->icon('heroicon-m-arrow-top-right-on-square')
                     ->color('primary')
-                    ->url(fn($record) => ProductResource::getUrl('view', ['record' => $record->product])),
+                    ->url(fn ($record) => ProductResource::getUrl('view', ['record' => $record->product])),
                 ...$sizes->map(function (Size $size) {
-                    return TextColumn::make('size_' . $size->alias)->summarize(Sum::make())->label($size->alias)->default(0);
+                    return TextColumn::make('size_'.$size->alias)->summarize(Sum::make())->label($size->alias)->default(0);
                 }),
                 TextColumn::make('total_qty')->label(__('resources.productions.table.total_qty'))->summarize(Sum::make())->default(0),
                 TextColumn::make('status')->label(__('resources.productions.table.status'))->badge()->sortable()
-                    ->getStateUsing(fn(Production $record) => __('enums.production_status.' . $record->status->value))
-                    ->color(fn(Production $record) => $record->status->color())
+                    ->getStateUsing(fn (Production $record) => __('enums.production_status.'.$record->status->value))
+                    ->color(fn (Production $record) => $record->status->color())
                     ->summarize(
                         Summarizer::make()
                             ->label(__('resources.productions.table.summary.status'))
@@ -160,12 +153,11 @@ class ProductionResource extends Resource
                             })->numeric(),
                     ),
 
-
                 /*
                  ->summarize(Summarizer::make()
         ->label('First last name')
         ->using(fn (Builder $query): string => $query->min('last_name'))) */
-                //TextColumn::make('date_started')->label(__('resources.productions.table.date_started'))->date('d/m/Y')->sortable(),
+                // TextColumn::make('date_started')->label(__('resources.productions.table.date_started'))->date('d/m/Y')->sortable(),
                 TextColumn::make('cutter.name')->label(__('resources.productions.table.cutter'))->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('order.client.name')->label(__('resources.productions.table.client'))->sortable()->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('date_cutting')->label(__('resources.productions.table.date_cutting'))->date()->sortable()->toggleable(isToggledHiddenByDefault: true),
@@ -176,7 +168,7 @@ class ProductionResource extends Resource
                 TextColumn::make('updated_at')->label(__('resources.productions.table.updated_at'))->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //filter by date finishing year and month only
+                // filter by date finishing year and month only
                 Filter::make('date_finishing')
                     ->form([
                         DatePicker::make('date_finishing')->label(__('resources.productions.table.filter.date_finishing'))->displayFormat('m/Y')->native(false)->closeOnDateSelection(),
@@ -186,12 +178,15 @@ class ProductionResource extends Resource
                             $date_finishing = Carbon::parse($data['date_finishing']);
                             $query->whereYear('date_finishing', $date_finishing->year)->whereMonth('date_finishing', $date_finishing->month);
                         }
+
                         return $query;
                     })->indicateUsing(function (array $data): string {
                         if ($data['date_finishing']) {
                             $date_finishing = Carbon::parse($data['date_finishing']);
-                            return __('resources.productions.table.filter.date_finishing') . ': ' . $date_finishing->format('m/Y');
+
+                            return __('resources.productions.table.filter.date_finishing').': '.$date_finishing->format('m/Y');
                         }
+
                         return '';
                     }),
 
@@ -202,7 +197,7 @@ class ProductionResource extends Resource
                     ->query(function (Builder $query, array $data): Builder {
                         $query->where(function (Builder $query) use ($data) {
                             if (in_array(ProductionStatusEnum::Completed->value, $data['status'])) {
-                                //dd($data);
+                                // dd($data);
                                 $query->orWhere(function (Builder $query) {
                                     $query->whereNotNull('date_completed');
                                 });
@@ -246,7 +241,7 @@ class ProductionResource extends Resource
                             return $statuses[$status];
                         });
 
-                        return __('resources.productions.table.filter.status') . ': ' . implode(', ',  $values->toArray());
+                        return __('resources.productions.table.filter.status').': '.implode(', ', $values->toArray());
                     }),
                 SelectFilter::make('order_id')
                     ->relationship('order', 'id')->label(__('resources.productions.table.filter.order'))->searchable()->preload(),
@@ -256,13 +251,13 @@ class ProductionResource extends Resource
                 Filter::make('sample')->label(__('resources.productions.table.filter.sample'))->query(function (Builder $query, array $data): Builder {
                     return $query->whereSample(true);
                 }),
-                //SelectFilter::make('client_id')
+                // SelectFilter::make('client_id')
                 //    ->relationship('client', 'name')->label(__('resources.productions.table.filter.client')),
                 SelectFilter::make('color_id')
                     ->relationship('color', 'title')->label(__('resources.productions.table.filter.color')),
             ])
             ->filtersTriggerAction(
-                fn(Action $action) => $action
+                fn (Action $action) => $action
                     ->button()
                     ->label(__('resources.productions.table.filter.button')),
             )
@@ -272,26 +267,26 @@ class ProductionResource extends Resource
                     ->icon('heroicon-o-document-text')
                     ->color('info')
                     ->modalHeading(__('resources.productions.table.note_modal_heading'))
-                    ->modalContent(fn(Production $record): Htmlable => new HtmlString('<div class="p-4 whitespace-pre-wrap">' . e($record->note) . '</div>'))
+                    ->modalContent(fn (Production $record): Htmlable => new HtmlString('<div class="p-4 whitespace-pre-wrap">'.e($record->note).'</div>'))
                     ->modalSubmitAction(false)
                     ->modalCancelActionLabel(__('Close'))
-                    ->visible(fn(Production $record) => !is_null($record->note)),
+                    ->visible(fn (Production $record) => ! is_null($record->note)),
                 ActionGroup::make([
                     ViewAction::make(),
                     DeleteAction::make(),
-                    //next and previus action
+                    // next and previus action
                     Action::make('next')->label(__('resources.productions.table.next'))->icon('fas-arrow-right')->color('primary')
-                        ->action(fn(Production $record) => $record->nextStep())
-                        ->visible(fn(Production $record) => $record->status !== ProductionStatusEnum::Completed),
+                        ->action(fn (Production $record) => $record->nextStep())
+                        ->visible(fn (Production $record) => $record->status !== ProductionStatusEnum::Completed),
                     Action::make('previus')->label(__('resources.productions.table.previus'))->icon('fas-arrow-left')->color('primary')
-                        ->action(fn(Production $record) => $record->previusStep())
-                        ->visible(fn(Production $record) => $record->status !== ProductionStatusEnum::Pending),
+                        ->action(fn (Production $record) => $record->previusStep())
+                        ->visible(fn (Production $record) => $record->status !== ProductionStatusEnum::Pending),
                 ]),
-                //group button with start production, stop production, complete production
+                // group button with start production, stop production, complete production
             ])
             ->headerActions([
                 ExportAction::make()
-                    ->exporter(ProductionExporter::class)->columnMapping(false)
+                    ->exporter(ProductionExporter::class)->columnMapping(false),
             ])
             ->bulkActions([])
             ->modifyQueryUsing(function (Builder $query) use ($sizes) {
@@ -299,15 +294,15 @@ class ProductionResource extends Resource
                 // Adicionar subquery para cada tamanho
                 foreach ($sizes as $size) {
                     $query->addSelect([
-                        'size_' . $size->alias => ProductionGrid::select('qty')
+                        'size_'.$size->alias => ProductionGrid::select('qty')
                             ->whereColumn('production_id', 'productions.id')
                             ->where('size_id', $size->id)
-                            ->limit(1)
+                            ->limit(1),
                     ]);
                 }
 
                 $query->withSum([
-                    'productionGrids as total_qty' => function (Builder $q) {}
+                    'productionGrids as total_qty' => function (Builder $q) {},
                 ], 'qty');
 
                 /*$query->addSelect([
@@ -316,7 +311,6 @@ class ProductionResource extends Resource
                         ->where('size_id', 1)
                         ->sum('qty')
                 ]);*/
-
 
                 return $query->orderBy('created_at', 'desc');
             });

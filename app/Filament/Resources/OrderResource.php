@@ -1,18 +1,13 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\OrderResource\Pages;
-use App\Filament\Resources\OrderResource\Pages\CreateOrder;
-use App\Filament\Resources\OrderResource\Pages\EditOrder;
 use App\Filament\Resources\OrderResource\Pages\ListOrders;
-use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Filament\Resources\OrderResource\RelationManagers\ProductionsRelationManager;
 use App\Filament\Resources\ProductResource\Pages\ViewOrders;
 use App\Models\Order;
-use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
@@ -21,7 +16,6 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
-use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
@@ -29,7 +23,6 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OrderResource extends Resource
 {
@@ -77,8 +70,8 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                //id column
-                //TextColumn::make('id')->sortable(),
+                // id column
+                // TextColumn::make('id')->sortable(),
                 //
                 Select::make('client_id')->label(__('resources.orders.form.client'))->relationship('client', 'name')->searchable()->required()->columnSpanFull(),
                 Textarea::make('note')->label(__('resources.orders.form.note'))->rows(3)->columnSpanFull(),
@@ -90,13 +83,14 @@ class OrderResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('client.name')->label(__('resources.orders.table.client'))->sortable()->description(fn (Order $record) => "#{$record->id}")->weight(FontWeight::Bold),
-                TextColumn::make('units')->label(__('resources.orders.table.units'))->getStateUsing(function(Order $record) {
+                TextColumn::make('units')->label(__('resources.orders.table.units'))->getStateUsing(function (Order $record) {
                     $record->load('productions.productionGrids');
-                    return "$record->units " . __('resources.orders.table.units_suffix');
+
+                    return "$record->units ".__('resources.orders.table.units_suffix');
                 }),
 
                 TextColumn::make('note')->label(__('resources.orders.table.note')),
-                
+
                 TextColumn::make('created_at')->translateLabel()->dateTime('d/m/Y H:i')->sortable(),
                 TextColumn::make('updated_at')->translateLabel()->dateTime('d/m/Y H:i')->sortable(),
             ])
@@ -127,7 +121,7 @@ class OrderResource extends Resource
     {
         return [
             'index' => ListOrders::route('/'),
-            'view' => ViewOrders::route('/{record}')
+            'view' => ViewOrders::route('/{record}'),
         ];
     }
 }

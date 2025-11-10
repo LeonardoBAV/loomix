@@ -15,4 +15,4 @@ class CutterFactory extends Factory
             'name' => fake()->name(),
         ];
     }
-} 
+}

@@ -17,4 +17,4 @@ class LiningFactory extends Factory
             'price' => fake()->randomFloat(2, 0.1, 1000),
         ];
     }
-} 
+}

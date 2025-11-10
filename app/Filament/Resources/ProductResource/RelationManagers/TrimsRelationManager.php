@@ -42,10 +42,10 @@ class TrimsRelationManager extends RelationManager
             ])
             ->headerActions([
                 AttachAction::make()
-                ->form(fn (AttachAction $action): array => [
-                    $action->getRecordSelect(),
-                    TextInput::make('quantity')->translateLabel('quantity')->required()->numeric()->step(0.01),
-                ]),
+                    ->form(fn (AttachAction $action): array => [
+                        $action->getRecordSelect(),
+                        TextInput::make('quantity')->translateLabel('quantity')->required()->numeric()->step(0.01),
+                    ]),
             ])
             ->actions([
                 DetachAction::make(),

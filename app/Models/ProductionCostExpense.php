@@ -16,15 +16,15 @@ class ProductionCostExpense extends Model
     protected $fillable = [
         'production_cost_id',
         'title',
-        'value'
+        'value',
     ];
 
     protected $casts = [
-        'value' => 'decimal:4'
+        'value' => 'decimal:4',
     ];
 
     public function productionCost(): BelongsTo
     {
         return $this->belongsTo(ProductionCost::class);
     }
-} 
+}

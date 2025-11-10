@@ -8,7 +8,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class CountProductsWidget extends BaseWidget
 {
-    //use InteractsWithPageTable;
+    // use InteractsWithPageTable;
 
     protected function getColumns(): int
     {

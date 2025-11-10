@@ -5,11 +5,11 @@ namespace App\Models;
 use App\Enums\ProductionStatusEnum;
 use App\Observers\ProductionObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
 #[ObservedBy([ProductionObserver::class])]
 class Production extends Model
@@ -27,7 +27,7 @@ class Production extends Model
         'date_finishing',
         'date_completed',
         'sample',
-        'note'
+        'note',
     ];
 
     protected $casts = [
@@ -36,7 +36,7 @@ class Production extends Model
         'date_sewing' => 'date',
         'date_finishing' => 'date',
         'date_completed' => 'date',
-        'sample' => 'boolean'
+        'sample' => 'boolean',
     ];
 
     public function product(): BelongsTo
@@ -69,7 +69,6 @@ class Production extends Model
         return $this->hasMany(ProductionGrid::class);
     }
 
-
     protected function status(): Attribute
     {
         return Attribute::make(
@@ -91,24 +90,25 @@ class Production extends Model
 
     private function getStatus(): ProductionStatusEnum
     {
-        if($this->date_completed) {
+        if ($this->date_completed) {
             return ProductionStatusEnum::Completed;
         }
-        if($this->date_finishing) {
+        if ($this->date_finishing) {
             return ProductionStatusEnum::Finishing;
         }
-        if($this->date_sewing) {
+        if ($this->date_sewing) {
             return ProductionStatusEnum::Sewing;
         }
-        if($this->date_cutting) {
+        if ($this->date_cutting) {
             return ProductionStatusEnum::Cutting;
         }
+
         return ProductionStatusEnum::Pending;
     }
 
     public function nextStep()
     {
-        switch($this->status) {
+        switch ($this->status) {
             case ProductionStatusEnum::Pending:
                 $this->date_cutting = now();
                 break;
@@ -128,7 +128,7 @@ class Production extends Model
 
     public function previusStep()
     {
-        switch($this->status) {
+        switch ($this->status) {
             case ProductionStatusEnum::Completed:
                 $this->date_completed = null;
                 break;
@@ -144,6 +144,4 @@ class Production extends Model
         }
         $this->save();
     }
-
-    
-} 
+}

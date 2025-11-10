@@ -13,11 +13,11 @@ class ProductionCost extends Model
 
     protected $fillable = [
         'title',
-        'default'
+        'default',
     ];
 
     protected $casts = [
-        'default' => 'boolean'
+        'default' => 'boolean',
     ];
 
     public function productionCostExpenses(): HasMany
@@ -48,16 +48,11 @@ class ProductionCost extends Model
         $this->productionCostProductions()->delete();
     }
 
-    public static function loadDefault(): ProductionCost|null
+    public static function loadDefault(): ?ProductionCost
     {
         return ProductionCost::whereDefault(true)->first();
     }
 
-    
-    
-    
-    
-    
     /**
      * Retorna a distribuição de categorias de produtos com percentuais
      * para uso no gráfico de pizza
@@ -67,13 +62,13 @@ class ProductionCost extends Model
         $productions = $this->productionCostProductions()
             ->with('product.product_category')
             ->get();
-        
+
         $total = $productions->sum('count');
-        
+
         if ($total === 0) {
             return [];
         }
-        
+
         $distribution = $productions
             ->groupBy(fn($item) => $item->product->product_category?->name ?? 'Sem Categoria')
             ->map(function ($items) use ($total) {
@@ -84,7 +79,7 @@ class ProductionCost extends Model
                 ];
             })
             ->sortByDesc('count');
-        
+
         return $distribution->toArray();
     }*/
 
@@ -93,6 +88,7 @@ class ProductionCost extends Model
         return $this->productionCostProductions()->with('product')->get()
             ->sum(function ($production) {
                 $weight = $production->product->production_weight ?? 0;
+
                 return $weight * $production->count;
             });
     }
@@ -101,4 +97,4 @@ class ProductionCost extends Model
     {
         return $this->productionCostProductions()->sum('count');
     }
-} 
+}

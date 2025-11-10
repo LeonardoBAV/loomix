@@ -12,11 +12,11 @@ class Size extends Model
 
     protected $fillable = [
         'title',
-        'alias'
+        'alias',
     ];
 
     public function productionGrids(): HasMany
     {
         return $this->hasMany(ProductionGrid::class);
     }
-} 
+}

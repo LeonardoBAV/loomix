@@ -16,4 +16,4 @@ class ColorFactory extends Factory
             'alias' => fake()->randomElement(['BLU', 'RED', 'BLK', 'WHT', 'GRN', 'YEL', 'PNK', 'GRY']),
         ];
     }
-} 
+}

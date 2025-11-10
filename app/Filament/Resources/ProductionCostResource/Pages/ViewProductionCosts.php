@@ -3,15 +3,10 @@
 namespace App\Filament\Resources\ProductionCostResource\Pages;
 
 use App\Filament\Resources\ProductionCostResource;
-use App\Filament\Resources\ProductionCostResource\Widgets\CategoryDistributionChart;
 use App\Filament\Resources\ProductionCostResource\Widgets\CategoryDistributionPieChartWidget;
 use App\Filament\Resources\ProductionCostResource\Widgets\ProductionCostPackageStatsWidget;
-use App\Filament\Resources\ProductionCostResource\Widgets\ProductionCostStatsWidget;
-use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
-use Filament\Support\Colors\Color;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\On;
 
 class ViewProductionCosts extends ViewRecord
@@ -21,7 +16,7 @@ class ViewProductionCosts extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make()->label(__('Edit'))->icon('heroicon-o-pencil-square')->color('primary')->button()->slideOver()
+            EditAction::make()->label(__('Edit'))->icon('heroicon-o-pencil-square')->color('primary')->button()->slideOver(),
         ];
     }
 
@@ -34,7 +29,5 @@ class ViewProductionCosts extends ViewRecord
     }
 
     #[On('refresh')]
-    public function refresh(): void
-    {
-    }
+    public function refresh(): void {}
 }

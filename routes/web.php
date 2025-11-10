@@ -8,12 +8,11 @@ use Spatie\LaravelPdf\Facades\Pdf;
 Route::get('/', function () {
     $html = '<h1 style="color: #6366F1; font-family: sans-serif;">PDF gerado com Browsershot!</h1>';
 
-    //Pdf::view('pdfs.invoice', ['invoice' => $invoice])
+    // Pdf::view('pdfs.invoice', ['invoice' => $invoice])
 
-
-   /* Pdf::html('<h1>PDF testando args!</h1>')
-    ->format('a4')
-    ->save(storage_path('app/public/teste.pdf'));
+    /* Pdf::html('<h1>PDF testando args!</h1>')
+     ->format('a4')
+     ->save(storage_path('app/public/teste.pdf'));
 */
     /*Pdf::html(function (\Spatie\Browsershot\Browsershot $browser) {
         $browser->setChromePath('/home/sail/.cache/puppeteer/chrome/linux-137.0.7151.55/chrome-linux64/chrome');
@@ -27,24 +26,22 @@ Route::get('/', function () {
       ->save(storage_path('app/public/teste.pdf'));
 */
 
-
-    //Browsershot::html($html)
-    //->setChromePath('/usr/bin/google-chrome-stable')
-    //->addChromiumArguments([
+    // Browsershot::html($html)
+    // ->setChromePath('/usr/bin/google-chrome-stable')
+    // ->addChromiumArguments([
     //    'no-sandbox',
     //    'disable-setuid-sandbox',
     //    'disable-gpu',
-    //])
-    //->save(storage_path('app/public/teste.pdf'));
+    // ])
+    // ->save(storage_path('app/public/teste.pdf'));
 
-    //return 'PDF salvo em storage/app/public/teste.pdf';
+    // return 'PDF salvo em storage/app/public/teste.pdf';
 
-    //return view('pdf.product-info');
+    // return view('pdf.product-info');
     return view('welcome');
 });
 
-//Route::get('teste', Teste::class  );
-
+// Route::get('teste', Teste::class  );
 
 /*
 use Spatie\LaravelPdf\Facades\Pdf;

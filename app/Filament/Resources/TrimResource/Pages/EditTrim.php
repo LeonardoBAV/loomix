@@ -16,4 +16,4 @@ class EditTrim extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
-} 
+}

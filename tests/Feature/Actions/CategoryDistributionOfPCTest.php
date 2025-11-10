@@ -1,25 +1,20 @@
 <?php
 
 use App\Actions\CategoryDistributionOfPCAction;
-use App\Models\Product;
-use App\Models\ProductCategory;
 use App\Models\ProductionCost;
-use App\Models\ProductionCostProduction;
-use Illuminate\Database\Eloquent\Collection;
 
 describe('Action: CategoryDistributionOfPC', function () {
-    
+
     beforeEach(function () {
         $this->production_cost = ProductionCost::factory()->create(['id' => 1]);
     });
 
-
     it('calculates correctly', function (array $production_cost_productions, $expected) {
-        //arrange
+        // arrange
         $production_cost_productions = createManyProductionCostProduction($production_cost_productions);
 
         // act
-        $distribution = (new CategoryDistributionOfPCAction())->execute($this->production_cost);
+        $distribution = (new CategoryDistributionOfPCAction)->execute($this->production_cost);
 
         // assert
         expect($distribution)->toBe($expected);
@@ -36,7 +31,7 @@ describe('Action: CategoryDistributionOfPC', function () {
                 'c1' => ['count' => 46, 'percentage' => 46.0],
                 'c2' => ['count' => 31, 'percentage' => 31.0],
                 'c3' => ['count' => 23, 'percentage' => 23.0],
-            ]
+            ],
         ],
         '50/50' => [
             'production_cost_productions' => [
@@ -46,7 +41,7 @@ describe('Action: CategoryDistributionOfPC', function () {
             'expected' => [
                 'c1' => ['count' => 50, 'percentage' => 50.0],
                 'c2' => ['count' => 50, 'percentage' => 50.0],
-            ]
+            ],
         ],
         '100/' => [
             'production_cost_productions' => [
@@ -54,7 +49,7 @@ describe('Action: CategoryDistributionOfPC', function () {
             ],
             'expected' => [
                 'c1' => ['count' => 100, 'percentage' => 100.0],
-            ]
+            ],
         ],
         'Product without category' => [
             'production_cost_productions' => [
@@ -62,11 +57,11 @@ describe('Action: CategoryDistributionOfPC', function () {
             ],
             'expected' => [
                 'Sem Categoria' => ['count' => 100, 'percentage' => 100.0],
-            ]
+            ],
         ],
         'No Product in Production Cost' => [
             'production_cost_productions' => [],
-            'expected' => []
+            'expected' => [],
         ],
         'Multiple products in the same category' => [
             'production_cost_productions' => [
@@ -75,8 +70,8 @@ describe('Action: CategoryDistributionOfPC', function () {
             ],
             'expected' => [
                 'c1' => ['count' => 100, 'percentage' => 100.0],
-            ]
-        ]
+            ],
+        ],
     ]);
 
 });

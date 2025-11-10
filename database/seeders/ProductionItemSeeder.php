@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\ProductionItem;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ProductionItemSeeder extends Seeder
@@ -17,4 +16,4 @@ class ProductionItemSeeder extends Seeder
         // Cria 100 itens de produção aleatórios
         ProductionItem::factory(100)->create();
     }
-} 
+}

@@ -2,14 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ProductCategoryResource\Pages;
 use App\Filament\Resources\ProductCategoryResource\Pages\ManageProductCategories;
 use App\Models\ProductCategory;
-use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -29,7 +26,7 @@ class ProductCategoryResource extends Resource
     {
         return __('resources.menu.manufacturing');
     }
-    
+
     public static function getNavigationLabel(): string
     {
         return __('resources.product_categories.navigation_label');
@@ -89,4 +86,3 @@ class ProductCategoryResource extends Resource
         ];
     }
 }
-

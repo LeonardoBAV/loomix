@@ -3,15 +3,15 @@
 namespace App\Filament\Resources\ProductionCostResource\Widgets;
 
 use App\Actions\CategoryDistributionOfPCAction;
-use App\Models\ProductionCost;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Database\Eloquent\Model;
 
 class CategoryDistributionPieChartWidget extends ChartWidget
 {
-
     public ?Model $record = null;
-    protected int | string | array $columnSpan = 'full';
+
+    protected int|string|array $columnSpan = 'full';
+
     protected static ?string $maxHeight = '300px';
 
     public function getHeading(): string
@@ -21,11 +21,12 @@ class CategoryDistributionPieChartWidget extends ChartWidget
 
     public function getDescription(): ?string
     {
-        if (!$this->record) {
+        if (! $this->record) {
             return null;
         }
 
         $total = $this->record->getTotalPieces();
+
         return __('resources.production_costs.widgets.category_distribution.description', ['total' => number_format($total, 0, ',', '.')]);
     }
 
@@ -52,14 +53,14 @@ class CategoryDistributionPieChartWidget extends ChartWidget
 
     protected function getData(): array
     {
-        if (!$this->record) {
+        if (! $this->record) {
             return [
                 'datasets' => [],
                 'labels' => [],
             ];
         }
 
-        $distribution = (new CategoryDistributionOfPCAction())->execute($this->record);
+        $distribution = (new CategoryDistributionOfPCAction)->execute($this->record);
 
         if (empty($distribution)) {
             return [
@@ -79,14 +80,14 @@ class CategoryDistributionPieChartWidget extends ChartWidget
 
         // cores menos vibrantes
         $colors = [
-            '#3b82f6', 
-            '#10b981', 
-            '#f59e0b', 
-            '#ef4444', 
-            '#8b5cf6', 
-            '#ec4899', 
-            '#06b6d4', 
-            '#f97316', 
+            '#3b82f6',
+            '#10b981',
+            '#f59e0b',
+            '#ef4444',
+            '#8b5cf6',
+            '#ec4899',
+            '#06b6d4',
+            '#f97316',
         ];
 
         return [
@@ -97,10 +98,8 @@ class CategoryDistributionPieChartWidget extends ChartWidget
                 ],
             ],
             'labels' => array_map(function ($label, $percentage) {
-                return $label . ' (' . $percentage . '%)';
+                return $label.' ('.$percentage.'%)';
             }, $labels, $percentages),
         ];
     }
-
-
 }

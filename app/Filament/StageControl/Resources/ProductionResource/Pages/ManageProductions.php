@@ -3,7 +3,6 @@
 namespace App\Filament\StageControl\Resources\ProductionResource\Pages;
 
 use App\Filament\StageControl\Resources\ProductionResource;
-use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
 
 class ManageProductions extends ManageRecords

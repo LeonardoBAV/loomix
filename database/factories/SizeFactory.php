@@ -16,4 +16,4 @@ class SizeFactory extends Factory
             'alias' => fake()->randomElement(['Pequeno', 'Médio', 'Grande', 'Extra Grande', 'Extra Pequeno']),
         ];
     }
-} 
+}

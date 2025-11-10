@@ -8,4 +8,4 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateTrim extends CreateRecord
 {
     protected static string $resource = TrimResource::class;
-} 
+}

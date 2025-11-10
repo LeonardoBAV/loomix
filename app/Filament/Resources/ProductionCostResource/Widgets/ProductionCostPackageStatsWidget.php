@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\ProductionCostResource\Widgets;
 
-use App\Models\ProductionCost;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Database\Eloquent\Model;
@@ -13,15 +12,13 @@ class ProductionCostPackageStatsWidget extends BaseWidget
 
     protected function getStats(): array
     {
-        if (!$this->record) {
+        if (! $this->record) {
             return [];
         }
 
         $total_weight = $this->record->getTotalWeight(); // teste
         $total_pieces = $this->record->getTotalPieces(); // test cover this in action and job
         $total_products = $this->record->productionCostProductions()->count(); // test cover this in action and job
-
-        
 
         return [
             Stat::make(
@@ -34,14 +31,14 @@ class ProductionCostPackageStatsWidget extends BaseWidget
                 ->color('success'),
 
             Stat::make(
-                    __('resources.production_costs.widgets.stats.total_pieces'),
-                    number_format($total_pieces, 0, ',', '.')
+                __('resources.production_costs.widgets.stats.total_pieces'),
+                number_format($total_pieces, 0, ',', '.')
             )
-            ->description(__('resources.production_costs.widgets.stats.total_pieces_description'))
-            ->descriptionIcon('heroicon-o-cube')
-            ->icon('heroicon-o-cube')
-            ->color('primary'),   
-            
+                ->description(__('resources.production_costs.widgets.stats.total_pieces_description'))
+                ->descriptionIcon('heroicon-o-cube')
+                ->icon('heroicon-o-cube')
+                ->color('primary'),
+
             Stat::make(
                 __('resources.production_costs.widgets.stats.total_products'),
                 number_format($total_products, 0, ',', '.')

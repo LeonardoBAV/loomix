@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\ProductCategoryResource\Pages;
 
 use App\Filament\Resources\ProductCategoryResource;
-use Filament\Actions;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
 
@@ -18,4 +17,3 @@ class ManageProductCategories extends ManageRecords
         ];
     }
 }
-

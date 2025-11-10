@@ -16,16 +16,16 @@ class ProductionSeeder extends Seeder
     {
         // Create sizes
         Size::factory()->count(6)->create();
-        
+
         // Create colors
         Color::factory()->count(8)->create();
-        
+
         // Create cutters
         Cutter::factory()->count(5)->create();
-        
+
         // Create clients
         Client::factory()->count(10)->create();
-        
+
         // Create productions with grids
         Production::factory()
             ->count(15)
@@ -35,4 +35,4 @@ class ProductionSeeder extends Seeder
             )
             ->create();
     }
-} 
+}

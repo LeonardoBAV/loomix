@@ -24,6 +24,6 @@ class RecalculateProductionCostJob implements ShouldQueue
      */
     public function handle(): void
     {
-        (new RecalculateProductionCostAction())->execute($this->production_cost);
+        (new RecalculateProductionCostAction)->execute($this->production_cost);
     }
 }

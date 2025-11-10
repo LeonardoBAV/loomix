@@ -13,11 +13,11 @@ class Client extends Model
     protected $fillable = [
         'name',
         'email',
-        'phone'
+        'phone',
     ];
 
     public function productions(): HasMany
     {
         return $this->hasMany(Production::class);
     }
-} 
+}

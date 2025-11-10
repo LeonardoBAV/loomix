@@ -2,23 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CutterResource\Pages;
 use App\Filament\Resources\CutterResource\Pages\ManageCutters;
-use App\Filament\Resources\CutterResource\RelationManagers;
 use App\Models\Cutter;
-use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CutterResource extends Resource
 {
@@ -32,12 +26,11 @@ class CutterResource extends Resource
     {
         return __('resources.menu.registrations');
     }
-    
+
     public static function getNavigationLabel(): string
     {
         return __('resources.cutters.navigation_label');
     }
-
 
     public static function getModelLabel(): string
     {
@@ -48,7 +41,6 @@ class CutterResource extends Resource
     {
         return __('resources.cutters.plural_model_label');
     }
-
 
     public static function form(Form $form): Form
     {

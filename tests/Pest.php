@@ -6,6 +6,7 @@ use App\Models\ProductionCostProduction;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Arr;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -17,11 +18,9 @@ use Illuminate\Support\Arr;
 |
 */
 
-
 pest()->extend(Tests\TestCase::class)
-    //->use(RefreshDatabase::class)
-    ->in('Feature', 'Unit');    
-
+    // ->use(RefreshDatabase::class)
+    ->in('Feature', 'Unit');
 
 /*uses(
     Tests\TestCase::class,
@@ -61,6 +60,7 @@ function createManyProductionCostProduction(array $production_cost_productions):
             $production_cost_production['product_id'] = createProduct($production_cost_production['product'])->id;
             unset($production_cost_production['product']);
         }
+
         return $production_cost_production;
     });
 
@@ -70,13 +70,14 @@ function createManyProductionCostProduction(array $production_cost_productions):
 function createProduct(array $product): Product
 {
     if (Arr::has($product, 'product_category')) {
-        if(ProductCategory::whereName($product['product_category']['name'])->exists()) {
+        if (ProductCategory::whereName($product['product_category']['name'])->exists()) {
             $product['product_category_id'] = ProductCategory::whereName($product['product_category']['name'])->first()->id;
         } else {
             $product['product_category_id'] = ProductCategory::factory()->create($product['product_category'])->id;
         }
-        
-        unset($product['product_category']);  
+
+        unset($product['product_category']);
     }
+
     return Product::factory()->create($product);
 }

@@ -4,8 +4,8 @@ namespace App\Models;
 
 use App\Observers\ProductTrimObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
 #[ObservedBy([ProductTrimObserver::class])]
 class ProductTrim extends Pivot
@@ -19,11 +19,11 @@ class ProductTrim extends Pivot
         'trim_id',
         'quantity',
         'unit',
-        'total'
+        'total',
     ];
 
     protected $casts = [
-        'quantity' => 'decimal:2'
+        'quantity' => 'decimal:2',
     ];
 
     public function trim()
@@ -42,5 +42,5 @@ class ProductTrim extends Pivot
             get: fn (string $value) => __($value),
         );
     }*/
-    
-} 
+
+}

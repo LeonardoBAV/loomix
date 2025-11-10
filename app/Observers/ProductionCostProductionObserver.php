@@ -9,7 +9,7 @@ class ProductionCostProductionObserver
 {
     public function creating(ProductionCostProduction $production_cost_production)
     {
-        $production_cost_production->cost = 0;//(new CalculateProductionCostOfProductAction())->execute($production_cost_production);
+        $production_cost_production->cost = 0; // (new CalculateProductionCostOfProductAction())->execute($production_cost_production);
     }
 
     public function created(ProductionCostProduction $production_cost_production)

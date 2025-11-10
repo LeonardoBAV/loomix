@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use App\Models\Order;
 use App\Models\Production;
@@ -15,16 +15,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //bvefore create orders for productions that already exist and put the respective client id
+        // bvefore create orders for productions that already exist and put the respective client id
         $productions = Production::all();
         foreach ($productions as $production) {
-            
+
             $order = Order::create(['client_id' => $production->client_id]);
 
-            $production->update(['order_id' => $order->id,]);
+            $production->update(['order_id' => $order->id]);
 
         }
-
 
         Schema::table('productions', function (Blueprint $table) {
             $table->dropForeign(['client_id']);

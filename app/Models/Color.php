@@ -12,11 +12,11 @@ class Color extends Model
 
     protected $fillable = [
         'title',
-        'alias'
+        'alias',
     ];
 
     public function productions(): HasMany
     {
         return $this->hasMany(Production::class);
     }
-} 
+}

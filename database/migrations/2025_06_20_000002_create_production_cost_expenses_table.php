@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('title');
             $table->decimal('value', 10, 4);
             $table->timestamps();
-            
+
             $table->unique(['production_cost_id', 'title']);
         });
     }
@@ -23,4 +23,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('production_cost_expenses');
     }
-}; 
+};

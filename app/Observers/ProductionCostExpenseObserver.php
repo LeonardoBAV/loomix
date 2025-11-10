@@ -7,7 +7,6 @@ use App\Models\ProductionCostExpense;
 
 class ProductionCostExpenseObserver
 {
-
     public function created(ProductionCostExpense $production_cost_expense)
     {
         RecalculateProductionCostJob::dispatch($production_cost_expense->productionCost)->onConnection('sync');

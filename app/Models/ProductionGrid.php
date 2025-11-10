@@ -13,11 +13,11 @@ class ProductionGrid extends Model
     protected $fillable = [
         'production_id',
         'size_id',
-        'qty'
+        'qty',
     ];
 
     protected $casts = [
-        'qty' => 'integer'
+        'qty' => 'integer',
     ];
 
     public function production(): BelongsTo
@@ -29,4 +29,4 @@ class ProductionGrid extends Model
     {
         return $this->belongsTo(Size::class);
     }
-} 
+}

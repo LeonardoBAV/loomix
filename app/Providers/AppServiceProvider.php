@@ -2,14 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use App\Http\Responses\LoginResponse;
 use App\Models\FabricShape;
 use App\Observers\FabricShapeObserver;
-use Illuminate\Support\Facades\URL;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse as FilamentLoginResponse;
-use App\Http\Responses\LoginResponse;
-
-
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

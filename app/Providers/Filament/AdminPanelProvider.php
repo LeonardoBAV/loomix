@@ -56,7 +56,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])->spa()
-            //->sidebarCollapsibleOnDesktop()
+            // ->sidebarCollapsibleOnDesktop()
             ->topNavigation()
             ->maxContentWidth(MaxWidth::Full);
     }

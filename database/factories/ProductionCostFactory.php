@@ -16,4 +16,4 @@ class ProductionCostFactory extends Factory
             'default' => fake()->boolean(20), // 20% chance of being default
         ];
     }
-} 
+}

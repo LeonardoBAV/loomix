@@ -18,4 +18,4 @@ class ExpenseSeeder extends Seeder
             )
             ->create();
     }
-} 
+}

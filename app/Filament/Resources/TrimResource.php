@@ -32,12 +32,11 @@ class TrimResource extends Resource
     {
         return __('Supplies');
     }
-    
+
     public static function getNavigationLabel(): string
     {
         return __('Trims');
     }
-
 
     public static function getModelLabel(): string
     {
@@ -111,4 +110,4 @@ class TrimResource extends Resource
             'edit' => EditTrim::route('/{record}/edit'),
         ];
     }
-} 
+}

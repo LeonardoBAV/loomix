@@ -18,4 +18,4 @@ class ExpenseItemFactory extends Factory
             'cost' => fake()->randomFloat(4, 0, 9999.9999),
         ];
     }
-} 
+}

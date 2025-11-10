@@ -23,4 +23,4 @@ class ProductionCostSeeder extends Seeder
             )
             ->create();
     }
-} 
+}

@@ -2,23 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ClientResource\Pages;
 use App\Filament\Resources\ClientResource\Pages\ManageClients;
-use App\Filament\Resources\ClientResource\RelationManagers;
 use App\Models\Client;
-use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ClientResource extends Resource
 {
@@ -32,12 +26,11 @@ class ClientResource extends Resource
     {
         return __('resources.menu.registrations');
     }
-    
+
     public static function getNavigationLabel(): string
     {
         return __('resources.clients.navigation_label');
     }
-
 
     public static function getModelLabel(): string
     {
@@ -48,7 +41,6 @@ class ClientResource extends Resource
     {
         return __('resources.clients.plural_model_label');
     }
-
 
     public static function form(Form $form): Form
     {

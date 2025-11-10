@@ -33,7 +33,8 @@ class PriceListPage extends Page implements HasForms, HasTable
 
     public ?array $data = [];
 
-    public function getTitle(): string{
+    public function getTitle(): string
+    {
         return __('pages.price_list.title');
     }
 
@@ -77,7 +78,7 @@ class PriceListPage extends Page implements HasForms, HasTable
             TextColumn::make('fabricShapes.fabric.name')->label(__('pages.price_list.table.fabric'))->listWithLineBreaks(),
             TextColumn::make('materialCost')->label(__('pages.price_list.table.supply_cost'))->money('BRL', locale: 'pt_BR')->badge()->color('info')->alignCenter()
                 ->getStateUsing(fn ($record) => $record->product->materialCost($record)),
-            
+
             TextColumn::make('productionCost')->label(__('pages.price_list.table.production_cost'))->money('BRL', locale: 'pt_BR')->badge()->color('info')
                 ->getStateUsing(fn ($record) => $record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0)->alignCenter(),
 
@@ -87,30 +88,29 @@ class PriceListPage extends Page implements HasForms, HasTable
             TextColumn::make('30%')->money('BRL', locale: 'pt_BR')->badge()->color('primary')
                 ->getStateUsing(fn ($record) => $this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 30))
                 ->alignCenter()
-                //font smaller of the description
-                ->description(fn ($record) => new HtmlString('<span class="text-xs text-gray-500">' . UtilHelper::formatMoney($this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 30) * 0.3 ) . '</span>')),
+                // font smaller of the description
+                ->description(fn ($record) => new HtmlString('<span class="text-xs text-gray-500">'.UtilHelper::formatMoney($this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 30) * 0.3).'</span>')),
 
             TextColumn::make('35%')->money('BRL', locale: 'pt_BR')->badge()->color('primary')
                 ->getStateUsing(fn ($record) => $this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 35))
                 ->alignCenter()
-                ->description(fn ($record) => new HtmlString('<span class="text-xs text-gray-500">' . UtilHelper::formatMoney($this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 35) * 0.35 ) . '</span>')),
+                ->description(fn ($record) => new HtmlString('<span class="text-xs text-gray-500">'.UtilHelper::formatMoney($this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 35) * 0.35).'</span>')),
 
             TextColumn::make('40%')->money('BRL', locale: 'pt_BR')->badge()->color('primary')
                 ->getStateUsing(fn ($record) => $this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 40))
                 ->alignCenter()
-                ->description(fn ($record) => new HtmlString('<span class="text-xs text-gray-500">' . UtilHelper::formatMoney($this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 40) * 0.4 ) . '</span>')),
+                ->description(fn ($record) => new HtmlString('<span class="text-xs text-gray-500">'.UtilHelper::formatMoney($this->salesPrice((($record->product->productionCostProductions->where('production_cost_id', $this->data['production_cost_id'])->first()->cost ?? 0) + $record->product->materialCost($record)), 40) * 0.4).'</span>')),
 
             TextColumn::make('sale_price')->label(__('pages.price_list.table.sale_price'))->money('BRL', locale: 'pt_BR')->badge()->color('success')->default('N/A')->alignCenter(),
 
-
         ])
-        ->groups([
-            Group::make('product.id')
-                ->label(__('pages.price_list.table.product'))
-                ->getTitleFromRecordUsing(fn (ProductArrangement $record): string => $record->product->name)
-                ->getDescriptionFromRecordUsing(fn (ProductArrangement $record): string => __("pages.price_list.table.arrangements_count", ['count' => $record->product->productArrangements()->count()]))
-                ->collapsible()
-        ])
+            ->groups([
+                Group::make('product.id')
+                    ->label(__('pages.price_list.table.product'))
+                    ->getTitleFromRecordUsing(fn (ProductArrangement $record): string => $record->product->name)
+                    ->getDescriptionFromRecordUsing(fn (ProductArrangement $record): string => __('pages.price_list.table.arrangements_count', ['count' => $record->product->productArrangements()->count()]))
+                    ->collapsible(),
+            ])
             ->filters([
                 SelectFilter::make('product_category_id')
                     ->label(__('pages.price_list.table.filter.category'))
@@ -125,8 +125,8 @@ class PriceListPage extends Page implements HasForms, HasTable
                     ->preload()
                     ->multiple(),
             ])
-        ->defaultGroup('product.id')
-        ->paginated(false);
+            ->defaultGroup('product.id')
+            ->paginated(false);
         /*return $table
             ->query(ProductionCostProduction::whereProductionCostId($this->data['production_cost_id']))
             ->columns([
@@ -135,7 +135,7 @@ class PriceListPage extends Page implements HasForms, HasTable
                     ->icon('heroicon-m-arrow-top-right-on-square')
                     ->color('primary')
                     ->url(fn ($record) => ProductResource::getUrl('view', ['record' => $record->product])),
-                
+
                 TextColumn::make('cost_material')->label(__('pages.price_list.table.material'))
                     ->money('BRL', locale: 'pt_BR')
                     ->badge()
@@ -152,8 +152,6 @@ class PriceListPage extends Page implements HasForms, HasTable
 
     private function salesPrice(float $cost, int $percentage): float
     {
-        return ($cost/((0.9)-($percentage/100)));
+        return $cost / ((0.9) - ($percentage / 100));
     }
-
-
 }

@@ -1,8 +1,6 @@
 <?php
 
-use App\Models\Product;
 use App\Models\ProductionCost;
-use Illuminate\Database\Eloquent\Collection;
 
 describe('Model ProductionCost: getTotalWeight', function () {
 
@@ -11,7 +9,7 @@ describe('Model ProductionCost: getTotalWeight', function () {
     });
 
     it('calculates correctly', function (array $production_cost_productions, $expected) {
-        //arrange
+        // arrange
         $production_cost_productions = createManyProductionCostProduction($production_cost_productions);
 
         // act

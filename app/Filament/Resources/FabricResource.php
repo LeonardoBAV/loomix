@@ -2,35 +2,28 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\FabricResource\Pages;
 use App\Filament\Resources\FabricResource\Pages\CreateFabric;
 use App\Filament\Resources\FabricResource\Pages\EditFabric;
 use App\Filament\Resources\FabricResource\Pages\ListFabrics;
-use App\Filament\Resources\FabricResource\RelationManagers;
 use App\Models\Fabric;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\Filter;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Section;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkAction;
-use Illuminate\Database\Eloquent\Collection;
-use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Filters\TernaryFilter;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 class FabricResource extends Resource
 {
@@ -44,12 +37,11 @@ class FabricResource extends Resource
     {
         return __('Supplies');
     }
-    
+
     public static function getNavigationLabel(): string
     {
         return __('Fabrics');
     }
-
 
     public static function getModelLabel(): string
     {
@@ -74,7 +66,7 @@ class FabricResource extends Resource
                             ]),
 
                         TextInput::make('price')->required()->numeric()->prefix('$')->minValue(0)->step(0.0001)->placeholder(__('Price per kilo'))->translateLabel('price'),
-                    ])
+                    ]),
             ]);
     }
 
@@ -107,11 +99,11 @@ class FabricResource extends Resource
                         return $query
                             ->when(
                                 $data['price_from'],
-                                fn(Builder $query, $price): Builder => $query->where('price', '>=', $price),
+                                fn (Builder $query, $price): Builder => $query->where('price', '>=', $price),
                             )
                             ->when(
                                 $data['price_until'],
-                                fn(Builder $query, $price): Builder => $query->where('price', '<=', $price),
+                                fn (Builder $query, $price): Builder => $query->where('price', '<=', $price),
                             );
                     }),
 
@@ -124,11 +116,11 @@ class FabricResource extends Resource
                         return $query
                             ->when(
                                 $data['created_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             )
                             ->when(
                                 $data['created_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     }),
             ])

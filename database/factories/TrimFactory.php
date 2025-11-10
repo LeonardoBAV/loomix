@@ -18,4 +18,4 @@ class TrimFactory extends Factory
             'unit' => fake()->randomElement(Trim::UNITS),
         ];
     }
-} 
+}

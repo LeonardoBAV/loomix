@@ -11,4 +11,4 @@ class TrimSeeder extends Seeder
     {
         Trim::factory()->count(20)->create();
     }
-} 
+}

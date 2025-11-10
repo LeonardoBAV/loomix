@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Collection;
 
 class Product extends Model
 {
@@ -39,12 +39,10 @@ class Product extends Model
         return $this->belongsToMany(Trim::class)->withPivot('quantity', 'total')->using(ProductTrim::class);
     }
 
-
     public function product_trims(): HasMany
     {
         return $this->hasMany(ProductTrim::class);
     }
-
 
     public function fabric_shapes(): HasManyThrough
     {
@@ -71,7 +69,6 @@ class Product extends Model
         return 23423.1923;
     }
 
-
     /*protected function supplyCost(): Attribute
     {
         return Attribute::make(
@@ -86,7 +83,8 @@ class Product extends Model
             $query->whereProductId($this->id);
         })->sum('cost');*/
         $id = $this->id;
-        //$this->productArrangements()->whereDefault(true)->sum('cost');
+
+        // $this->productArrangements()->whereDefault(true)->sum('cost');
         return Attribute::make(
             get: fn () => $this->fabric_shapes()->whereHas('productArrangements', function ($query) use ($id) {
                 $query->whereDefault(true);
@@ -112,21 +110,21 @@ class Product extends Model
         return self::whereProductCategoryId($category_id)->get();
     }
 
-    public function switchDefaultProductArrangement(ProductArrangement | int $product_arrangement): void
+    public function switchDefaultProductArrangement(ProductArrangement|int $product_arrangement): void
     {
-        if(!$product_arrangement instanceof ProductArrangement) {
+        if (! $product_arrangement instanceof ProductArrangement) {
             $product_arrangement = ProductArrangement::find($product_arrangement);
         }
-        
+
         $this->productArrangements()->whereDefault(true)->update(['default' => false]);
         $product_arrangement->update(['default' => true]);
     }
 
     public function hasDefaultProductArrangement(): bool
-    { 
+    {
         return $this->productArrangements()->whereDefault(true)->exists();
     }
-     
+
     /*protected function totalSampleCost(): Attribute
     {
         return Attribute::make(

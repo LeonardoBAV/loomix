@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\ProductArrangement;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ProductArrangementSeeder extends Seeder
@@ -21,7 +20,7 @@ class ProductArrangementSeeder extends Seeder
 
         // Criar alguns arranjos adicionais
         ProductArrangement::factory(3)->create([
-            'default' => false
+            'default' => false,
         ]);
     }
 }

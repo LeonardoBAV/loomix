@@ -16,7 +16,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        //just create table with id
+        // just create table with id
         Schema::create('expense_items', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
@@ -38,4 +38,4 @@ return new class extends Migration
         });
 
     }
-}; 
+};

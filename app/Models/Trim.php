@@ -19,18 +19,18 @@ class Trim extends Model
         'code',
         'price',
         'unit',
-        'image'
+        'image',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
-        'unit' => 'string'
+        'unit' => 'string',
     ];
 
     public const UNITS = [
         'meters',
         'unit',
-        'kilos'
+        'kilos',
     ];
 
     public function products(): BelongsToMany
@@ -45,4 +45,4 @@ class Trim extends Model
     {
         return $this->hasMany(ProductTrim::class);
     }
-} 
+}

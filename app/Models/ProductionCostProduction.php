@@ -17,12 +17,12 @@ class ProductionCostProduction extends Model
         'production_cost_id',
         'product_id',
         'count',
-        'cost'
+        'cost',
     ];
 
     protected $casts = [
         'count' => 'integer',
-        'cost' => 'decimal:4'
+        'cost' => 'decimal:4',
     ];
 
     public function productionCost(): BelongsTo
@@ -34,4 +34,4 @@ class ProductionCostProduction extends Model
     {
         return $this->belongsTo(Product::class);
     }
-} 
+}

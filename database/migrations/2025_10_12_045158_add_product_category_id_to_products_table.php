@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->foreignId('product_category_id')->nullable()->after('id')->constrained('product_categories')->nullOnDelete(); //obs:remover nullable depois
+            $table->foreignId('product_category_id')->nullable()->after('id')->constrained('product_categories')->nullOnDelete(); // obs:remover nullable depois
         });
     }
 

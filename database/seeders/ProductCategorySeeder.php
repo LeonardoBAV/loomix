@@ -28,4 +28,3 @@ class ProductCategorySeeder extends Seeder
         }
     }
 }
-

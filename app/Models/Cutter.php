@@ -11,11 +11,11 @@ class Cutter extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
     ];
 
     public function productions(): HasMany
     {
         return $this->hasMany(Production::class);
     }
-} 
+}

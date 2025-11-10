@@ -2,21 +2,17 @@
 
 namespace App\Filament\Resources\ProductResource\Widgets;
 
-use App\Models\Product;
 use App\Helpers\UtilHelper;
 use App\Models\Expense;
-use App\Models\Production;
 use App\Models\ProductionCost;
-use App\Models\ProductionItem;
+use Carbon\Carbon;
+use Filament\Support\Colors\Color;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Database\Eloquent\Model;
-use Filament\Support\Colors\Color;
-use Carbon\Carbon;
 
 class CostProductWidget extends BaseWidget
 {
-
     public ?Model $record = null;
 
     protected function getStats(): array
@@ -24,12 +20,12 @@ class CostProductWidget extends BaseWidget
         $supply_cost = $this->record->fabric_cost + $this->record->trims_cost;
         $production_cost = $this->getProductionCost();
         $total_cost = $supply_cost + $production_cost;
-        
+
         /*$sell_price = $total_cost*1.3;
         $sell_final_price = $sell_price*1.20;
         $profit = $sell_price - $total_cost;
 */
-        
+
         return [
             Stat::make(__('Supply cost'), UtilHelper::formatMoney($supply_cost))
                 ->description(__('fabric + trims'))
@@ -57,7 +53,6 @@ class CostProductWidget extends BaseWidget
         ];
     }
 
-
     private function getProductionCost(): float
     {
         $production_cost = ProductionCost::whereDefault(true)->first();
@@ -75,8 +70,6 @@ class CostProductWidget extends BaseWidget
         return $production_cost_production->cost;
 
     }
-
-
 
     private function getFabricCost(): float
     {
@@ -106,7 +99,6 @@ class CostProductWidget extends BaseWidget
     private function getExpense(Carbon $date): float
     {
         return Expense::whereYear('date', $date->year)
-        ->whereMonth('date', $date->month)->first()->cost;
+            ->whereMonth('date', $date->month)->first()->cost;
     }
-
 }

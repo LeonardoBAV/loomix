@@ -2,7 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\StageControl\Resources\ProductionResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -37,8 +36,8 @@ class StageControlPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/StageControl/Widgets'), for: 'App\\Filament\\StageControl\\Widgets')
             ->widgets([
-                //Widgets\AccountWidget::class,
-                //Widgets\FilamentInfoWidget::class,
+                // Widgets\AccountWidget::class,
+                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

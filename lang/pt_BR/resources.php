@@ -106,7 +106,7 @@ return [
                 'table' => [
                     'create' => 'Criar Arranjo',
                     'default' => 'Padrão',
-                    'shapes' => 'Formas',   
+                    'shapes' => 'Formas',
                     'fabric' => 'Tecido',
                     'count' => 'Quantidade',
                     'cost' => 'Custo Por Arranjo',
@@ -270,7 +270,7 @@ return [
         'navigation_label' => 'Pedidos',
         'model_label' => 'Pedido',
         'plural_model_label' => 'Pedidos',
-        'form' => [ 
+        'form' => [
             'client' => 'Cliente',
             'note' => 'Nota',
         ],
@@ -324,7 +324,7 @@ return [
                     'summary' => [
                         'status' => 'Peso',
                     ],
-                ]
+                ],
             ],
         ],
     ],
