@@ -14,6 +14,13 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Get PHP extension cache hash
+      id: get-cache-hash
+      with:
+        PHP_EXTENSIONS: ${{ inputs.php-extensions }}
+      run: echo hash=$(echo "$PHP_EXTENSIONS" | md5sum | awk '{print $1}') >> $GITHUB_OUTPUT
+      shell: bash
+
     - name: PHP Extensions Hash
       id: php-extensions-hash
       with:
