@@ -31,7 +31,6 @@ runs:
 
     - name: Cache PHP Extensions
       uses: actions/cache@v4
-      if: inputs.php-extensions == true
       with:
         path: ${{ steps.php-extensions-environment.outputs.dir }}
         key: ${{ steps.php-extensions-environment.outputs.key }}
