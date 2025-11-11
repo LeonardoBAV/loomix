@@ -23,7 +23,7 @@ jobs:
           php-extensions: "json, dom, curl, libxml, mbstring"
 
       - name: Run Pint
-        run: pint
+        run: ./vendor/bin/pint
 
       - name: Commit of Pint
         uses: stefanzweifel/git-auto-commit-action@v6
