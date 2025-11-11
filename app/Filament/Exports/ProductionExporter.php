@@ -32,6 +32,7 @@ class ProductionExporter extends Exporter
             }),
 
             ExportColumn::make('date_started'),
+
             ExportColumn::make('client.name'),
             ExportColumn::make('cutter.name'),
 

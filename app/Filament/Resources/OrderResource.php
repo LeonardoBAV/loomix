@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrderResource\Pages\ListOrders;
+use App\Filament\Resources\OrderResource\Pages\ViewOrders;
 use App\Filament\Resources\OrderResource\RelationManagers\ProductionsRelationManager;
-use App\Filament\Resources\ProductResource\Pages\ViewOrders;
 use App\Models\Order;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
