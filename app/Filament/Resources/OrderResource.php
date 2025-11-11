@@ -96,7 +96,7 @@ class OrderResource extends Resource
                 TextColumn::make('updated_at')->translateLabel()->dateTime('d/m/Y H:i')->sortable(),
             ])
             ->filters([
-                // ...
+                //
             ])
             ->actions([
                 ViewAction::make(),
