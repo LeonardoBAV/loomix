@@ -40,6 +40,9 @@ return [
                     'note_cleared' => 'Nota limpa com sucesso',
                 ],
             ],
+            'order' => [
+                'cannot_be_deleted' => 'Pedido não pode ser deletado porque tem produções que já foram iniciadas',
+            ],
         ],
         'observer' => [
             'product_arrangement' => [
