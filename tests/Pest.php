@@ -2,6 +2,7 @@
 
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\Production;
 use App\Models\ProductionCostProduction;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -52,6 +53,10 @@ expect()->extend('toBeOne', function () {
 | global functions to help you to reduce the number of lines of code in your test files.
 |
 */
+function createProductions(array $productions): Collection
+{
+    return Production::factory()->createMany($productions);
+}
 
 function createManyProductionCostProduction(array $production_cost_productions): Collection
 {

@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Client;
+use App\Models\Color;
 use App\Models\Cutter;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Production;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -26,8 +27,9 @@ class ProductionFactory extends Factory
 
         return [
             'product_id' => Product::factory(),
+            'color_id' => Color::factory(),
+            'order_id' => Order::factory(),
             'cutter_id' => Cutter::factory(),
-            'client_id' => Client::factory(),
             'date_started' => $startDate,
             'date_cutting' => fake()->dateTimeBetween($startDate, '+7 days'),
             'date_sewing' => fake()->dateTimeBetween($startDate, '+14 days'),

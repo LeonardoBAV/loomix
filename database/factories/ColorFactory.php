@@ -12,8 +12,8 @@ class ColorFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->randomElement(['Azul', 'Vermelho', 'Preto', 'Branco', 'Verde', 'Amarelo', 'Rosa', 'Cinza']),
-            'alias' => fake()->randomElement(['BLU', 'RED', 'BLK', 'WHT', 'GRN', 'YEL', 'PNK', 'GRY']),
+            'title' => fake()->unique()->safeColorName(),
+            'alias' => fake()->unique()->lexify('???'),
         ];
     }
 }

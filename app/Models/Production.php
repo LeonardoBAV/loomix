@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\ProductionStatusEnum;
@@ -19,7 +21,7 @@ class Production extends Model
     protected $fillable = [
         'product_id',
         'cutter_id',
-        'client_id',
+        'order_id',
         'color_id',
         'date_started',
         'date_cutting',

@@ -8,6 +8,7 @@ use App\Filament\Resources\OrderResource\Pages\ListOrders;
 use App\Filament\Resources\OrderResource\Pages\ViewOrders;
 use App\Filament\Resources\OrderResource\RelationManagers\ProductionsRelationManager;
 use App\Models\Order;
+use App\Services\OrderService;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
@@ -99,7 +100,7 @@ class OrderResource extends Resource
             ])
             ->actions([
                 ViewAction::make(),
-                DeleteAction::make(),
+                DeleteAction::make()->visible(fn (Order $record) => app(OrderService::class)->canBeDeleted($record)),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
