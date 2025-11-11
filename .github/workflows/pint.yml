@@ -22,7 +22,7 @@ jobs:
           php-version: "8.4"
           php-extensions: "json, dom, curl, libxml, mbstring"
 
-      - name: Install Laravel Pint
+      - name: Install Pint
         run: composer global require laravel/pint
 
       - name: Run Pint
