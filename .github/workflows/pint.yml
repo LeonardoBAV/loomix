@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  lint:
+  pint:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -22,8 +22,11 @@ jobs:
           php-version: "8.4"
           php-extensions: "json, dom, curl, libxml, mbstring"
 
+      - name: Install Laravel Pint
+        run: composer global require laravel/pint
+
       - name: Run Pint
-        run: ./vendor/bin/pint
+        run: pint
 
       - name: Commit of Pint
         uses: stefanzweifel/git-auto-commit-action@v6
