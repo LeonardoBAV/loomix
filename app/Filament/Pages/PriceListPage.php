@@ -37,8 +37,7 @@ class PriceListPage extends Page implements HasForms, HasTable
         return __('pages.price_list.title');
     }
 
-    public static function getNavigationLabel(): string
-    {
+    public static function getNavigationLabel(): string {
         return __('pages.price_list.navigation_label');
     }
 
