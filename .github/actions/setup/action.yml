@@ -24,7 +24,6 @@ runs:
     - name: PHP Extensions Environment
       id: php-extensions-environment
       uses: shivammathur/cache-extensions@v1
-      if: inputs.php-extensions == true
       with:
         php-version: ${{ inputs.php-version }}
         extensions: ${{ inputs.php-extensions }}
