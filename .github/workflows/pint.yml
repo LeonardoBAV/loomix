@@ -3,7 +3,7 @@ name: Pint
 on:
   push:
     branches:
-      - master
+      - develop
 
 jobs:
   lint:
