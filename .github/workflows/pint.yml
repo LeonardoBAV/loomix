@@ -1,22 +1,25 @@
-name: Fix Code Style With Laravel Pint
+name: Pint
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     permissions:
-      contents: write 
-      pull-requests: write 
+      contents: write
+      pull-requests: write
     strategy:
       fail-fast: true
       matrix:
         php: [8.4]
- 
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
- 
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -28,3 +31,5 @@ jobs:
 
       - name: Commit linted files
         uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          commit_message: Pint Fixed
