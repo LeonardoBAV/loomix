@@ -1,4 +1,4 @@
-name: Pint
+name: CI - Pint
 
 on:
   push:
@@ -17,10 +17,10 @@ jobs:
         php: [8.4]
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v5
 
-      - name: Setup PHP
+      - name: Setup Environment
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
@@ -29,7 +29,7 @@ jobs:
       - name: Run Pint
         run: pint
 
-      - name: Commit linted files
+      - name: Commit Pint Fixed Files
         uses: stefanzweifel/git-auto-commit-action@v6
         with:
-          commit_message: Pint Fixed
+          commit_message: CI - Pint Fixed

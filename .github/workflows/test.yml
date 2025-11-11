@@ -1,33 +1,29 @@
-name: Test
+name: CI - Pest
 
 on:
   pull_request:
 
 jobs:
-  test:
+  pest:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        php: [8.4]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - name: Setup
+        uses: ./.github/actions/setup
         with:
-          php-version: ${{ matrix.php }}
-          tools: composer:v2
+          php-version: "8.4"
 
-      - name: Install dependencies
-        run: composer install -q --no-interaction
+      - name: Composer Install
+        run: composer install -q --no-interaction --no-progress
 
-      - name: Prepare Application
-        run: |
-          cp .env.example .env
-          php artisan key:generate
+      - name: Dotenv
+        run: cp .env.example .env
 
-      - name: Run Tests
+      - name: Key Generate
+        run: php artisan key:generate
+
+      - name: Run Pest
         run: php artisan test --compact
