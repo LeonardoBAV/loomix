@@ -21,6 +21,7 @@ describe('Model ProductionCost: getTotalWeight', function () {
 
     it('true', function () {
         expect(false)->toBeTrue();
+        expect(false)->toBeTrue();
     });
 
     dataset('scenarios', [
