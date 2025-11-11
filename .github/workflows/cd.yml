@@ -16,4 +16,18 @@ jobs:
           username: ${{ secrets.HOSTINGER_USER }}
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           script: |
-            echo "📦 Updating project..."
+
+            echo "Push Updates to VPS..."            
+            cd loomix
+            git pull origin master
+
+            echo "Running Laravel commands..."
+
+            sudo docker exec loomix_app_1 php artisan filament:optimize-clear
+            sudo docker exec loomix_app_1 php artisan filament:clear-cached-components
+            sudo docker exec loomix_app_1 php artisan route:clear
+            sudo docker exec loomix_app_1 php artisan optimize
+            sudo docker exec loomix_app_1 php artisan migrate --force
+            sudo docker exec loomix_app_1 php artisan queue:restart
+
+            echo "Deployment complete!"
