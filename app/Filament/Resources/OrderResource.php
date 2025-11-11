@@ -17,8 +17,8 @@ use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -99,7 +99,7 @@ class OrderResource extends Resource
             ])
             ->actions([
                 ViewAction::make(),
-                EditAction::make()->slideOver(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
                 BulkActionGroup::make([

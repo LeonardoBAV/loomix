@@ -19,11 +19,6 @@ describe('Model ProductionCost: getTotalWeight', function () {
         expect($total_weight)->toBe($expected);
     })->with('scenarios');
 
-    it('true', function () {
-        expect(false)->toBeTrue();
-        expect(false)->toBeTrue();
-    });
-
     dataset('scenarios', [
         /*'empty' => [//obs: test in any production weight never be 0
             'production_weights' => [null],
