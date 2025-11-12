@@ -58,6 +58,7 @@ class AdminPanelProvider extends PanelProvider
             ])->spa()
             // ->sidebarCollapsibleOnDesktop()
             ->topNavigation()
-            ->maxContentWidth(MaxWidth::Full);
+            ->maxContentWidth(MaxWidth::Full)
+            ->brandName('LOOMIX');
     }
 }

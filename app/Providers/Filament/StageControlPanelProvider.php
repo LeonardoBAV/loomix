@@ -61,6 +61,7 @@ class StageControlPanelProvider extends PanelProvider
             ->login()
             ->spa()
             ->maxContentWidth(MaxWidth::Full)
-            ->navigation(false);
+            ->navigation(false)
+            ->brandName('Loomix');
     }
 }
