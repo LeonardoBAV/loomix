@@ -36,6 +36,7 @@ class StageControlPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/StageControl/Widgets'), for: 'App\\Filament\\StageControl\\Widgets')
             ->widgets([
+                // ...
                 // Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
             ])
@@ -62,6 +63,6 @@ class StageControlPanelProvider extends PanelProvider
             ->spa()
             ->maxContentWidth(MaxWidth::Full)
             ->navigation(false)
-            ->brandName('Loomix');
+            ->brandName('LOOMIX');
     }
 }
